@@ -15,6 +15,7 @@ i{
 h1{
       text-align: center;
       font-size: 3em;
+      font-weight: 900;
 }
 .container{
     display: flex;
@@ -24,13 +25,23 @@ h1{
     margin: 4em;    
 }
 
-h2 {
-    text-align: center; 
-
-
+.grid h3 {
+    letter-spacing: 2px;
+    margin: 0; 
+    font-size: 24px;
+    padding: 0px;
+    text-transform: uppercase;
 }
 
 
+.grid p {
+    margin: 0; 
+}
+
+p {
+    font-size: 20px;
+    font-weight:400;
+}
 .grid{
   display: grid;
   grid-template-columns: repeat(1, minmax(auto, 1080px));
@@ -68,6 +79,7 @@ h2 {
 }
 a {
   text-decoration: none;
+  color:#009846; 
 }
 
 a:hover {
