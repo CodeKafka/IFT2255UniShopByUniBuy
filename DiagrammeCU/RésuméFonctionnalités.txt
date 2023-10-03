@@ -1,0 +1,105 @@
+Fonctionnalités pour les acheteurs (étudiants). 
+
+
+
+- Offrir un catalogue de produit (besoin fonctionnel) pour l'acheteur  
+- Offrir la fonctionalité de s'inscrire comme acheteur 
+	Profil : Nom, Prénom, Pseudo (unique), adresse courriel, téléphone, Adresse d'expédition. 
+- Offrir un système d'appréciation (like) qui permet aux acheteurs d'indiquer leur 
+satisfaction ou leur insatisfaction vis-à-vis du produit. 
+- Offrir un système de recherche par mot clé et de triage pour trouver des produits. 
+- Ofrir un système de commande pour l'acheteur 
+	- Saisit d'information personnelles pour les besoin de la livraison
+	- Validation du paiement
+
+- Offrir un système de signalement de défaut pour un produit déjà livré.
+
+
+- Offrir un système de consultation de l'état d'une commande, une fois qu'elle a été passé
+- Offrir un système de confirmation de la commande par l'utilisateur au moment de la livraison. 
+- Offrir un système de retour de marchandise.
+	- confirmer politique < 30 jours pour le produit spécifique
+	- confirmer la raison de l'échange 
+	- afficher information de retour (se présenter à un bureau de poste et faire...)
+	- afficher une notice indiquant que la demande de retour a été reçue et est en cours 
+		de traitement
+	Si retour :
+		- Remboursement pour le montenant de l'article retourné
+		- Mise à jour de l'inventaire Vendeur Principal
+	Si échange :
+		- Sélectionner le(s) produit(s) de remplacement.
+			- Payer la différence, si différence il y a. 
+		- Mise à jour de l'inventaire Vendeur Principal. 
+- Offrir un système d'affichage de métrique :
+	- Nombre de commande passées par l'utilisateur
+	- Nombre total d'articles achetés 
+	- Nombre de " J'aime " reçu sur une évaluation d'un produit faite par l'utilisateur 
+	- Nombre de " J'aime " qu'un utilisateur a laissé sur la totalité des produits 
+	- Note moyenne qu'un utilisateur laisse sur un produit qu'il évalue. 
+
+- Offrir un système d'interaction de l'achateur avec un revendeur :
+	- Présenter une page ou il y a tous les revendeur
+	- Implémenter un système de filtre en fonction du nom du revendeur et du type de produit
+		vendu par celui-ci
+	- Offrir un système permettant d'apposer une " J'aime " pour un revendeur spécifique. 
+
+- Offrir une interface pour les métriques du revendeur :
+	- Revenu
+	- Nombre d'articles mis en vente
+	- Nombre de produits vendus 
+	- (indicateurs, ratios agrégés par période) <- No idea what the fuck that is
+
+- Offrir un sytème de réception d'un signalement effecuté par un utilisateur pour un produit défectueux. 
+
+- Offrir un système permettant au vendeur de mettre à jour l'état de l'article retourné : 
+	- envoyé -> livré.
+
+Organiser les catégories d'articles disponibles : 
+	- Livres et manuels
+	- Ressources d'apprentissage 
+	- Articles de papeterie
+	- Matériel informatique 
+	- Équipement de bureau
+
+	
+
+	
+------------------------------------------------------------------------------------------------------
+Fonctionnalités pour les revendeurs/fournisseurs
+
+
+- Offrir la fonctionalité de s'inscrire comme revendeur 
+	Profil : Nom, Prénom, Pseudo (unique), adresse courriel, téléphone, Adresse d'expédition.
+
+- Offrir un système pour ajouter un produit sur la plateforme en tant que revendeur
+	- Spécifier le titre du produit
+	- Spécifier la catégorie du produit
+	- Spécifier la description du prouit 
+	- Spécifier la marque du produit 
+	- Spécifier le modèle du produit 
+	- Spécifier la quantité initiale du produit 
+	- Spécifier le prix unitaire du produit
+	- Ajouter une image associée au produit
+	- Ajouter une vidéo associée au produit 
+	- Offrir un identifiant unique à un produit. 
+
+- Offrir un système pour changer l'état de la commande
+	- Commande reçue -> Commande "en production" 
+	- "En production" -> En livraison (lorsque prêt à être livré).
+
+
+- Posséder un mécanisme de mis-à-jour de l'inventaire de produits disponibles. 
+- Posséder un mécanisme d'attribution d'identifiant unique à une commande passé par un acheteur.
+---------------------------------------------------------------------- -------------------------------
+
+
+(Élément structurant) Structure 
+--------- 
+Inclus : liste de souhaits pour améliorer l'expérience de navigation et d'achat. 
+Inclus : catégories et filtres pour la recherche de produit.  
+
+
+Transaction 
+Échange monétaire permettant à un tiers parti d'acquérir un bien ou un service. Dans le contexte du 
+développement de la plateforme Unibuy, les échanges s'effectuent unilatéralement des acheteurs 
+au vendeur principal (Unibuy) et bilatéralement des fournisseurs au vendeur principal. 
