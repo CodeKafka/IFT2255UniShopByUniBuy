@@ -125,6 +125,13 @@ img.centered {
 }
 
 
+img.centered2 {
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    width:2000px;
+    height:2000px;
+}
 @font-face {
     font-family: 'Tangerine';
     src: url('Tangerine-Regular.ttf') format('truetype');
