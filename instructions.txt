@@ -1,0 +1,3 @@
+C'est un jar graphique donc JavaFx est necessaire pour l'ouvrir.
+
+Le jar est executable avec la commande java -jar test.jar
