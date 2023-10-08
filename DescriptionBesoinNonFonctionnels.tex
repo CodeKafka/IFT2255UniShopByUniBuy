@@ -1,0 +1,94 @@
+\documentclass[16pt]{report}
+\input{preamble}
+
+\title{\Huge{Géni Logiciel}\\{IFT2255}\\{\textbf{Description des cas d'utilisation}}}
+\author{\huge{Franz Girardin}}
+\date{\today}
+\lstset{inputencoding=utf8/latin1}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{arydshln}
+
+\usepackage{balance}
+\usepackage{mathpazo}
+\usepackage{dirtree}
+\usepackage{titlesec}
+\titleformat{\chapter}
+  {\small\bfseries} % format
+  {}                % label
+  {0pt}             % sep
+  {\huge}           % before-code
+
+
+\usepackage{lipsum}
+\usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\newcommand{\varitem}[3][black]{%
+  \item[%
+   \colorbox{#2}{\textcolor{#1}{\makebox(5.5,7){#3}}}%
+  ]
+}
+\usepackage{afterpage}
+\newcommand\myemptypage{
+    \null
+    \thispagestyle{empty}
+    \addtocounter{page}{-1}
+    \newpage
+    }
+
+
+
+
+
+% from https://tex.stackexchange.com/a/167024/121799
+\newcommand{\ClaudioList}{red,DarkOrange1,Goldenrod1,Green3,blue!50!cyan,DarkOrchid2}
+\newcommand{\SebastianoItem}[1]{\foreach \X[count=\Y] in \ClaudioList
+{\ifnum\Y=#1\relax
+\xdef\SebastianoColor{\X}
+\fi
+}
+\tikz[baseline=(SebastianoItem.base),remember
+picture]{%
+\node[fill=\SebastianoColor,inner sep=4pt,font=\sffamily,fill opacity=0.5] (SebastianoItem){#1)};}
+}
+\newcommand{\SebastianoHighlight}{\tikz[overlay,remember picture]{%
+\fill[\SebastianoColor,fill opacity=0.5] ([yshift=4pt,xshift=-\pgflinewidth]SebastianoItem.east) -- ++(4pt,-4pt)
+-- ++(-4pt,-4pt) -- cycle;
+}}    
+%====================================================================
+
+%====================================================================
+\newcommand*{\authorimg}[1]%
+    { \raisebox{-1\baselineskip}{\includegraphics[width=\imagesize]{#1}}}
+\newlength\imagesize  
+
+\begin{document}
+\fontsize{12}{12}\selectfont
+\subsection*{Sécurité}
+Afin de protéger les informations des utilisateurs comme les données de paiements ainsi que leurs informations personnelles. 
+Il est primordial de mettre sur pied  des mesures de sécurité afin d'éviter l’usurpation de données et toute activité frauduleuse.
+\subsection*{Disponibilité} 
+Il faut que la plateforme soit accessible en tout temps afin que les utilisateurs puissent passer des commandes  et  
+se renseigner concernant les produits disponibles sur la plateforme. Il faut minimiser au maximum les interruptions 
+de service et mettre en vigueur un plan de sauvegarde en cas d’interruption des services pour pouvoir prodiguer des 
+services en continu.
+\subsection*{Performance}
+La plateforme Unibuy doit être en mesure de fournir ses services en permettant à un grand nombre d’utilisateurs de 
+passer des commandes , tout en s’assurant de mettre à jour les inventaires rapidement pour que l’utilisateur aie 
+une expérience satisfaisante de son parcours sur le site. Le temps de réponses des opérations sur le site doivent 
+également être rapides.
+\subsection*{Traçabilité}
+La plateforme Unibuy doit être en mesure de retracer toutes les actions effectuées par les utilisateurs à savoir les 
+achats, les évaluations ou ratings, les commentaires, et les retours. La traçabilité permets de surveiller la qualité 
+de la marchandise sur la plateforme
+\subsection*{Accessibilité}
+Le système doit être accessible aux personnes handicapées et conformes aux directives WCAG constituant les normes 
+d'accessibilités sur le web. La plateforme doit permettre une expérience utilisateur équitable pour tous.
+
+\end{document}
+
+
