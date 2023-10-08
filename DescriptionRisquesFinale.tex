@@ -1,0 +1,103 @@
+\documentclass[16pt]{report}
+\input{preamble}
+
+\title{\Huge{Géni Logiciel}\\{IFT2255}\\{\textbf{Description des cas d'utilisation}}}
+\author{\huge{Franz Girardin}}
+\date{\today}
+\lstset{inputencoding=utf8/latin1}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{arydshln}
+
+\usepackage{balance}
+\usepackage{mathpazo}
+\usepackage{dirtree}
+\usepackage{titlesec}
+\titleformat{\chapter}
+  {\small\bfseries} % format
+  {}                % label
+  {0pt}             % sep
+  {\huge}           % before-code
+
+
+\usepackage{lipsum}
+\usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\newcommand{\varitem}[3][black]{%
+  \item[%
+   \colorbox{#2}{\textcolor{#1}{\makebox(5.5,7){#3}}}%
+  ]
+}
+\usepackage{afterpage}
+\newcommand\myemptypage{
+    \null
+    \thispagestyle{empty}
+    \addtocounter{page}{-1}
+    \newpage
+    }
+
+
+
+
+
+% from https://tex.stackexchange.com/a/167024/121799
+\newcommand{\ClaudioList}{red,DarkOrange1,Goldenrod1,Green3,blue!50!cyan,DarkOrchid2}
+\newcommand{\SebastianoItem}[1]{\foreach \X[count=\Y] in \ClaudioList
+{\ifnum\Y=#1\relax
+\xdef\SebastianoColor{\X}
+\fi
+}
+\tikz[baseline=(SebastianoItem.base),remember
+picture]{%
+\node[fill=\SebastianoColor,inner sep=4pt,font=\sffamily,fill opacity=0.5] (SebastianoItem){#1)};}
+}
+\newcommand{\SebastianoHighlight}{\tikz[overlay,remember picture]{%
+\fill[\SebastianoColor,fill opacity=0.5] ([yshift=4pt,xshift=-\pgflinewidth]SebastianoItem.east) -- ++(4pt,-4pt)
+-- ++(-4pt,-4pt) -- cycle;
+}}    
+%====================================================================
+
+%====================================================================
+\newcommand*{\authorimg}[1]%
+    { \raisebox{-1\baselineskip}{\includegraphics[width=\imagesize]{#1}}}
+\newlength\imagesize  
+
+\begin{document}
+\fontsize{12}{12}\selectfont
+\subsection*{Panne de serveur du site où UniShop est hébergé \textcolor{myb}{\textit{Risque sévère}}}
+Lorsque le serveur de la plateforme tombe en panne, UniShop devient inaccessible pour les acheteurs et les revendeurs. 
+Cette interruption totale de service entraîne une perte de ventes pour les revendeurs. Des occurrences fréquentes 
+pourraient dissuader les revendeurs de continuer à collaborer avec UniShop, les poussant vers la concurrence. 
+Pour les acheteurs, cela signifie qu'ils ne peuvent pas acquérir le matériel nécessaire pour leurs cours. 
+Ils risquent alors de prendre du retard, ce qui pourrait impacter leurs résultats académiques. Certains pourraient 
+se tourner vers des concurrents pour effectuer leurs achats. De plus, les acheteurs ayant une commande active 
+ne peuvent pas suivre l'état de leur commande ou la modifier.
+
+\subsection*{Sécurité et protection des données clients \textcolor{myb}{\textit{Risque sévère}}}
+Une protection insuffisante des informations personnelles des acheteurs, telles que leurs adresses ou leurs 
+informations de paiement, expose UniShop à des risques d'attaques cybernétiques. Les conséquences d'un vol de données 
+peuvent être désastreuses, allant du vol d'identité pour les clients à une perte totale de confiance en la plateforme. 
+Si les clients perdent confiance en UniShop, les revendeurs pourraient également se détourner de la plateforme.
+
+\subsection*{Gestion erronée de l'inventaire \textcolor{myb}{\textit{Risque important}}}
+Un inventaire incorrect sur UniShop peut engendrer divers problèmes. Les revendeurs pourraient ne pas être alertés 
+lorsque leurs produits sont épuisés, ce qui perturbe leur planification de réapprovisionnement. De plus, des produits 
+indisponibles pourraient être présentés comme disponibles, causant des déceptions chez les acheteurs.
+
+\subsection*{Difficulté à trouver les politiques de retour et d'échange \textcolor{myb}{\textit{Obstacle mineur}}}
+Si les politiques de retour et d'échange sont difficiles à trouver, cela pourrait engendrer de la frustration chez 
+les acheteurs. Bien que cet obstacle ne bloque pas les principales fonctionnalités d'UniShop, il pourrait diminuer la 
+satisfaction des utilisateurs et impacter négativement leur expérience.
+
+\subsection*{Gestion inadéquate d'avis et commentaires d'utilisateurs \textcolor{myb}{\textit{Risque modéré}}}
+Une gestion inadéquate des avis et commentaires sur UniShop pourrait éroder la confiance entre acheteurs et revendeurs.
+Si le système n'offre pas de modération efficace, de faux avis ou des commentaires malveillants pourraient influencer 
+la perception des produits ou du site. Une telle situation risque de pénaliser injustement les revendeurs et de 
+décourager la participation active sur la plateforme.
+
+\end{document}
+
