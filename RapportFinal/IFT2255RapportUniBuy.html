@@ -16,11 +16,29 @@
         <div class="container">
 
             <h1 class="text-center">UniShop par UniBuy</h1>
-            <span class="secondary-dark">Rapport de développement test </span>
+            <span class="secondary-dark">Rapport de développement</span>
+        
+            <nav style="margin-top:16px;"><a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy">Github <span style="color:black;"> | </span> </a> <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/blob/DiagrammeCU/Unishop-vf-optimal.vpp"> Visual paradigm</a></nav>
 
             <i class="bi bi-brightness-high-fill" id="toggleDark"></i>
 
-            <div class="grid">
+            <div class="grid"> 
+              <div class="item bg-light">
+                <div class="flex">
+                  <div class="icon">
+                      <span>
+                      <img class="resized-image" src="statistics.png" alt="Impossible">
+                      </span>
+                  </div>
+
+                  <h2 id="StatistiquesDeContributionHeader" class="primary-dark"><a href="#StatistiquesdeContribution">Statistiques de contribution</a></h2>
+                  <p class="secondary-dark text-center">Nous résumons la contribution de chaque cooéquipier pour différentes tâches
+                      <br> nécessaires à la complétion du premier livrable du projet <b>UniBuy</b> 
+                  </p>
+                </div>
+              </div>
+
+
               <div class="item bg-light">
                 <div class="flex">
                   <div class="icon">
@@ -44,7 +62,7 @@
                       </span>
                   </div>
 
-                  <h2 class="primary-dark"><a href="#DiagrammeDeCas">Diagrame de cas d'utilisation UML</a></h2>
+                  <h2 id="DiagrammeDeCasHeader" class="primary-dark"><a href="#DiagrammeDeCas">Diagrame de cas d'utilisation UML</a></h2>
                   <p class="secondary-dark text-center">On trouve dans cette section une représentation des cas d'utilisation
                       <br> de la platefore <b>UniBuy</b> 
                   </p>
@@ -58,7 +76,7 @@
                       </span>
                   </div>
   
-                  <h2 class="primary-dark" >Cas d'utilisation</h2>
+                  <h2 id="DescriptionDeCasHeader" class="primary-dark" ><a href="#DescriptionDeCas">Description de cas d'utilisation</a></h2>
                   <p class="secondary-dark text-center">Nous listons et décrivons brièvement ici l'ensemble des cas d'utilisation
                       <br> à considérer pour le développement de <b>UniBuy</b> 
                   </p>
@@ -72,7 +90,7 @@
                         </span>
                     </div>
     
-                    <h2 class="primary-dark" >Risques</h2>
+                    <h2 class="primary-dark" id="DescroptionRisquesHeader"><a href="#DescriptionRisques">Risques</a></h2>
                     <p class="secondary-dark text-center">Nous présentons ici les risques auxquels nous pourrions être confronté 
                         <br> à travers le porjet, tout en indiquant la <b>sévérité</b> de chacun. 
                     </p>
@@ -87,13 +105,144 @@
                       </span>
                   </div>
   
-                  <h2 class="primary-dark">Exigences non-fonctionnelles</h2>
+                  <h2 id="ExigencesNonFonctionnellesHeader" class="primary-dark"> <a href="#ExigencesNonFonctionnelles">Exigences non fonctionnelles</a> </h2>
                   <p class="secondary-dark text-center">Vous trouverez ici 5 contraines non-fonctionnelles de la plateforme <b>Unibuy</b>. 
                   </p>
                 </div>
             </div>
             </div>
-            <div class="grid">
+            <div class="grid3">
+                    <h1 id="StatistiquesdeContribution"> <a href="#StatistiquesDeContributionHeader">Statistiques de contribution</a> </h1>
+                    <h2 style="text-align:center;">Yann </h2>
+                    <nav style="text-align:center;">
+                        <a href="mailto:yann.saah@umontreal.ca">yann.saah@umontreal.ca</a> | Matricule 20061840 <br><br> 
+                        Contribution ~ 4h
+                    </nav>
+                    
+                    <img class="centered" src="YannProfilePicture.png" alt="YannProfilePicture.png">
+                    <p>J'ai complété la liste des <a href="#ExigencesNonFonctionnelles">besoins non-fonctionnels.</a> </p>
+
+                    <h2 style="text-align:center;">Johann </h2>
+                    <nav style="text-align:center;">
+                        <a href="mailto:johann.sourou@umontreal.ca">johann.sourou@umontreal.ca</a> | Matricule 20227958 <br><br> 
+                        Contribution ~ 10h
+                    </nav>
+
+                    <img class="centered" src="Oslow.png" alt="Oslow.png">
+                    <p>Ma plus grande contribution est la <a href="#DescriptionDeCas">description des cas d'utilisation</a>(CU). J'ai effectuée une première ébauche qui a servit de patron pour les ébauches subséquentes.
+                    J'ai aidé mes parternaires à peaufiner la description des CUs. J'ai participé à plusieurs séances de brainstorming (dont celle du <a href="#glossaire">gloassaire</a> ) pour les autres tâches à compléter.
+                    </p>
+
+                    <h2 style="text-align:center;">Emmanuel </h2>
+                    <nav style="text-align:center;">
+                        <a href="mailto:emmanuel.paraison.umontreal.ca">emmanuel.paraison.umontreal.ca</a> | Matricule 20189461 <br><br> 
+                        Contribution ~ 20h
+                    </nav>
+
+                    <img class="centered" src="Graggle.png" alt="Graggle.png">
+                    <p>J'ai effectué l'entièreté du prototype par moi-même, sans aucune contribution de mes paternaires. J'ai assisté Franz dans la révision du <a href="#DiagrammeCU">Diagramme de CUs</a>, pour 
+                    s'assurer que tous les cas d'utilisation à considérer étaient inclus et que les liens entre chaque élément de celui-ci étaient valides. J'ai effectué une première 
+                    ébauche des <a href="#DescriptionRisques">risques de la plateforme</a>. J'ai aidé à peaufiner la <a href="#DescriptionDeCas">description des cas d'utilisation</a>, en ajoutant principalement
+                    des cas d'utilisation du côté revendeur. J'ai participé au brainstorming du <a href="#glossaire">gloassaire</a> </p> 
+
+                    <h2 style="text-align:center;">Franz </h2>
+                    <nav style="text-align:center;">
+                        <a href="mailto:franz.girardin@umontreal.ca">franz.girardin@umontreal.ca</a> | Matricule 20078678 <br><br> 
+                        Contribution ~ 60h
+                    </nav>
+                    <img class="centered" src="none so vile.png" alt="Froge – 09.png"> 
+                    <p>J'ai complété l'entièreté du <a href="#DiagrammeCU">Diagramme de CUs</a> seul. J'ai effectué la révision du diagramme avec Emmanuel. J'ai complété le glossaire après 
+                    une séance de brainstorming. J'ai également contriué à la <a href="#DescriptionDeCas">description des cas d'utilisation</a>, en effectuant la dernière itération de celui-ci. J'ai fait 
+                    une description détaillée <a href="#ExigencesNonFonctionnelles">des risques</a>, à partir de l'ébauche d'Emmanuel. J'ai effectué le <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/tree/DescriptionCU">code</a>
+                    de tous les documents .tex et suis responsable de chaque pdf correspondant. J'ai révisé et modifiéé l'ensemble des documents qui ont été produit tout au long du projet, afin de produire une version finale  
+                    de tous ce qu'il y avait à inclure dans le rapport.
+                    Je suis reponsable de l'entièreté du <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/tree/DiagrammeCU/RapportFinal">code</a> Html, Css et Javascript du rapport. J'ai coordonné la communication entre 
+                    les membres du groupe et j'ai assuré la maintenance du répertoire sur Github. </p>.
+                    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th><img src="YannProfilePicture.png" alt="Yann" width="50"></th>
+                            <th><img src="Oslow.png" alt="Johann" width="50"></th>
+                            <th><img src="Graggle.png" alt="Graggle" width="50"></th>
+                            <th><img src="none so vile.png" alt="Franz" width="50"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Glossaire</td>
+                            <td>0%</td>
+                            <td>15%</td>
+                            <td>15%</td>
+                            <td>70%</td>
+                        </tr>
+                        <tr>
+                            <td>Diagramme de CU</td>
+                            <td>0%</td>
+                            <td>0%</td>
+                            <td>15%</td>
+                            <td>85%</td>
+                        </tr>
+                        <tr>
+                            <td>Description de CU</td>
+                            <td>0%</td>
+                            <td>60%</td>
+                            <td>25%</td>
+                            <td>15%</td>
+                        </tr>
+                        <tr>
+                            <td>Description des risques</td>
+                            <td>0%</td>
+                            <td>0%</td>
+                            <td>50%</td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>Besoins non-fonctionnels</td>
+                            <td>95%</td>
+                            <td>0%</td>
+                            <td>0%</td>
+                            <td>5%</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="border-top: 3px double black;"></td>
+                        </tr>
+                        <tr>
+                            <td>Rapport</td>
+                            <td>0%</td>
+                            <td>0%</td>
+                            <td>0%</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <td>Révisions et corrections</td>
+                            <td>0%</td>
+                            <td>15%</td>
+                            <td>35%</td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>Activité Github</td>
+                            <td>10%</td>
+                            <td>20%</td>
+                            <td>35%</td>
+                            <td>35%</td>
+                        </tr>
+                        <tr>
+                            <td>Communication verbale et écrite</td>
+                            <td>10%</td>
+                            <td>25%</td>
+                            <td>30%</td>
+                            <td>35%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+                
+                <div class="grid2">
                 <h1 id="glossaire"><a href="#GlossaireHeader"> Glossaire</a></h1> 
                     <h3>Vendeur principal</h3> 
                     <p class= "hidden">
@@ -164,24 +313,46 @@
                     L'opinion ou la note attribuée par un acheteur à un produit qu'il a acheté, souvent 
                     accompagnée d'un commentaire décrivant son expérience et son avis sur le produit. 
                     </p>
+                </div>
 
                     
 
 
 
+
+            <div class="grid2">
+                <nav style="text-align:center;">
+                    <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/blob/DiagrammeCU/Unishop-vf-optimal.vpp">Lien vers le fichier Unishop-vf-optimal.vpp</a> 
+                    <img style= "width:40px; height:40px;margin-top:10px;" class= "centered"src="githubLogo.png"  alt="githubLogo">
+                </nav>
+
+              <h1 id="DiagrammeDeCas"><a href="#DiagrammeDeCasHeader">Diagramme de cas d'utilisation</a></h1>
+              <img class="centered2" src="Unishop-vf-optimal.svg" alt="Logo d'Unishop">
+            </div> 
+            <div class="grid2">
+                <h1 id=DescriptionRisques><a href="#DescroptionRisquesHeader">Descriptions des risques</a></h1>
+                <nav style="text-align:center;">
+                    <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/blob/Tache-4-risques/DescriptionRisquesFinale.pdf">Lien vers le fichier DescriptionRisquesFinale.pdf</a> 
+                    <img style= "width:40px; height:40px;margin-top:10px;" class= "centered"src="githubLogo.png"  alt="githubLogo">
+                </nav>
+                <iframe class="hidden" src="DescriptionRisquesFinale.pdf" width="1080" height="1080"></iframe>
+
+                <h1 id="DescriptionDeCas"> <a href="#DescriptionDeCasHeader">Description des cas d'utilisation</a></h1>
+                    <nav style="text-align:center;">
+                    <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/blob/DescriptionCU/Rapport-DescriptionCU.pdf">Lien vers le fichier Rapport-DescriptionCU.pdf</a> 
+                    <img style= "width:40px; height:40px;margin-top:10px;" class= "centered"src="githubLogo.png"  alt="githubLogo">
+                    </nav>
+                <iframe class="hidden" src="Rapport-DescriptionCU.pdf" width="1080" height="1080"></iframe>   
+
+                <h1 id="ExigencesNonFonctionnelles"> <a href="#ExigencesNonFonctionnellesHeader">Exigences non fonctionnelles</a></h1>
+                    <nav style="text-align:center;">
+                    <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/blob/Tache-4-risques/DescriptionBesoinNonFonctionnels.pdf">Lien vers le fichier DescriptionBesoinNonFonctionnels.pdf</a> 
+                    <img style= "width:40px; height:40px;margin-top:10px;" class= "centered"src="githubLogo.png"  alt="githubLogo">
+                    </nav>
+                <iframe class="hidden" src="DescriptionBesoinNonFonctionnels.pdf" width="1080" height="1080"></iframe>
+
             </div>
 
-            <div class="grid">
-              <h1 id="DiagrammeDeCas">Diagramme de cas d'utilisation</h1>
-              <p class="hidden">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy 
-                text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-                It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. 
-                t was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop 
-                publishing software like Aldus PageMaker including versions of Lorem Ipsum
-              </p>
-
-            </div>
 
           </div>
 
