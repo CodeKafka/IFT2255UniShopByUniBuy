@@ -44,12 +44,32 @@ p {
 }
 .grid{
   display: grid;
+  grid-template-columns: repeat(2, minmax(auto, 1080px));
+  row-gap: 2em;
+  column-gap: 3em;
+  margin: 3em ;
+}
+.grid2{
+  display: grid;
   grid-template-columns: repeat(1, minmax(auto, 1080px));
   row-gap: 2em;
   column-gap: 3em;
   margin: 3em ;
 }
 
+.grid3{
+  display: grid;
+  grid-template-columns: repeat(1, minmax(auto, 1080px));
+  row-gap: 2em;
+  column-gap: 3em;
+  margin: 3em ;
+}
+
+.grid3 p {
+    font-family: 'Tangerine';
+    font-size: 40px;
+
+}
 .grid .flex{
   display: flex;
   flex-direction: column;
@@ -95,3 +115,19 @@ a:hover {
   opacity: 1;
   visibility: visible;
 }
+
+img.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:120px;
+    height:120px;
+}
+
+
+@font-face {
+    font-family: 'Tangerine';
+    src: url('Tangerine-Regular.ttf') format('truetype');
+}
+
+
