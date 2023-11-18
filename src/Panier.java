@@ -12,13 +12,13 @@ public class Panier {  //complet
         if(this.produits.contains(produit)){ //si le produit est déja dans le panier on modifie juste sa quantité
 
             int indice = this.produits.indexOf(produit);
-            int nouvelleQuantite = this.quantites.get(indice) + produit.quantite;
+            int nouvelleQuantite = this.quantites.get(indice) + produit.getQuantite();
             this.quantites.set(indice,nouvelleQuantite);
 
         }
         else { // sinon on l'ajoute à la liste de produit et on enregistre sa quantité
             this.produits.add(produit);
-            this.quantites.add(produit.quantite);
+            this.quantites.add(produit.getQuantite());
         }
     }
 
@@ -35,7 +35,7 @@ public class Panier {  //complet
     public double calculerTotal(){ //Calcule le total du panier
         double total = 0;
         for(int i = 0; i<this.produits.size(); i++){
-            total += (this.produits.get(i).prix)*(this.quantites.get(i));
+            total += (this.produits.get(i).getPrix())*(this.quantites.get(i));
         }
         return total;
     }

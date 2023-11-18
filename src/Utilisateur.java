@@ -26,6 +26,8 @@
         public void setMotDePasse(String motDePasse) {
             this.motDePasse = motDePasse;
         }
-
+        public String toCSV() {
+            return nom + "," + prenom + "," + addresseCourriel + "," + telephone + "," + motDePasse;
+        }
 
     }
