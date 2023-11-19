@@ -12,7 +12,6 @@ public class GestionnaireCSV {
             if (!fichierCSV.exists()) {
                 fichierCSV.createNewFile();
             }
-
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 out.println(utilisateur.toCSV());
@@ -22,21 +21,21 @@ public class GestionnaireCSV {
             e.printStackTrace();
         }
     }
- 
-    public static Utilisateur lireUtilisateurCSV(String identifiant) {
-            try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV))) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    // Logique pour parser la ligne et trouver l'utilisateur correspondant
-                    // Retourner l'utilisateur si trouvé
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
 
-   public static boolean verifierIdentifiantsRevendeur(String nomEntreprise, String nomCEO, String motDePasse) {
+    public static Utilisateur lireUtilisateurCSV(String identifiant) {
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                // Logique pour parser la ligne et trouver l'utilisateur correspondant
+                // Retourner l'utilisateur si trouvé
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean verifierIdentifiantsRevendeur(String nomEntreprise, String nomCEO, String motDePasse) {
         File fichierCSV = new File("utilisateurs.csv");
 
         try (Scanner scanner = new Scanner(fichierCSV)) {
@@ -52,7 +51,7 @@ public class GestionnaireCSV {
         }
 
         return false;
-    } 
+    }
 
     public static boolean verifierIdentifiantsAcheteur(String pseudo, String motDePasse) {
         File fichierCSV = new File("utilisateurs.csv");
@@ -71,8 +70,22 @@ public class GestionnaireCSV {
 
         return false;
     }
-        
-    // ...
+
+    public static boolean verifierUniqueAcheteur(String pseudo, String addresseCourriel) {
+        File fichierCSV = new File("utilisateurs.csv");
+        try (Scanner scanner = new Scanner(fichierCSV)) {
+            while (scanner.hasNextLine()) {
+                String[] utilisateur = scanner.nextLine().split(",");
+                if (utilisateur[2].equalsIgnoreCase(addresseCourriel) || utilisateur[5].equalsIgnoreCase(pseudo)) {
+                    return false;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichier CSV non trouvé HAHA.");
+
+        }
+        return true;
+    }
 }
 
 

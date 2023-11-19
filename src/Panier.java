@@ -1,45 +1,32 @@
 import java.awt.*;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Panier {  //complet
-    LinkedList<Produit> produits = new LinkedList<>();
-    LinkedList<Integer> quantites = new LinkedList<>();
+public class Panier {
+    private Map<Integer, Produit> produits; // Using String for product ID
 
-    public Panier(){} //constructeur
+    public Panier() {
+        this.produits = new HashMap<>();
+    }
 
-    public void ajouterProduit(Produit produit){    //permet d'ajouter un produit au panier
-
-        if(this.produits.contains(produit)){ //si le produit est déja dans le panier on modifie juste sa quantité
-
-            int indice = this.produits.indexOf(produit);
-            int nouvelleQuantite = this.quantites.get(indice) + produit.getQuantite();
-            this.quantites.set(indice,nouvelleQuantite);
-
-        }
-        else { // sinon on l'ajoute à la liste de produit et on enregistre sa quantité
-            this.produits.add(produit);
-            this.quantites.add(produit.getQuantite());
+    // Method to add a product to the panier or update its quantity
+    public void ajouterProduit(Produit produit) {
+        if (produit != null) {
+            // If the product is already in the panier, increase its quantity
+            if (produits.containsKey(produit.getIdProduit())) {
+                Produit existingProduit = produits.get(produit.getIdProduit());
+                existingProduit.setQuantite(existingProduit.getQuantite() + 1);
+            } else {
+                // If the product is not in the panier, put it with a quantity of 1
+                produits.put(produit.getIdProduit(), produit);
+            }
         }
     }
 
-    public void retirerProduit(Produit produit){  //permet de retirer un produit du panier
 
-        if(this.produits.contains(produit)){
-            int indice = this.produits.indexOf(produit);
-            this.produits.remove(indice);
-            this.quantites.remove(indice);
-        }
-
+    public Map<Integer, Produit> getProduits() {
+        return produits;
     }
-
-    public double calculerTotal(){ //Calcule le total du panier
-        double total = 0;
-        for(int i = 0; i<this.produits.size(); i++){
-            total += (this.produits.get(i).getPrix())*(this.quantites.get(i));
-        }
-        return total;
-    }
-
 
 
 }

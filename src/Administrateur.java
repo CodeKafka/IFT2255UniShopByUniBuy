@@ -1,16 +1,17 @@
 public class Administrateur  {
     private String identifiantAdmin, modDePasseAdmin; 
-    private idAdmin: int;
+    private  int idAdmin;
 
-    public bolean supprimerCompte(Utilisateur utilisateur) { 
+    public boolean supprimerCompte(Utilisateur utilisateur) {
         /* À copléter  */
+        return false;
     }
 
-    public void creerCompteAcheteur(String pseudo, String nom, String prenom, String adresseCourriel, String telephone, Adresse adresseExpedition) {
+    public void creerCompteAcheteur(String pseudo, String nom, String prenom, String adresseCourriel, String telephone, String adresseExpedition) {
         /* À compléter */
     }
     
-    public void creerCompteRevendeur(String nomEntreprise, Adresse adresseEntreprise, String adresseCourriel, String telephone, Produit produit) {
+    public void creerCompteRevendeur(String nomEntreprise, String adresseEntreprise, String adresseCourriel, String telephone, Produit produit) {
         /* À compléter */
     } 
 }

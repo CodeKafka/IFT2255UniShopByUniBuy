@@ -17,10 +17,6 @@ public class Commande {
    this.acheteur = acheteur;
   }
 
-  public void passerUneCommande(Panier panier){  //Deja dans Acheteur ??
-      //verifier acheteur
-      //selectionner produit du panier
-  }
 
   public void MettreAjourEtatDeLaCommande(){
 
