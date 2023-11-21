@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.HelloController">
+   <children>
+      <Label fx:id="confirmation" layoutX="236.0" layoutY="48.0" text="Inscription reussie! " />
+      <TextField fx:id="pseudoConnection" layoutX="226.0" layoutY="99.0" promptText="pseudoConnection" />
+      <TextField fx:id="pseudoMotDePasse" layoutX="226.0" layoutY="165.0" promptText="Mot de passe" />
+      <Button layoutX="198.0" layoutY="246.0" mnemonicParsing="false" onAction="#seConnecter" text="Connection" />
+      <Label fx:id="connected" layoutX="258.0" layoutY="311.0" prefHeight="17.0" prefWidth="85.0" text="Label" visible="false" />
+      <Button layoutX="317.0" layoutY="246.0" mnemonicParsing="false" text="Mes commandes" onAction="#mesCommandes" />
+   </children>
+</AnchorPane>

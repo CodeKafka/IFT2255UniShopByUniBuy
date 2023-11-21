@@ -1,0 +1,492 @@
+\documentclass[16pt]{report}
+\input{preamble}
+
+\title{\Huge{Géni Logiciel}\\{IFT2255}\\{\textbf{Description des cas d'utilisation}}}
+\author{\huge{Équipe UniBuy} \\\\ \cross \;\; Franz Girardin \;\;\;\; \cross \;  Emmanuel F Gérald Paraison \;\;\;\; \cross \;\;Johann Sourou \;\;\;\;  \cross \;\;Yann Saah}
+\date{7 Octobre 2023}
+\lstset{inputencoding=utf8/latin1}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{arydshln}
+
+\usepackage{balance}
+\usepackage{mathpazo}
+\usepackage{dirtree}
+\usepackage{titlesec}
+\titleformat{\chapter}
+  {\small\bfseries} % format
+  {}                % label
+  {0pt}             % sep
+  {\huge}           % before-code
+
+
+\usepackage{lipsum}
+\usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\newcommand{\varitem}[3][black]{%
+  \item[%
+   \colorbox{#2}{\textcolor{#1}{\makebox(5.5,7){#3}}}%
+  ]
+}
+\usepackage{afterpage}
+\newcommand\myemptypage{
+    \null
+    \thispagestyle{empty}
+    \addtocounter{page}{-1}
+    \newpage
+    }
+
+
+
+\usepackage{stackengine}
+\def\cross{%
+  \stackon[1ex]{\rule{0.4pt}{1.5ex}}{\rule{.75ex}{0.4pt}}}
+\def\invcross{%
+  \stackon[0.5ex]{\rule{0.4pt}{1.5ex}}{\rule{.75ex}{0.4pt}}}
+\def\stacktype{L}
+
+% from https://tex.stackexchange.com/a/167024/121799
+\newcommand{\ClaudioList}{red,DarkOrange1,Goldenrod1,Green3,blue!50!cyan,DarkOrchid2}
+\newcommand{\SebastianoItem}[1]{\foreach \X[count=\Y] in \ClaudioList
+{\ifnum\Y=#1\relax
+\xdef\SebastianoColor{\X}
+\fi
+}
+\tikz[baseline=(SebastianoItem.base),remember
+picture]{%
+\node[fill=\SebastianoColor,inner sep=4pt,font=\sffamily,fill opacity=0.5] (SebastianoItem){#1)};}
+}
+\newcommand{\SebastianoHighlight}{\tikz[overlay,remember picture]{%
+\fill[\SebastianoColor,fill opacity=0.5] ([yshift=4pt,xshift=-\pgflinewidth]SebastianoItem.east) -- ++(4pt,-4pt)
+-- ++(-4pt,-4pt) -- cycle;
+}}    
+%====================================================================
+
+%====================================================================
+\newcommand*{\authorimg}[1]%
+    { \raisebox{-1\baselineskip}{\includegraphics[width=\imagesize]{#1}}}
+\newlength\imagesize  
+
+\begin{document}
+\maketitle
+\pagebreak
+\twocolumn
+
+
+
+
+
+\section*{\textbf{\textcolor{blue}{1- Nom :}} S'inscrire à la plateforme}
+\textbf{But :} S'enregistrer comme utilisateur pour avoir accès aux fonctionnalités clé de la plateforme. \\
+\textbf{Acteur :} \textit{Utilisateur} (acteur principal) ; \textit{Système de gestion de profil} (acteur secondaire).
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item L'utilisateur est dirigé sur la page de création de profil.
+    \begin{enumerate}[leftmargin=4em]
+        \item Après avoir tenté d'effectuer une commande sans être connecté.
+        \item Après avoir cliqué sur le bouton s'inscrire de la page d'accueil.
+    \end{enumerate}
+    \item L'utilisateur est invité à choisir le type de compte qu'il souhaite créer.
+    \item L'utilisateur choisit de crée un compte acheteur.
+    \item L'utilisateur entre ses informations personnelles.
+    \item Le système de gestion de profil valide les informations personnelles entrées et génère un compte.
+    \item Un courriel de confirmation est envoyé à l'adresse de l'utilisateur.
+    \item L'utilisateur est renvoyé à la page d'accueil.
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{3-a}] L'utilisateur choisit de créer un compte revendeur.
+            \begin{enumerate}[leftmargin=4em]
+                \item[3-a-1] L'étape 4 du \textit{Scénario principal} est enclenchée.   
+            \end{enumerate}
+    \item[\textcolor{red}{5-a}] Une entrée d'information personnelle est invalide.
+    \begin{enumerate}[leftmargin=4em]
+        \item Le nom choisi est déjà présent dans la base de données d'acheteurs.
+        \item Le nom choisi est présent dans la base de données revendeurs.
+        \item Le courriel choisi est déjà présent dans la base de données d'acheteurs.
+        \item Le courriel choisi est déjà présent dans la base de données revendeurs.
+        \item L'entrée ne correspond pas au format accepté pour une adresse courriel valide.
+        \item Le numéro de téléphone est invalide.
+        \item L'adresse du domicile ou de l'entreprise de l'utilisateur est invalide.
+        \item L'utilisateur a laissé une case vide.
+    \end{enumerate}
+    \item[\textcolor{red}{5-b}] L'utilisateur est invité à effectuer une saisie valide.
+    \item[\textcolor{red}{6-a}] L'utilisateur reste bloqué sur la page et n'est pas redirigé après avoir complété son inscription.
+\end{enumerate}
+
+\section*{\textbf{\textcolor{blue}{2- Nom :}} Se connecter à la plateforme}
+\textbf{But :} Permettre à un utilisateur de se connecter à son compte pour effectuer des actions d'acheteur ou de revendeur. \\
+\textbf{Acteur :} \textit{Utilisateur} (acteur principal) ; \textit{Système de gestion de profil} (acteur secondaire).
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item L'utilisateur est dirigé sur la page de connexion.
+    \begin{enumerate}[leftmargin=4em]
+        \item Après avoir tenté d'effectuer une commande sans être connecté.
+        \item Après avoir cliqué sur le bouton \textit{se connecter}.
+    \end{enumerate}
+    \item L'utilisateur entre ses informations de connexion.
+    \item Le message « Connexion en cours » est affiché durant le traitement des informations.
+    \item Le système valide les informations.
+    \item L'utilisateur est renvoyé à la page d'accueil en étant connecté à son compte.
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{4-a}] La combinaison du nom d'utilisateur et du mot de passe ne correspond à aucun profil de la base de données associée au système de gestion de profil.
+    \begin{enumerate}[leftmargin=4em]
+        \item Le système ne retrouve pas le compte dans la base de données.
+        \item Un message indique au client que les informations entrées sont erronées.
+        \item L'utilisateur est renvoyé à l'étape 2.
+    \end{enumerate}
+    \item[\textcolor{red}{4-b}] Le compte associé aux identifiants est suspendu.
+    \begin{enumerate}[leftmargin=4em]
+        \item Le système reconnaît le compte mais celui-ci est suspendu.
+        \item Un message signale à l'utilisateur que le compte est suspendu.
+        \item L'utilisateur est renvoyé à l'écran d'accueil.
+    \end{enumerate}
+\end{enumerate}
+
+
+\section*{\textbf{\textcolor{blue}{3- Nom :}} Modifier les informations du compte}
+
+\textbf{But :} Permettre à l'utilisateur de changer ses informations personnelles. \\
+\textbf{Acteur :} \textit{Utilisateur} (acteur principal), \textit{système de gestion de profil} (acteur secondaire). \\
+\textbf{Précondition :} L'utilisateur est connecté.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item L'utilisateur accède à la section « Mon Profil ».
+    \item Il clique sur le bouton « Modifier ».
+    \item Des champs éditables avec ses informations actuelles sont affichés.
+    \item L'utilisateur change les informations qu'il souhaite modifier.
+    \item Il clique sur « Sauvegarder ».
+    \item Le système valide les modifications.
+    \item Un message de confirmation est affiché.
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{6-a}] Le système détecte des informations non valides (par exemple : un format de téléphone incorrect).
+    \begin{enumerate}[leftmargin=4em]
+        \item[6-a-1] Un message d'erreur est affiché.
+        \item[6-a-2] L'utilisateur est invité à corriger ses informations.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{\textbf{\textcolor{blue}{4- Nom :}} Ajouter un produit au panier}
+
+\textbf{But :} Permettre à l'utilisateur d'ajouter des produits à son panier. \\
+\textbf{Acteur :} \textit{Acheteur} (utilisateur principal), \textit{Système d'inventaire} (utilisateur secondaire). \\
+\textbf{Précondition :} L'utilisateur a trouvé un produit qu'il souhaite acheter.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item L'utilisateur sélectionne le produit souhaité.
+    \item Il choisit la quantité.
+    \item Il clique sur « Ajouter au panier ».
+    \item Le produit est ajouté à son panier.
+    \item Un message de confirmation s'affiche.
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{4-a}] La quantité demandée n'est pas disponible.
+    \begin{enumerate}[leftmargin=4em]
+        \item[4-a-1] Un message d'erreur s'affiche.
+        \item[4-a-2] L'utilisateur est invité à réduire la quantité ou à choisir un autre produit.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{\textbf{\textcolor{blue}{5- Nom :}} Retirer un produit du panier}
+
+\textbf{But :} Permet à l’utilisateur de retirer des produits dans son panier pour ajuster sa commande. \\
+\textbf{Acteur :} \textit{Acheteur} (utilisateur principal), \textit{Système d'inventaire} (utilisateur secondaire). \\
+\textbf{Précondition :} L'utilisateur possède au moins un produit dans son panier et se trouve sur la page répertoriant 
+les produits du panier.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item L’acheteur clique sur le bouton Retirer du panier du produit à éliminer.
+    \item Un message d’alerte demande à l’utilisateur de confirmer l’action.
+    \item L’utilisateur confirme le retrait du produit.
+    \item Le produit est retiré du panier de l’utilisateur.
+    \item Un message prévient l’utilisateur du succès du retrait du produit de son panier
+    \item Le système d’inventaire met à jour le nombre d’instances du produit disponibles.
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{3-a}] L’utilisateur abandonne le processus de retrait de produit.
+    \begin{enumerate}[leftmargin=4em]
+        \item[3-a-1] Un message informe le client que le produit est toujours disponible dans son panier.
+        \item[3-a-2] L’utilisateur est redirigé vers la page répertoriant les produits du panier
+    \end{enumerate}
+\end{enumerate}
+
+
+
+
+\section*{\textbf{\textcolor{blue}{6- Nom :}} Passer une commande}
+
+\textbf{But :} Permet à l'utilisateur d'acheter les produits dans son panier et d'enclencher le processus de livraison. \\
+\textbf{Acteur :} \textit{Acheteur} (acteur principal), \textit{Système de création de commande} (acteur secondaire), \textit{Système de payement} (secondaire). \\
+\textbf{Précondition :} Le panier de l'acheteur contient au minimum de 1 article et l'utilisateur se trouve sur la page répertoriant les produits de son panier.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item L’acheteur clique sur le bouton réaliser une commande.
+    \item Le système de gestion de commande vérifie si l’utilisateur est connecté.
+    \item Le client sélectionne les produits de son panier qu’il désire acheter.
+    \item Une page s’affiche et demande les informations nécessaires pour réaliser une livraison.
+    \item Le système de gestion de commande propose à l’utilisateur d’utiliser les informations associées à son compte
+    \item L’utilisateur accepte d’utiliser les informations associées à son compte.
+    \item Le système de gestion de commande vérifie les informations de livraison
+    \item Les informations de livraison sont valides.
+    \item Le client est redirigé vers la page de paiement.
+    \item Le client entre les informations nécessaire pour réaliser le payement.
+    \item Le système de payement vérifie les informations entrées par l’acheteur.
+    \item Le système de paiement valide les informations de paiement. 
+    \item Une requête visant à débiter le compte est envoyé.
+    \item Un message informe le client que la commande est validée.
+    \item Un numéro de commande est généré par le système de création de commande.
+    \item Les détails de la commande sont affichés.
+    \item Un courriel résumant la transaction est envoyé à l’acheteur.
+    \item Le système de gestion de commande met à jour l'état de la commande à en production 
+    \item Le système signale le revendeur.
+    \end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{2-a}] L’utilisateur n’est pas connecté.
+            \begin{enumerate}
+        \item[2-a-1.] Le système de gestion de commande enclenche les étapes de connexion (cas d’utilisation 2).
+             \end{enumerate}
+         \item[\textcolor{red}{2-b}] L’utilisateur est connecté.
+            \begin{enumerate}
+            \item[2-b-1] Le système de gestion de commande enclenche l’étape 3 du scénario principal.
+            \end{enumerate}
+        \item[\textcolor{red}{6-a}] L’utilisateur refuse d’utiliser les informations associées à son compte
+            \begin{enumerate}
+            \item[6-a-1] Le système de gestion de commande demande à l’utilisateur de saisir les 	informations nécessaires pour passer la commande 
+            \item[6-a-2] Le système de création de commande enclenche l’étape 7 du scénario principal. 
+            \end{enumerate}
+
+        \item[\textcolor{red}{8-a}] Une des informations entrées est invalide.
+            \begin{enumerate}
+            \item[8-a-1] Un message d’alerte indique laquelle des informations est incorrecte.
+            \item[8-a-2] L’utilisateur est invité à saisir de nouvelles informations valides. 
+             \end{enumerate} 
+
+         \item[\textcolor{red}{10-b}] L’utilisateur annule la transaction.
+            \begin{enumerate}
+            \item[10-b-1] L’Utilisateur est dirigé vers la page d’affichage de son panier d’articles
+            \end{enumerate}
+        \item[\textcolor{red}{12-a}] Les informations de paiement sont invalides.
+            \begin{enumerate}    
+            \item[12-a-1] Un message informe le client.
+            \item[12-a-2] La page bloque et redemande à l’utilisateur de rentrer de nouvelles informations.
+            \end{enumerate}
+        \item[\textcolor{red}{14-a}] Montant présent sur la carte virtuelle insuffisant.
+            \begin{enumerate}
+            \item[14-a-1] Un message indique que le payement est refusé.
+            \item[14-a-2] L’acheteur est renvoyé à la page de saisie d’information bancaire.
+            \end{enumerate}
+
+    % Et ainsi de suite pour les étapes restantes...
+\end{enumerate}
+
+
+\section*{\textbf{\textcolor{blue}{7- Nom :}} Annuler une commande}
+
+\textbf{But :} Permet à l'utilisateur d'annuler une commande initiée. \\
+\textbf{Acteur :} \textit{Utilisateur} (acteur principal), \textit{Revendeur} (acteur secondaire), \textit{système de paiement} (acteur secondaire). \\
+\textbf{Précondition :} Avoir déjà effectué une commande. Se trouver dans le menu répertoriant l'ensemble des commandes complétées ou en cours.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item L’utilisateur sélectionne une commande à annuler à partir du menu répertoriant les commandes associées à son profil.
+    \item L’acheteur clique sur le bouton Annuler la commande.
+    \item L’acheteur confirme son choix.
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{3-a}] La commande est à un stade trop avancé pour être annulée (acheminement en cours).
+\end{enumerate}
+
+
+\section*{\textbf{\textcolor{blue}{8- Nom :}} Changer l’état d’une commande}
+
+\textbf{But :} Garder le client informé de l’évolution de la commande  
+\textbf{Acteur :} \textit{revendeur} (acteur principal), \textit{système de gestion d’inventaire} (acteur secondaire), \textit{acheteur} (acteur secondaire), \textit{compagnie d’expédition} (acteur secondaire). \\
+\textbf{But :} garder le client informé de l'évolution de la commande. \\
+\textbf{Précondition :} Le revendeur se connecte à la plateforme ; la commande dont le revendeur veut changer l’état a déjà été initiée par l’acheteur.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item Le revendeur est redirigé vers la page affichant son profil après avoir cliqué sur un bouton destiné à cette action.
+    \item Le revendeur est redirigé vers la page affichant ses commandes après avoir cliqué sur le bouton consulter les commandes.
+    \item Le revendeur sélectionne la commande à consulter.
+    \item Le revendeur sélectionne l’option modifier l’état d’une commande.
+    \item Le revendeur change le statut :  en production → en livraison (transmet un numéro de suivit à l’expéditeur).
+    \item Le système de gestion d’inventaire met à jour la quantité d’instances disponibles pour cet article.
+    \item Le revendeur transmet les informations de l’expéditeurs à l’acheteur.
+    \item Un courriel est envoyé à l’acheteur pour l’informé.
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{5-a}] Le revendeur change le statut : commande en livraison→ livré après avoir reçu la confirmation de l’acheteur.
+\end{enumerate}
+
+
+\section*{\textbf{\textcolor{blue}{9- Nom :}} Créer un produit}
+
+\textbf{But :} Permet à un revendeur d’enregistrer sur la plateforme un produit qu’il souhaite vendre. \\
+\textbf{Acteur :} Revendeur (principal), Système d’inventaire (secondaire). \\
+\textbf{Précondition :} L’utilisateur est connecté à son compte UniShop en tant que revendeur. L’utilisateur se trouve dans la page de son profil.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item Le revendeur clique sur le bouton Vendre un produit.
+    \item Le revendeur rentre les informations du produit qu’il souhaite vendre.
+    \item Le revendeur fournit la catégorie du produit 
+    \item Le revendeur fournit une description du produit
+    \item Le revendeur fournit le nom du produit
+    \item Le revendeur fournit la marque du produit
+    \item Le revendeur fournit le modèle du produit
+    \item Le revendeur fournir la quantité initiale du produit
+    \item Le revendeur est invité à ajouter une image pour le produit
+    \item Le revendeur accepte d’ajouter une image.
+    \item L’image inclut est validée (format adéquat).
+    \item Le revendeur est invité à ajouter une vidéo pour le produit.  
+    \item Le revendeur accepte d’ajouter une vidéo. 
+    \item La vidéo ajoutée est validée (format adéquat).
+    \item Le système d’inventaire enregistre le produit et crée les instances. 
+    \item Le revendeur est renvoyé vers la page de son profil.
+
+\end{enumerate}
+
+\textbf{Scénario alternatif :}
+\begin{enumerate}[leftmargin=4em]
+    \item[\textcolor{red}{2-a}] Le système le rejette si les informations sont invalides ou incomplètes.
+            \begin{enumerate}
+                    \item[2-a-1.] Un message indique au revendeur que les informations sont invalides.
+            \end{enumerate} 
+
+        \item[\textcolor{red}{10-a}] Le revendeur refuse d’ajouter une image
+            \begin{enumerate}
+                    \item[10-a-1] L’étape 12 du scénario principal est enclenché
+            \end{enumerate}
+
+
+        \item[\textcolor{red}{12-a}] Le revendeur refuse d’ajouter une vidéo
+            \begin{enumerate}
+                \item[10-a-1] L’étape 15 du scénario principal est enclenché
+            \end{enumerate}
+        
+        \item[\textcolor{red}{11-a}] L’image inclut est invalide 
+            \begin{enumerate}
+                \item[10-a-1] Le revendeur est invité à fournir un format adéquat ou à sauter l’étape d’ajout d’image.
+            \end{enumerate}
+
+        \item[\textcolor{red}{14-a}] La vidéo inclut est invalide 
+            \begin{enumerate}
+                \item[14-a-1] Le revendeur est invité à fournir un format adéquat ou à sauter l’étape d’ajout de vidéo.
+            \end{enumerate}
+\end{enumerate}
+
+
+
+\section*{\textbf{\textcolor{blue}{10- Nom:}} Proposer un échange}
+
+\textbf{But :} Permet à un revendeur de proposer un échange de produit à un acheteur comme moyen de régler un problème. \\
+... % et ainsi de suite, vous pouvez remplir les sections similaires à la précédente
+\textbf{Acteur :} Revendeur(principal), Acheteur(secondaire), Système d’inventaire(secondaire), système de création de commande (acteur secondaire)\\  
+\textbf{Précondition :} L’utilisateur est connecté à son compte UniShop en tant que revendeur. L’acheteur a signalé un problème au revendeur.
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+    \item Le revendeur est redirigé vers la page affichant son profil après avoir cliquée sur un bouton destiné à cette action
+    \item Le revendeur est redirigé vers la page affichant ses commandes après avoir cliqué sur le bouton consulter les commandes
+    \item Le revendeur clique sur le bouton « Proposer un échange ».
+    \item Le revendeur choisi le produit à renvoyer dans l’historique de commande de l’acheteur.
+    \item Le système d’inventaire vérifie si le produit est disponible.
+    \item Le système de création de commande envoie un message à l’acheteur l’avisant de l’offre d’échange.
+\end{enumerate}
+
+\textbf{Scénario alternatif}
+\begin{enumerate}
+    \item[\textcolor{red}{3-a}] Le produit sélectionné n’est plus disponible (rupture de stock). 
+        \begin{enumerate}
+            \item[3-a-1] Un message informe le revendeur que le produit n’est pas disponible.
+            \item[3-a-1] Le revendeur est renvoyé à l’étape 2.
+        \end{enumerate}
+\end{enumerate}
+
+
+
+\section*{\textbf{\textcolor{blue}{11- Cas d'utilisation :}} Aimer un produit}
+\textbf{But :} Permet à un acheteur de donner une note à une produit et de laisser un commentaire.\\
+... % et ainsi de suite, vous pouvez remplir les sections similaires à la précédente
+\textbf{Acteur :} Acheteur(principal), Système de métrique(secondaire). \\ 
+\textbf{Précondition :} L’utilisateur est connecté à son compte sur la plateforme. L’utilisateur se trouve sur la page de catalogue de produit. 
+
+\textbf{Scénario principal :}
+\begin{enumerate}[leftmargin=4em]
+        \item L’utilisateur clique sur le bouton « évaluer le produit » après avoir sélectionné un produit précis.
+        \item Le système de métrique acheteur vérifie si l’acheteur a déjà acheté le produit.
+        \item La page d’évaluation du produit s’affiche.
+        \item L’utilisateur est invité à laisser une évaluation pour le produit
+        \item L’utilisateur accepte de laisser une évaluation
+        \item Une boîte de texte apparaît pour que l’utilisateur rédige son évaluation 
+        \item L’utilisateur confirme l’envoi de son évaluation 
+        \item L’utilisateur est invité à laisser un commentaire pour le produit
+        \item L’utilisateur accepte de laisser un commentaire
+        \item Une boîte de texte apparaît pour que l’utilisateur rédige un commentaire
+        \item L’utilisateur confirme l’envoi 
+        \item Le système de métrique met à jour les métriques de l’acheteur et du revendeur ciblé par l’action de l’utilisateur. 
+        \item L’utilisateur est redirigé vers le menu de catalogue de produit
+
+\end{enumerate}
+
+\textbf{Scénario alternatif}
+\begin{enumerate}
+    \item[\textcolor{red}{2-a}] L'utilisateur n’as jamais acheter le produit.  
+        \begin{enumerate}
+            \item[2-a-1] Un message informe le client qu’il ne peut pas évaluer le produit.
+        \end{enumerate}
+        
+        \item[\textcolor{red}{7-a}] L’utilisateur annule le processus d’évaluation.
+        \begin{enumerate}
+            \item[7-a-1] L’étape 12 en enclenchée.
+        \end{enumerate} 
+
+        \item[\textcolor{red}{9-a}] L’utilisateur refuse de laisser une évaluation.
+        \begin{enumerate}
+            \item[9-a-1] L’étape 12 est enclenchée.
+        \end{enumerate}
+
+        \item[\textcolor{red}{11-a}] L’utilisateur annule le processus d’évaluation.
+        \begin{enumerate}
+            \item[9-a-1] L’étape 12 est enclenchée
+        \end{enumerate}
+
+
+
+
+\end{enumerate}
+
+
+\end{document}
+
+\end{document}
+
+

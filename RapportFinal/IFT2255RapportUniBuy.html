@@ -111,6 +111,14 @@
                 </div>
             </div>
             </div>
+            <h1 id="ListeHypothèse"> <a href="#ListeHypothèse">Liste d'hypothèses</a> </h1>
+            <ul class="Liste1">
+                <li class="Liste1">La plateforme fait des livraisons internationales. Un étudiant qui prend un cours à distance pourrait vouloir recevoir un livre dans un autre pays.</li>
+                <li class="Liste1">Un utilisateur peut supposer que la plateforme lui fournira des recommandations sur d'autres produits selon ses achats précédents.</li>
+                <li class="Liste1">L'utilisateur peut supposer qu'il pourra partager un produit sur les réseaux sociaux.</li>
+                <li class="Liste1">La plateforme offre de la documentation sur le fonctionnement des logiciels qu'elle vend.</li>
+            </ul>
+
             <div class="grid3">
                     <h1 id="StatistiquesdeContribution"> <a href="#StatistiquesDeContributionHeader">Statistiques de contribution</a> </h1>
                     <h2 style="text-align:center;">Yann </h2>
@@ -148,15 +156,16 @@
                     <h2 style="text-align:center;">Franz </h2>
                     <nav style="text-align:center;">
                         <a href="mailto:franz.girardin@umontreal.ca">franz.girardin@umontreal.ca</a> | Matricule 20078678 <br><br> 
-                        Contribution ~ 60h
+                        Contribution ~ 65h
                     </nav>
                     <img class="centered" src="none so vile.png" alt="Froge – 09.png"> 
                     <p>J'ai complété l'entièreté du <a href="#DiagrammeCU">Diagramme de CUs</a> seul. J'ai effectué la révision du diagramme avec Emmanuel. J'ai complété le glossaire après 
                     une séance de brainstorming. J'ai également contriué à la <a href="#DescriptionDeCas">description des cas d'utilisation</a>, en effectuant la dernière itération de celui-ci. J'ai fait 
                     une description détaillée <a href="#ExigencesNonFonctionnelles">des risques</a>, à partir de l'ébauche d'Emmanuel. J'ai effectué le <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/tree/DescriptionCU">code</a>
                     de tous les documents .tex et suis responsable de chaque pdf correspondant. J'ai révisé et modifiéé l'ensemble des documents qui ont été produit tout au long du projet, afin de produire une version finale  
-                    de tous ce qu'il y avait à inclure dans le rapport.
-                    Je suis reponsable de l'entièreté du <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/tree/DiagrammeCU/RapportFinal">code</a> Html, Css et Javascript du rapport. J'ai coordonné la communication entre 
+                    de tous ce qu'il y avait à inclure dans le rapport. Je suis reponsable de l'entièreté du <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/tree/DiagrammeCU/RapportFinal">code</a> Html, Css et Javascript du rapport. 
+                    J'ai effectué des modifications au rapport plus ou moins majeures les deux derniers jours avant la remise, en fonction des changements de dernières minutes des fichiers de l'équipe. J'ai organisé l'ensemble des fichiers 
+                    à zipper pour la remise et effectué les résolutions de merge conflits après avoir tout poussé dans la branche principale, le jour de la remise.J'ai coordonné la communication entre 
                     les membres du groupe et j'ai assuré la maintenance du répertoire sur Github. </p>.
                     <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
                     <thead>
@@ -239,7 +248,27 @@
                 </table>
 
             </div>
+                    <nav>
+                    <img style="display:bloc; width:1200px; height:auto;" src="ScreencapGithubInsights.png" alt="ScreencapGithubInsights.png">
+                    </nav>
 
+        <div class="grid2">
+                    <h2 style="text-align:center;">Hypothèses pour la Rédaction du Glossaire</h2>
+        <p>
+        La rédaction de ce glossaire pour la plateforme UniShop a été guidée par plusieurs hypothèses clés. Nous avons 
+        supposé que les utilisateurs de la plateforme comprendraient principalement deux catégories : les 
+        acheteurs, cherchant à acquérir des produits ou services, et les revendeurs, offrant 
+        ces produits ou services à la vente. Il a été envisagé que les échanges entre ces deux entités se feraient 
+        par le biais de transactions, supervisées par le vendeur principal, qui représente la plateforme 
+        elle-même. Le processus d'achat serait formalisé par des commandes précisant les détails de chaque achat.
+        Par ailleurs, l'importance des éléments structurants a été reconnue, étant donné qu'ils contribuent 
+        à l'expérience globale de l'utilisateur, favorisant ainsi une navigation et un processus d'achat optimisés. 
+        Une attention particulière a également été accordée à la notion de promotion, reconnaissant ainsi le 
+        rôle essentiel de telles initiatives pour stimuler les ventes. Enfin, il a été anticipé que la plateforme
+        comporterait des mécanismes permettant aux acheteurs d'exprimer leurs évaluations des produits, ainsi 
+        qu'un service après-vente pour garantir la satisfaction des clients après leur achat.
+        </div>
+        </p>    
 
                 
                 <div class="grid2">
@@ -328,7 +357,49 @@
 
               <h1 id="DiagrammeDeCas"><a href="#DiagrammeDeCasHeader">Diagramme de cas d'utilisation</a></h1>
               <img class="centered2" src="Unishop-vf-optimal.svg" alt="Logo d'Unishop">
-            </div> 
+            </div>
+
+            <div class="grid2">    
+            <h2 style="text-align:center;">Hypothèses relatives aux Risques</h2>
+            <p>
+            </p>
+            <ul>
+                <li class="Liste1"><strong>Panne de serveur :</strong> L'hypothèse principale est que la continuité du service est 
+                    essentielle à la fois pour les acheteurs et les revendeurs. Si le serveur est en panne, 
+                    cela entrave directement la capacité des utilisateurs à accéder aux services et à effectuer des 
+                    transactions, impactant ainsi les ventes, l'expérience utilisateur et la confiance en la 
+                    plateforme.
+                </li>
+
+                <li class="Liste1"><strong>Sécurité et protection des données clients :</strong> L'intégrité et la confidentialité 
+                    des données des utilisateurs sont primordiales. L'hypothèse est que toute violation de ces données
+                    pourrait gravement nuire à la réputation d'UniShop et entraîner une perte de confiance des 
+                    utilisateurs envers la plateforme.
+                </li>
+
+                <li class="Liste1"><strong>Gestion erronée de l’inventaire :</strong> La précision de l'inventaire est cruciale pour 
+                    une expérience d'achat fluide. L'hypothèse sous-jacente est que des erreurs dans l'inventaire 
+                    peuvent entraîner une discordance entre l'offre et la demande, nuisant à la satisfaction des
+                    utilisateurs et aux opérations des revendeurs.
+                </li>
+
+                <li class="Liste1"><strong>Difficulté à trouver les politiques de retour et d’échange :</strong> 
+                    Une communication claire et accessible concernant les politiques est essentielle pour une 
+                    expérience utilisateur positive. L'hypothèse est que toute ambiguïté ou difficulté à localiser 
+                    ces informations pourrait diminuer la satisfaction des utilisateurs et, par conséquent, leur 
+                    fidélité envers UniShop.
+                </li>
+
+                <li class="Liste1"><strong>Gestion inadéquate d’avis et commentaires d’utilisateurs :</strong> 
+                    La plateforme se base sur l'hypothèse que les avis et commentaires sont un outil essentiel pour 
+                    établir la confiance entre les acheteurs et les revendeurs. Une gestion inappropriée de ces 
+                    retours pourrait nuire à la réputation des revendeurs et influencer négativement la perception 
+                    des utilisateurs à l'égard de la plateforme.
+                </li>
+            </ul>
+            </div>
+
+
             <div class="grid2">
                 <h1 id=DescriptionRisques><a href="#DescroptionRisquesHeader">Descriptions des risques</a></h1>
                 <nav style="text-align:center;">
@@ -337,12 +408,107 @@
                 </nav>
                 <iframe class="hidden" src="DescriptionRisquesFinale.pdf" width="1080" height="1080"></iframe>
 
+            <div class="grid2">    
+            <h2 style="text-align:center;">Hypothèses des cas d'utilisation</h2>
+
+                <article>
+                    <h3>S’inscrire à la plateforme</h3>
+                    <ul>
+                        <li class="Liste1">L'utilisateur peut être dirigé vers la page d'inscription après une tentative d'effectuer 
+                            une commande sans être connecté ou après avoir cliqué sur un bouton spécifique.</li>
+                        <li class="Liste1">La plateforme propose différents types de comptes.</li>
+                        <li class="Liste1">Les informations de profil doivent être valides pour créer un compte.</li>
+                        <li class="Liste1">Un courriel de confirmation est nécessaire pour compléter l'inscription.</li>
+                        <li class="Liste1">Il peut exister des entrées d'information déjà présentes dans la base de données, 
+                            empêchant la création de compte.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Se connecter à la plateforme</h3>
+                    <ul>
+                        <li class="Liste1">Les utilisateurs doivent fournir des identifiants valides pour se connecter.</li>
+                        <li class="Liste1">Il est possible qu'un utilisateur tente de se connecter avec des identifiants non enregistrés ou incorrects.</li>
+                        <li class="Liste1">Les comptes peuvent être suspendus et dans ce cas, l'utilisateur ne pourra pas se connecter.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Modifier les informations du compte</h3>
+                    <ul>
+                        <li class="Liste1">L'utilisateur doit être connecté pour pouvoir modifier ses informations.</li>
+                        <li class="Liste1">Les modifications doivent être valides pour être enregistrées.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Ajouter un produit au panier</h3>
+                    <ul>
+                        <li class="Liste1">Les utilisateurs doivent choisir une quantité pour ajouter un produit au panier.</li>
+                        <li class="Liste1">Il peut ne pas y avoir suffisamment de stock pour la quantité demandée par l'utilisateur.</li>
+                    </ul>
+                </article>
+            </div>
+
                 <h1 id="DescriptionDeCas"> <a href="#DescriptionDeCasHeader">Description des cas d'utilisation</a></h1>
                     <nav style="text-align:center;">
                     <a href="https://github.com/CodeKafka/IFT2255UniShopByUniBuy/blob/DescriptionCU/Rapport-DescriptionCU.pdf">Lien vers le fichier Rapport-DescriptionCU.pdf</a> 
                     <img style= "width:40px; height:40px;margin-top:10px;" class= "centered"src="githubLogo.png"  alt="githubLogo">
                     </nav>
-                <iframe class="hidden" src="Rapport-DescriptionCU.pdf" width="1080" height="1080"></iframe>   
+                <iframe class="hidden" src="Rapport-DescriptionCU.pdf" width="1080" height="1080"></iframe>  
+
+                <div class="grid2"> 
+                        <h2 style="text-align:center;">Hypothèses associées aux exigences non fonctionnelles</h2>
+
+                <article>
+                    <h3>Sécurité</h3>
+                    <ul>
+                        <li class="Liste1">Les informations des utilisateurs, notamment les données de paiement et informations 
+                            personnelles, sont sensibles et nécessitent une protection accrue.</li>
+                        <li class="Liste1">Il existe des menaces externes telles que l'usurpation de données et les activités 
+                            frauduleuses qui peuvent compromettre la sécurité de la plateforme.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Disponibilité</h3>
+                    <ul>
+                        <li class="Liste1">Les utilisateurs attendent que la plateforme soit accessible à tout moment pour 
+                            effectuer des opérations.</li>
+                        <li class="Liste1">Les interruptions de service peuvent nuire à la réputation de la plateforme et à 
+                            l'expérience utilisateur.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Performance</h3>
+                    <ul>
+                        <li class="Liste1">Un grand nombre d'utilisateurs peut utiliser la plateforme simultanément.</li>
+                        <li class="Liste1">Les mises à jour des inventaires doivent être rapides pour éviter des incohérences 
+                            pour les utilisateurs.</li>
+                        <li class="Liste1">Les temps de réponse prolongés peuvent affecter l'expérience utilisateur.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Traçabilité</h3>
+                    <ul>
+                        <li class="Liste1">Il est essentiel de pouvoir suivre et enregistrer toutes les actions des utilisateurs 
+                            pour garantir la qualité et l'intégrité de la plateforme.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Accessibilité</h3>
+                    <ul>
+                        <li class="Liste1">L'accessibilité est une exigence pour assurer une expérience utilisateur équitable pour 
+                            tous, y compris pour les personnes handicapées.</li>
+                        <li class="Liste1">La plateforme doit se conformer aux normes d'accessibilité web pour être considérée 
+                            comme accessible.</li>
+                    </ul>
+                </article>
+                </div>
+
 
                 <h1 id="ExigencesNonFonctionnelles"> <a href="#ExigencesNonFonctionnellesHeader">Exigences non fonctionnelles</a></h1>
                     <nav style="text-align:center;">
