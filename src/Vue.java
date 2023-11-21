@@ -18,26 +18,14 @@ public class Vue {
     // Autres méthodes d'affichage
     public void afficherFormulaireInscription() {
         System.out.println("Inscription - Veuillez entrer vos informations:");
-        
-        try{
-            Thread.sleep(1500);
-        }
-        catch (InterruptedException e) {
-            System.out.println("Thread interrompu");
-        
-        }
-        // Affiche les champs à remplir pour l'inscription
+        Controleur.dodo(1500);
+       // Affiche les champs à remplir pour l'inscription
     }
 
     public void afficherFormulaireConnexion() {
         System.out.println("Connexion - Veuillez entrer vos identifiants:\n");
-        try {
-                    Thread.sleep(2000);
-        }
-        catch (InterruptedException e) {
-            System.out.println("Thread interrompu");
-        }
-        
+        Controleur.dodo(2000);
+       
         // Affiche les champs pour la connexion
     }
 
@@ -48,31 +36,36 @@ public class Vue {
     }
 
     public static void afficherOptionsMenuAcheteur() {
-        try {
-                    Thread.sleep(1000);
-        }
-        catch (InterruptedException e) {
-            System.out.println("thread 2 interrupted");
-        }
-
-            System.out.println("Menu Acheteur");
-            System.out.println("(1) Arrêter l'application");
-            System.out.println("(2) Revenir au menu principal");   
-            System.out.print("\nChoisissez une option: ");
+        Controleur.dodo(1000);
+        System.out.println("Menu Acheteur");
+        System.out.println("(1) Arrêter l'application");
+        System.out.println("(2) Revenir au menu principal");   
+        System.out.println("(3) Supprimer mon compte");
+        System.out.print("\nChoisissez une option: ");
     }
 
     public static void afficherOptionsRevendeur() {
-        try {
-                    Thread.sleep(1000);
-        }
-        catch (InterruptedException e) {
-            System.out.println("thread 2 interrupted");
-        }
-
+        Controleur.dodo(1000);
             System.out.println("Menu Revendeur");
             System.out.println("(1) Arrêter l'application");
             System.out.println("(2) Revenir au menu principal");   
+            System.out.println("(3) Supprimer mon compte");
             System.out.print("\nChoisissez une option: ");
+    }
+
+    public static void avertissementSuppressionCompte() {
+        System.out.println("Êtes-vous sûr de vouloir supprimer votre compte ? (oui/non)");
+    }
+
+    public static void  avertissementEntreInvalide() {
+        System.out.println("Entrée(s) invalide(s)");
+        Controleur.dodo(1500);
+        
+    }
+
+    public static void  avertissementEntreInvalideSecondeTentative() {
+        System.out.println("Voulez-vous réessayer ? (oui/non)");
+        
     }
 
 

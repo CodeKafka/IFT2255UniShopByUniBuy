@@ -8,9 +8,16 @@
             this.motDePasse= motDePasse;
             this.telephone = telephone;
         }
-
+        
+        public String getMotDePasse() {
+            return this.motDePasse;
+        }
         public void setAddresseCourriel(String addresseCourriel) {
             this.addresseCourriel = addresseCourriel;
+        }
+
+        public String getAdresseCourriel() {
+            return this.addresseCourriel;
         }
 
         public void setNom(String nom) {
@@ -29,5 +36,17 @@
         public String toCSV() {
             return nom + "," + prenom + "," + addresseCourriel + "," + telephone + "," + motDePasse;
         }
+    
+        public void supprimerCompte() {
+            GestionnaireCSV.supprimerUtilisateurCSV(this);
+            GestionnaireCSV.archiverUtilisateur(this);
+            System.out.println("Votre compte a été supprimé.");
+        }
+
+        public boolean verifierMotDePasse(String motDePasse) {
+            return this.motDePasse.equals(motDePasse);
+        }
+
+        // ...
 
     }

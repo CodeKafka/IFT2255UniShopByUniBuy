@@ -12,7 +12,8 @@ public class Revendeur extends Utilisateur {
     @Override
     public String toCSV() {
         // Pas de pseudo pour le revendeur
-        return super.toCSV() + ",,Revendeur";
+        return nomEntreprise + "," + nomCEO+ "," + email + "," + this.getMotDePasse() + "," + telephone 
+        + ",DummyEntry"+ ",Revendeur";
     }
     
 }

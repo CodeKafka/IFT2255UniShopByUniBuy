@@ -3,6 +3,7 @@ import java.util.*;
 
 public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_CSV = "utilisateurs.csv";
+    private static final String CHEMIN_FICHIER_ARCHIVE = "anciensUtilisateurs.csv";
 
     public static void ecrireUtilisateurCSV(Utilisateur utilisateur) {
         File fichierCSV = new File("utilisateurs.csv");
@@ -42,7 +43,7 @@ public class GestionnaireCSV {
             while (scanner.hasNextLine()) {
                 String[] utilisateur = scanner.nextLine().split(",");
                 // Format attendu : nomEntreprise,email,telephone,motDePasse,typeUtilisateur
-                if (utilisateur.length > 4 && "Revendeur".equals(utilisateur[4]) && utilisateur[0].equals(nomEntreprise) && utilisateur[3].equals(motDePasse)) {
+                if (utilisateur.length > 4 && "Revendeur".equals(utilisateur[6]) && utilisateur[0].equals(nomEntreprise) && utilisateur[3].equals(motDePasse)) {
                     return true;
                 }
             }
@@ -85,6 +86,49 @@ public class GestionnaireCSV {
 
         }
         return true;
+    }
+
+    public static void supprimerUtilisateurCSV(Utilisateur utilisateur) {
+        File fichierCSV = new File(CHEMIN_FICHIER_CSV);
+        File tempFile = new File(fichierCSV.getAbsolutePath() + ".tmp");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV));
+             PrintWriter pw = new PrintWriter(new FileWriter(tempFile))) {
+
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                if (!ligneContientUtilisateur(ligne, utilisateur)) {
+                    pw.println(ligne);
+                    pw.flush();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (!fichierCSV.delete()) {
+            System.out.println("Impossible de supprimer l'ancien fichier CSV.");
+            return;
+        }
+        if (!tempFile.renameTo(fichierCSV)) {
+            System.out.println("Impossible de renommer le fichier temporaire.");
+        }
+    }
+
+    private static boolean ligneContientUtilisateur(String ligne, Utilisateur utilisateur) {
+            String[] champs = ligne.split(",");
+            // Supposons que l'email est le troisième champ pour tous les types d'utilisateurs
+            return champs[2].equals(utilisateur.getAdresseCourriel());
+        }
+    public static void archiverUtilisateur(Utilisateur utilisateur) {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream(CHEMIN_FICHIER_ARCHIVE, true))) {
+            out.println(utilisateur.toCSV());
+        } catch (FileNotFoundException e) {
+            System.out.println("Impossible d'ouvrir le fichier d'archive.");
+        }
+    }
+    public static String getCheminFichierCSV() {
+        return CHEMIN_FICHIER_CSV;
     }
 }
 

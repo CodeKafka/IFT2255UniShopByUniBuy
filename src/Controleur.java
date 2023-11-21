@@ -1,17 +1,26 @@
+import java.io.FileNotFoundException;
+import java.util.List;
+
 import java.lang.InterruptedException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.io.File;
 public class Controleur {
     private Vue vue;
     private Scanner scanner;
-    
+    private static List<Utilisateur> baseDeDonneesUtilisateurs;
     public Controleur(Vue vue) {
         this.vue = vue;
         this.scanner = new Scanner(System.in);
+        this.baseDeDonneesUtilisateurs = new ArrayList<Utilisateur>();
     }
 
     public void demarrerApplication() {
+        offrirMenuPrincipal();
+    }
+
+    public void offrirMenuPrincipal() {
         boolean continuer = true;
 
         while (continuer) {
@@ -35,8 +44,8 @@ public class Controleur {
                     System.out.println("Option invalide. Veuillez réessayer.");
                     break;
             }
-
-            System.out.print("Continuer ? (oui/non): ");
+            clearScreen();
+            System.out.print("Continuer à utiliser l'Application? (oui/non): ");
             String reponse = scanner.nextLine();
             if (reponse.equalsIgnoreCase("non")) {
                 continuer = false;
@@ -62,19 +71,14 @@ public class Controleur {
                     break;
             }
         } catch (InputMismatchException e) {
-            System.out.println("Entrée non valide.");
+            Vue.avertissementEntreInvalide();
             scanner.nextLine(); // Pour consommer le reste de la ligne et éviter une boucle infinie
         }
     }
 
     private void inscrireAcheteur() {
         System.out.println("Vous allez pouvoir entrer vos information en tant que nouvel acheteur");
-        try {
-                    Thread.sleep(2000);
-        }
-        catch (InterruptedException e) {
-            System.out.println("thread 2 interrupted");
-        }
+        dodo(2000);
         boolean valide;
         String nom, prenom, email, motDePasse, telephone, pseudo;
         do {
@@ -94,7 +98,7 @@ public class Controleur {
 
             valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone);
             if (!valide) {
-                System.out.println("Informations invalides. Voulez-vous réessayer ? (oui/non)");
+                Vue.avertissementEntreInvalideSecondeTentative();
                 if (scanner.nextLine().equalsIgnoreCase("non")) {
                     return; // Retourner au menu principal
                 }
@@ -103,6 +107,7 @@ public class Controleur {
 
         Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo);
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
+        baseDeDonneesUtilisateurs.add(acheteur);
         System.out.println("Inscription réussie.");
     }
 
@@ -125,7 +130,7 @@ public class Controleur {
 
             valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone);
             if (!valide) {
-                System.out.println("Informations invalides. Voulez-vous réessayer ? (oui/non)");
+                Vue.avertissementEntreInvalideSecondeTentative();
                 if (scanner.nextLine().equalsIgnoreCase("non")) {
                     return; // Retourner au menu principal
                 }
@@ -134,6 +139,7 @@ public class Controleur {
 
         Revendeur revendeur = new Revendeur(nomEntreprise, nomCEO, email, motDePasse, telephone);
         GestionnaireCSV.ecrireUtilisateurCSV(revendeur);
+        baseDeDonneesUtilisateurs.add(revendeur);
         System.out.println("Inscription réussie.");
     }
 
@@ -181,13 +187,13 @@ public class Controleur {
                     break;
                 case "3":
                     System.out.println("Cette fonctionnalité n'est pas encore disponible, nous y travaillons ardemment");
-                    Thread.sleep(3000);
+                    dodo(3000);
                     return; // Retourner au menu principal
                 default:
                     System.out.println("Option invalide.");
                     break;
             }
-        } catch (InterruptedException e) {
+        } catch (Error e) {
             System.out.println("Une erreur est survenue.");
         }
     }
@@ -245,8 +251,12 @@ public class Controleur {
                 case "2":
                     continuer = false; // Revenir au menu principal
                     break;
+                case "3":
+                    annulerInscription();
+                    continuer = false; // Retourner au menu principal après annulation
+                    break;
                 default:
-                    System.out.println("Option invalide. Veuillez réessayer.");
+                    Vue.avertissementEntreInvalide();
                     break;
             }
         }
@@ -264,8 +274,12 @@ public class Controleur {
                 case "2":
                     continuer = false; // Revenir au menu principal
                     break;
+                case "3":
+                    annulerInscription();
+                    continuer = false; // Retourner au menu principal après annulation
+                    break;
                 default:
-                    System.out.println("Option invalide. Veuillez réessayer.");
+                    Vue.avertissementEntreInvalide();
                     break;
             }
         }
@@ -274,5 +288,86 @@ public class Controleur {
         ArrayList<Produit> produits = GestionnaireDeRecherche.afficherCatalogueProduits();
         vue.afficherProduits(produits);
     }
-}
 
+    public static void dodo(int temps) {
+        try{ 
+            Thread.sleep(temps);
+        }
+        catch (InterruptedException e) {
+            System.out.println("Thread interrompu");
+        }
+    }
+
+
+    public static void initialiserBaseDeDonneesUtilisateurs() {
+
+        try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCSV()))) {
+            while (scanner.hasNextLine()) {
+                String[] userData = scanner.nextLine().split(",");
+                Utilisateur utilisateur;
+
+                // Supposons que userData ait le format: nom, prenom, email, telephone, motDePasse, pseudo/typeEntreprise, typeUtilisateur
+                if ("Acheteur".equals(userData[6])) {
+                    utilisateur = new Acheteur(userData[0], userData[1], userData[2], userData[4], userData[3], userData[5]);
+                } else if ("Revendeur".equals(userData[6])) {
+                    utilisateur = new Revendeur(userData[0], userData[1], userData[2], userData[3], userData[4]);
+                } else {
+                    continue;
+                }
+
+                baseDeDonneesUtilisateurs.add(utilisateur);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichier CSV non trouvé.");
+        }
+
+    System.out.println("Les pofils ont été initialisé avec succès");
+    System.out.println("La base de données UniShop conbient présentement " + baseDeDonneesUtilisateurs.size() 
+        + " utilisateurs !\n\n\n\n");
+    dodo(1500);
+    }
+
+    public static boolean verifierExistanceFichierCSVUtilisateurs() {
+        File fichierCSV = new File(GestionnaireCSV.getCheminFichierCSV());
+        return fichierCSV.exists();
+    }
+    public static void clearScreen() {  
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+    } 
+    public void annulerInscription() {
+        System.out.println("Êtes-vous sûr de vouloir supprimer votre compte ? (oui/non)");
+        String reponse = scanner.nextLine();
+
+        if ("oui".equalsIgnoreCase(reponse)) {
+            for (int i = 0; i < 3; i++) {
+                System.out.print("Veuillez entrer votre mot de passe: ");
+                String motDePasse = scanner.nextLine();
+                Utilisateur utilisateur = trouverUtilisateurParMotDePasse(motDePasse);
+                
+                if (utilisateur != null) {
+                    System.out.println("On est ici");
+                    dodo(5000);
+                    utilisateur.supprimerCompte();
+                    baseDeDonneesUtilisateurs.remove(utilisateur);
+                    return;
+                } else {
+                    System.out.println("Mot de passe incorrect.");
+                }
+            }
+            System.out.println("Nombre de tentatives dépassé. Retour au menu principal.");
+        } else if (!"non".equalsIgnoreCase(reponse)) {
+            System.out.println("Entrée invalide. Veuillez répondre par 'oui' ou 'non'.");
+        }
+    }
+
+    private Utilisateur trouverUtilisateurParMotDePasse(String motDePasse) {
+        for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
+            if (utilisateur.verifierMotDePasse(motDePasse)) {
+                return utilisateur;
+            }
+        }
+        return null;
+    }
+
+}

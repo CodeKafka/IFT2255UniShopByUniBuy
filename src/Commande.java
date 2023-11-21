@@ -47,7 +47,8 @@ public class Commande {
       }
 
       scanner.close();
-  }
+    }
+
 
   //public void confirmerReception() ????
 

@@ -10,7 +10,7 @@ public class Acheteur  extends Utilisateur{
     private int nombreProduitsAchetes, nombreCommandePassees, likeRecuReview, pointsFidelite; 
 
     public Acheteur(String nom, String prenom, String addresseCourriel, String motDePasse, String telephone,
-                    String pseudo, Panier panier) {
+                    String pseudo) {
         super(nom, prenom, addresseCourriel, motDePasse, telephone);
         this.pseudo = pseudo;
         this.panier = new Panier();
