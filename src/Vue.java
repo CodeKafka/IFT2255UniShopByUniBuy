@@ -41,6 +41,7 @@ public class Vue {
         System.out.println("(1) Arrêter l'application");
         System.out.println("(2) Revenir au menu principal");   
         System.out.println("(3) Supprimer mon compte");
+        System.out.println("(4) Modifier son profil");
         System.out.print("\nChoisissez une option: ");
     }
 
@@ -50,6 +51,7 @@ public class Vue {
             System.out.println("(1) Arrêter l'application");
             System.out.println("(2) Revenir au menu principal");   
             System.out.println("(3) Supprimer mon compte");
+            System.out.println("(4) Modifier son profil");
             System.out.print("\nChoisissez une option: ");
     }
 

@@ -143,7 +143,7 @@ public class Controleur {
         System.out.println("Inscription réussie.");
     }
 
-
+    /* EMMANUEL    @@@@@@@@@@@@@@@@@@@ */ 
     private boolean validerEmail(String email) {
         String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         if (!email.matches(regexEmail)) {
@@ -206,7 +206,7 @@ public class Controleur {
 
         if (GestionnaireCSV.verifierIdentifiantsAcheteur(pseudo, motDePasse)) {
             System.out.println("Connexion réussie.");
-            afficherMenuAcheteur();
+            afficherMenuAcheteur(trouverUtilisateurParMotDePasse(motDePasse));
             // Continuer comme acheteur
         } else {
             System.out.println("Identifiants invalides. Voulez-vous réessayer ? (oui/non)");
@@ -228,7 +228,7 @@ public class Controleur {
 
         if (GestionnaireCSV.verifierIdentifiantsRevendeur(nomEntreprise, nomCEO, motDePasse)) {
             System.out.println("Connexion réussie.");
-            afficherMenuRevendeur();
+            afficherMenuRevendeur(trouverUtilisateurParMotDePasse(motDePasse));
             // Continuer comme revendeur
         } else {
             System.out.println("Identifiants invalides. Voulez-vous réessayer ? (oui/non)");
@@ -238,7 +238,7 @@ public class Controleur {
             connecterRevendeur(); // Réessayer la connexion
         }
     }
-    public void afficherMenuAcheteur() {
+    public void afficherMenuAcheteur( Utilisateur acheteur) {
         boolean continuer = true;
         while (continuer) {
             vue.afficherOptionsMenuAcheteur();
@@ -255,13 +255,15 @@ public class Controleur {
                     annulerInscription();
                     continuer = false; // Retourner au menu principal après annulation
                     break;
+                // case "4":
+                //     modifierProfilAcheteur(Utilisateur acheteur)
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
             }
         }
     }
-    public void afficherMenuRevendeur() {
+    public void afficherMenuRevendeur(Utiliateur revendeur) {
         boolean continuer = true;
         while (continuer) {
             vue.afficherOptionsRevendeur();
@@ -278,6 +280,8 @@ public class Controleur {
                     annulerInscription();
                     continuer = false; // Retourner au menu principal après annulation
                     break;
+                // case "4":
+                //     modifierProfilRevendeur(Utilisateur revendeur)
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
