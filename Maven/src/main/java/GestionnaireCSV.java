@@ -73,20 +73,59 @@ public class GestionnaireCSV {
     }
 
     public static boolean verifierUniqueAcheteur(String pseudo, String addresseCourriel) {
+        boolean pseudoUnique = true;
+        boolean addresseCourrielUnique = true;
         File fichierCSV = new File("utilisateurs.csv");
         try (Scanner scanner = new Scanner(fichierCSV)) {
             while (scanner.hasNextLine()) {
                 String[] utilisateur = scanner.nextLine().split(",");
-                if (utilisateur[2].equalsIgnoreCase(addresseCourriel) || utilisateur[5].equalsIgnoreCase(pseudo)) {
-                    return false;
+                if (utilisateur[5].equalsIgnoreCase(pseudo)) {
+                    pseudoUnique = false;
+                    System.out.print("Pseudo existe déjà. ");
+                }
+                if (utilisateur[2].equalsIgnoreCase(addresseCourriel)) {
+                    addresseCourrielUnique = false;
+                    System.out.println("Adresse courriel existe déjà.");
+                }
+                if (!pseudoUnique || !addresseCourrielUnique) {
+                    break;
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Fichier CSV non trouvé HAHA.");
-
+            System.out.println("Fichier CSV non trouvé.");
         }
-        return true;
+
+        return pseudoUnique && addresseCourrielUnique;
     }
+
+
+    public static boolean verifierUniqueRevendeur(String nom, String addresseCourriel) {
+        boolean nomUnique = true;
+        boolean addresseCourrielUnique = true;
+        File fichierCSV = new File("utilisateurs.csv");
+        try (Scanner scanner = new Scanner(fichierCSV)) {
+            while (scanner.hasNextLine()) {
+                String[] utilisateur = scanner.nextLine().split(",");
+                if (utilisateur[0].equalsIgnoreCase(nom)) {
+                    nomUnique = false;
+                    System.out.print("Le nom d'entreprise existe déjà. ");
+                }
+                if (utilisateur[2].equalsIgnoreCase(addresseCourriel)) {
+                    addresseCourrielUnique = false;
+                    System.out.println("L'adresse courriel existe déjà.");
+                }
+                if (!nomUnique || !addresseCourrielUnique) {
+                    break;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichier CSV non trouvé.");
+        }
+        return nomUnique && addresseCourrielUnique;
+    }
+
+
+
 
     public static void supprimerUtilisateurCSV(Utilisateur utilisateur) {
         File fichierCSV = new File(CHEMIN_FICHIER_CSV);

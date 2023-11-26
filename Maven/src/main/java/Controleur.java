@@ -8,12 +8,15 @@ import java.util.Scanner;
 import java.io.File;
 public class Controleur {
     private Vue vue;
+
+
     private Scanner scanner;
     private static List<Utilisateur> baseDeDonneesUtilisateurs;
     public Controleur(Vue vue) {
         this.vue = vue;
         this.scanner = new Scanner(System.in);
         this.baseDeDonneesUtilisateurs = new ArrayList<Utilisateur>();
+
     }
 
     public void demarrerApplication() {
@@ -96,7 +99,8 @@ public class Controleur {
             System.out.print("Pseudo: "); 
             pseudo = scanner.nextLine();
 
-            valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone);
+            valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone) &&
+                    GestionnaireCSV.verifierUniqueAcheteur(pseudo,email);
             if (!valide) {
                 Vue.avertissementEntreInvalideSecondeTentative();
                 if (scanner.nextLine().equalsIgnoreCase("non")) {
@@ -128,7 +132,8 @@ public class Controleur {
             System.out.print("Téléphone: ");
             telephone = scanner.nextLine();
 
-            valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone);
+            valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone) &&
+            GestionnaireCSV.verifierUniqueRevendeur(nomEntreprise,email);
             if (!valide) {
                 Vue.avertissementEntreInvalideSecondeTentative();
                 if (scanner.nextLine().equalsIgnoreCase("non")) {
