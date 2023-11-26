@@ -100,7 +100,7 @@ public class Controleur {
             pseudo = scanner.nextLine();
 
             valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone) &&
-                    GestionnaireCSV.verifierUniqueAcheteur(pseudo,email);
+                    GestionnaireCSV.verifierUniqueAdresseCourriel(email) && GestionnaireCSV.verifierUniquePseudo(pseudo);
             if (!valide) {
                 Vue.avertissementEntreInvalideSecondeTentative();
                 if (scanner.nextLine().equalsIgnoreCase("non")) {
@@ -133,7 +133,7 @@ public class Controleur {
             telephone = scanner.nextLine();
 
             valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone) &&
-            GestionnaireCSV.verifierUniqueRevendeur(nomEntreprise,email);
+            GestionnaireCSV.verifierUniqueAdresseCourriel(email) && GestionnaireCSV.verifierUniqueNomRevendeur(nomEntreprise);
             if (!valide) {
                 Vue.avertissementEntreInvalideSecondeTentative();
                 if (scanner.nextLine().equalsIgnoreCase("non")) {
