@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Vue {
     public void afficherMenuPrincipal() {
@@ -52,6 +53,7 @@ public class Vue {
             System.out.println("(2) Revenir au menu principal");   
             System.out.println("(3) Supprimer mon compte");
             System.out.println("(4) Modifier son profil");
+            System.out.println("(5) Offrir un produit");
             System.out.print("\nChoisissez une option: ");
     }
 
@@ -71,5 +73,27 @@ public class Vue {
     }
 
 
+    public static void afficherCatalogueProduits(List<TypeDeProduit> baseDeDonnesTypesDeProduit) {
+        System.out.println("Catalogue de produits:");
+        System.out.printf("%-20s %-20s %-30s %-10s %-10s %-20s%n", "Nom", "Catégorie", "Description", "Prix", "Quantité", "Revendeur");
+
+        for (TypeDeProduit produit : baseDeDonnesTypesDeProduit) {
+            System.out.printf("%-20s %-20s %-30s %-10.2f %-10d %-20s%n",
+                produit.getTitreProduit(),
+                produit.getCategorieProduit(),
+                produit.getDescriptionProduit(),
+                produit.getPrixProduit(),
+                produit.getQuantiteDisponible(),
+                produit.getRevendeurProduit().getIDEntreprise()); // Supposant que getIdentifiant() renvoie une information pertinente du revendeur
+        }
+    }
+
+    public static void afficherOptionsGuestCatalogueProduit() {
+        System.out.println("(1) Faire une recherche");
+        System.out.println("(2) Revenu au menu principal");
+    }
+
 }
+
+
 

@@ -12,11 +12,12 @@ public class Controleur {
 
     private Scanner scanner;
     private static List<Utilisateur> baseDeDonneesUtilisateurs;
+    private static List<TypeDeProduit> baseDeDonnesTypesDeProduit;
     public Controleur(Vue vue) {
         this.vue = vue;
         this.scanner = new Scanner(System.in);
         this.baseDeDonneesUtilisateurs = new ArrayList<Utilisateur>();
-
+        this.baseDeDonnesTypesDeProduit = new ArrayList<TypeDeProduit>();
     }
 
     public void demarrerApplication() {
@@ -39,7 +40,7 @@ public class Controleur {
                     connecterUtilisateur();
                     break;
                 case "3":
-                    naviguerCatalogue();
+                    naviguerCatalogueAsGuest();
                     break;
                 case "4":
                     System.exit(0);
@@ -233,7 +234,8 @@ public class Controleur {
 
         if (GestionnaireCSV.verifierIdentifiantsRevendeur(nomEntreprise, nomCEO, motDePasse)) {
             System.out.println("Connexion réussie.");
-            afficherMenuRevendeur(trouverUtilisateurParMotDePasse(motDePasse));
+            Revendeur revendeur = (Revendeur) trouverUtilisateurParMotDePasse(motDePasse);
+            afficherMenuRevendeur(revendeur);
             // Continuer comme revendeur
         } else {
             System.out.println("Identifiants invalides. Voulez-vous réessayer ? (oui/non)");
@@ -268,7 +270,7 @@ public class Controleur {
             }
         }
     }
-    public void afficherMenuRevendeur(Utilisateur revendeur) {
+    public void afficherMenuRevendeur(Revendeur revendeur) {
         boolean continuer = true;
         while (continuer) {
             vue.afficherOptionsRevendeur();
@@ -286,16 +288,40 @@ public class Controleur {
                     continuer = false; // Retourner au menu principal après annulation
                     break;
                 // case "4":
-                //     modifierProfilRevendeur(Utilisateur revendeur)
+                //     modifierProfilRevendeur(revendeur);
+                case "5":
+                    offrirUnProduit(revendeur);
+                    continuer = false;
+                    break;
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
             }
         }
     }
-    public void naviguerCatalogue() {
-        ArrayList<Produit> produits = GestionnaireDeRecherche.afficherCatalogueProduits();
-        vue.afficherProduits(produits);
+    public void naviguerCatalogueAsGuest() {
+        boolean continuer = true; 
+
+        while (continuer) {
+            System.out.println("Bienvenue sur le catalogue de produit !");
+            dodo(1000); 
+            Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
+            dodo(1000);
+            Vue.afficherOptionsGuestCatalogueProduit();        
+                String choix = scanner.nextLine(); 
+
+            switch(choix) {
+                case "1":
+                    System.out.println("Désolé, cette fonctionnalité n'est pas encore disponible");
+                    break;
+                case "2":
+                    continuer = false;
+                    break;
+                default:
+                    Vue.avertissementEntreInvalide();
+                    break;
+            }
+        }
     }
 
     public static void dodo(int temps) {
@@ -378,5 +404,44 @@ public class Controleur {
         }
         return null;
     }
+ 
+    public void offrirUnProduit(Revendeur revendeur) {
+    String idEntreprise = revendeur.getIDEntreprise();
+    // ...
 
-}
+        try {
+            System.out.print("Entrez le titre du produit: ");
+            String titre = scanner.nextLine();
+
+            System.out.print("Entrez la catégorie du produit: ");
+            String categorie = scanner.nextLine();
+
+            System.out.print("Entrez la description du produit: ");
+            String description = scanner.nextLine();
+
+            System.out.print("Entrez le prix du produit: ");
+            double prix = scanner.nextDouble();
+            scanner.nextLine();
+
+            System.out.print("Combien d'exemplaires voulez-vous offrir? ");
+            int quantite = scanner.nextInt();
+            scanner.nextLine();
+
+            TypeDeProduit nouveauTypeDeProduit = new TypeDeProduit(titre, categorie, description, prix, quantite, revendeur);
+            revendeur.ajouterTypeDeProduit(nouveauTypeDeProduit);
+            ajouterABaseDeDonnesTypesDeProduits(nouveauTypeDeProduit); 
+            GestionnaireDeProduit.enregistrerTypeDeProduit(nouveauTypeDeProduit, idEntreprise);
+
+            System.out.println("Produit(s) ajouté(s) avec succès.");
+        } catch (InputMismatchException e) {
+            System.out.println("Entrée invalide. Veuillez réessayer.");
+        }
+    }
+
+    public void ajouterABaseDeDonnesTypesDeProduits(TypeDeProduit nouveauTypeDeProduit) {
+        baseDeDonnesTypesDeProduit.add(nouveauTypeDeProduit);
+    }
+
+
+
+}   
