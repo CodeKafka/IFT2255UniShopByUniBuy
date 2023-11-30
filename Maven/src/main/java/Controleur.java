@@ -530,6 +530,8 @@ public class Controleur {
             return;
         }
         Revendeur revendeurModifie = (Revendeur) revendeur;
+        String ancienCourriel = revendeurModifie.getAdresseCourriel();
+        String nouveauNom = revendeurModifie.getIDEntreprise();
         removeUserByEmail(revendeur.getAdresseCourriel());
         System.out.println("Modifiez votre profil");
         // Modification de l'email
@@ -559,6 +561,7 @@ public class Controleur {
         System.out.println("Modifications enregistrées avec succès.");
         GestionnaireCSV.ecrireUtilisateurCSV(revendeur);
         baseDeDonneesUtilisateurs.add(revendeur);
+        GestionnaireCSV.modifierCSV("typeDeProduits.csv",ancienCourriel, email, nouveauNom, nomEntreprise);
     }
 
 

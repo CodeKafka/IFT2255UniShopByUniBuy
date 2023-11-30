@@ -207,6 +207,34 @@ public class GestionnaireCSV {
         return CHEMIN_FICHIER_CSV_TYPEDEPRODUIT;
     }
 
+    public static void modifierCSV(String cheminFichier, String ancienCourriel, String nouveauCourriel,
+                                   String ancienNom, String nouveauNom) {
+        File file = new File(cheminFichier);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            List<String> lines = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains(ancienCourriel) && line.contains(ancienNom)) {
+                    String[] fields = line.split(",");
+                    fields[6] = nouveauNom;
+                    fields[5] = nouveauCourriel;
+                    line = String.join(",", fields);
+                }
+                lines.add(line);
+            }
+            try (PrintWriter out = new PrintWriter(new FileWriter(file))) {
+                lines.forEach(out::println);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
 
 
