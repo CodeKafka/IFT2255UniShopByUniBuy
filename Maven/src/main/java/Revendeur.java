@@ -36,5 +36,22 @@ public class Revendeur extends Utilisateur {
         return this.nomEntreprise;
     }
 
-    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Méthode pour définir le nom de l'entreprise
+    public void setNomEntreprise(String nomEntreprise) {
+        this.nomEntreprise = nomEntreprise;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+
+    public boolean verifierNomEntreprise(String nomEntreprise) {
+        return this.nomEntreprise.equals(nomEntreprise);
+    }
+
 }

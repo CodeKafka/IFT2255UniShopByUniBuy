@@ -262,8 +262,9 @@ public class Controleur {
                     annulerInscription();
                     continuer = false; // Retourner au menu principal après annulation
                     break;
-                // case "4":
-                //     modifierProfilAcheteur(Utilisateur acheteur)
+                case "4":
+                     modifierProfilAcheteur(acheteur);
+                    break;
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
@@ -287,8 +288,9 @@ public class Controleur {
                     annulerInscription();
                     continuer = false; // Retourner au menu principal après annulation
                     break;
-                // case "4":
-                //     modifierProfilRevendeur(revendeur);
+                case "4":
+                     modifierProfilRevendeur(revendeur);
+                     break;
                 case "5":
                     offrirUnProduit(revendeur);
                     continuer = false;
@@ -442,6 +444,159 @@ public class Controleur {
         baseDeDonnesTypesDeProduit.add(nouveauTypeDeProduit);
     }
 
+    private void modifierProfilRevendeur(Utilisateur revendeur) {
+        if (!(revendeur instanceof Revendeur)) {
+            System.out.println("Utilisateur non valide.");
+            return;
+        }
 
+        Revendeur revendeurModifie = (Revendeur) revendeur;
+        System.out.println("Modifiez votre profil");
 
+        // Modification de l'email
+        System.out.print("Nouvelle adresse email: ");
+        String email = scanner.nextLine();
+        if (validerEmail(email) && GestionnaireCSV.verifierUniqueAdresseCourriel(email)) {
+            revendeurModifie.setEmail(email);
+        } else {
+            System.out.println("Email non valide ou déjà utilisé.");
+        }
+
+        // Modification du nom de l'entreprise
+        System.out.print("Nouveau nom de l'entreprise: ");
+        String nomEntreprise = scanner.nextLine();
+        if (GestionnaireCSV.verifierUniqueNomRevendeur(nomEntreprise)) {
+            revendeurModifie.setNomEntreprise(nomEntreprise);
+        } else {
+            System.out.println("Nom de l'entreprise déjà utilisé.");
+        }
+
+        // Modification du mot de passe
+        System.out.print("Nouveau mot de passe: ");
+        String motDePasse = scanner.nextLine();
+        if (validerMotDePasse(motDePasse)) {
+            revendeurModifie.setMotDePasse(motDePasse);
+        } else {
+            System.out.println("Mot de passe non conforme aux critères.");
+        }
+
+        System.out.println("Modifications enregistrées avec succès.");
+    }
+
+    private void modifierProfilAcheteur(Utilisateur acheteur) {
+        if (!(acheteur instanceof Acheteur)) {
+            System.out.println("Utilisateur non valide.");
+            return;
+        }
+
+        Acheteur acheteurModifie = (Acheteur) acheteur;
+        System.out.println("Modifiez votre profil");
+
+        // Modification du pseudo
+        System.out.print("Nouveau pseudo: ");
+        String pseudo = scanner.nextLine();
+        if (GestionnaireCSV.verifierUniquePseudo(pseudo)) {
+            acheteurModifie.setPseudo(pseudo);
+        } else {
+            System.out.println("Pseudo déjà utilisé.");
+        }
+
+        // Modification de l'email
+        System.out.print("Nouvelle adresse email: ");
+        String email = scanner.nextLine();
+        if (validerEmail(email) && GestionnaireCSV.verifierUniqueAdresseCourriel(email)) {
+            acheteurModifie.setEmail(email);
+        } else {
+            System.out.println("Email non valide ou déjà utilisé.");
+        }
+
+        // Modification du mot de passe
+        System.out.print("Nouveau mot de passe: ");
+        String motDePasse = scanner.nextLine();
+        if (validerMotDePasse(motDePasse)) {
+            acheteurModifie.setMotDePasse(motDePasse);
+        } else {
+            System.out.println("Mot de passe non conforme aux critères.");
+        }
+
+        // Ajouter ici des instructions pour d'autres champs si nécessaire
+        // ...
+
+        System.out.println("Modifications enregistrées avec succès.");
+
+    }
+
+    public static boolean verifierExistanceFichierCSVTypesDeProduits() {
+        File fichierCSV = new File(GestionnaireCSV.getCheminFichierCsvTypedeproduit());
+        return fichierCSV.exists();
+    }
+
+    private static Utilisateur trouverUtilisateurParEmail(String email) {
+        for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
+            if (utilisateur.verifierEmail(email)) {
+                return utilisateur;
+            }
+        }
+        return null;
+    }
+    private static Utilisateur trouverRevendeurParNomEntreprise(String nomEntreprise) {
+        //retourne un utilisateur et non un revendeur
+        for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
+            try{
+                Revendeur revendeur = (Revendeur) utilisateur;
+                if (revendeur.verifierNomEntreprise(nomEntreprise)) {
+                    return utilisateur;
+                }
+            }
+            catch(ClassCastException e){
+            }
+
+        }
+        return null;
+    }
+
+    public static void initialiserListeTypeDeProduit() {
+
+        try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvTypedeproduit()))) {
+            while (scanner.hasNextLine()) {
+                String[] TypeDeProduitData = scanner.nextLine().split(",");
+                TypeDeProduit typeDeProduit;
+
+                // Supposons que TypeDeProduitData ait le format: titreProduit, categorieProduit, descriptionProduit, prixProduit,quantiteDisponible, emailRevendeur, nomEntreprise
+                if (TypeDeProduitData.length == 7) {
+                    //chercher le revendeur grace à l'email
+                    Revendeur revendeurDuProduit = (Revendeur) trouverRevendeurParNomEntreprise(TypeDeProduitData[6]);
+                    if(revendeurDuProduit == null){
+                        System.out.println("Le Revendeur ayant le nom d'entreprise "+TypeDeProduitData[6]+ " n'existe pas, " +
+                                "le produit "+TypeDeProduitData[0]+ " ne peut donc pas être mis en vente.");
+                    }
+                    else {
+                        double prix = 0.0;
+                        int quantite = 0;
+                        try {
+                            prix = Double.parseDouble(TypeDeProduitData[3]);
+                        } catch (NumberFormatException e) {
+                        }
+                        try {
+                            quantite = Integer.parseInt(TypeDeProduitData[4]);
+                        } catch (NumberFormatException e) {
+                        }
+
+                        typeDeProduit = new TypeDeProduit(TypeDeProduitData[0], TypeDeProduitData[1], TypeDeProduitData[2], prix, quantite, revendeurDuProduit);
+
+                        baseDeDonnesTypesDeProduit.add(typeDeProduit);
+                        typeDeProduit.toCSV();
+                    }
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichier CSV non trouvé.");
+        }
+
+        System.out.println("Les typeDeProduits ont été initialisé avec succès");
+        System.out.println("La base de données UniShop contient présentement " + baseDeDonnesTypesDeProduit.size()
+                + " typeDeProduits !\n\n\n\n");
+        dodo(1500);
+    }
 }   

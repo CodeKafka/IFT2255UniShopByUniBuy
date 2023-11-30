@@ -4,6 +4,8 @@ import java.util.*;
 public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_CSV = "utilisateurs.csv";
     private static final String CHEMIN_FICHIER_ARCHIVE = "anciensUtilisateurs.csv";
+    private static final String CHEMIN_FICHIER_CSV_TYPEDEPRODUIT= "typeDeProduits.csv";
+
 
     public static void ecrireUtilisateurCSV(Utilisateur utilisateur) {
         File fichierCSV = new File("utilisateurs.csv");
@@ -200,6 +202,11 @@ public class GestionnaireCSV {
     public static String getCheminFichierCSV() {
         return CHEMIN_FICHIER_CSV;
     }
+
+    public static String getCheminFichierCsvTypedeproduit() {
+        return CHEMIN_FICHIER_CSV_TYPEDEPRODUIT;
+    }
+
 }
 
 

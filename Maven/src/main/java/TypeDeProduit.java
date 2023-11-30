@@ -40,12 +40,14 @@ public class TypeDeProduit {
     }
     public String toCSV() {
         String nomEntreprise = this.getRevendeurProduit().getIDEntreprise();
+        String emailRevendeur = this.getRevendeurProduit().getEmail();
         return String.format("%s,%s,%s,%.2f,%d,%s", 
             titreProduit, 
             categorieProduit, 
             descriptionProduit.replaceAll(",", " "), // Remplacez les virgules dans la description pour éviter les conflits avec le format CSV
             prixProduit, 
-            quantiteDisponible, 
+            quantiteDisponible,
+            emailRevendeur,
             nomEntreprise);
     }
 
