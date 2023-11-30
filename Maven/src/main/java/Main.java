@@ -15,6 +15,9 @@ public class Main {
         Controleur controleur = new Controleur(vue);
         if (Controleur.verifierExistanceFichierCSVUtilisateurs()) {
             Controleur.initialiserBaseDeDonneesUtilisateurs();
+        } 
+        if (Controleur.verifierExistanceFichierCSVTypesDeProduits()) {
+            Controleur.initialiserListeTypeDeProduit();
         }
        controleur.demarrerApplication();
     }
