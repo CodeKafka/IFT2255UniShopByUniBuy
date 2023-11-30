@@ -4,9 +4,7 @@ import java.util.List;
 public class Revendeur extends Utilisateur {
     private String nomEntreprise, nomCEO, email, motDePass, telephone;
     private List<TypeDeProduit> typesDeProduits; // listes des produits du Revendeur
-    
-    
-    
+
     public Revendeur(String nomEntreprise, String nomCEO, String adresseCourriel, String motDePasse, String telephone) {
         super(nomEntreprise, nomCEO, adresseCourriel, motDePasse, telephone); 
         this.nomEntreprise = nomEntreprise; 
@@ -16,7 +14,6 @@ public class Revendeur extends Utilisateur {
         this.motDePass = motDePasse;
         this.telephone = telephone;
     }
-
     @Override
     public String toCSV() {
         // Pas de pseudo pour le revendeur
@@ -27,11 +24,9 @@ public class Revendeur extends Utilisateur {
     public void ajouterTypeDeProduit(TypeDeProduit typeDeProduit) {
         typesDeProduits.add(typeDeProduit);
     }
-
     public List<TypeDeProduit> getListeTypesDeProduits() {
         return this.typesDeProduits; 
     }
-
     public String getIDEntreprise() {
         return this.nomEntreprise;
     }
@@ -53,5 +48,6 @@ public class Revendeur extends Utilisateur {
     public boolean verifierNomEntreprise(String nomEntreprise) {
         return this.nomEntreprise.equals(nomEntreprise);
     }
+
 
 }

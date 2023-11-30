@@ -1,14 +1,13 @@
 import java.io.FileNotFoundException;
-import java.util.List;
+import java.util.*;
 
 import java.lang.InterruptedException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import java.io.File;
 public class Controleur {
     private Vue vue;
-
+    String[] options = {"Livres et manuels", "Ressources d'apprentissage", "Articles de papeterie",
+            "Matériel informatique"
+            , "Équipement de bureau"};
 
     private Scanner scanner;
     private static List<Utilisateur> baseDeDonneesUtilisateurs;
@@ -23,7 +22,6 @@ public class Controleur {
     public void demarrerApplication() {
         offrirMenuPrincipal();
     }
-
     public void offrirMenuPrincipal() {
         boolean continuer = true;
 
@@ -99,7 +97,6 @@ public class Controleur {
             telephone = scanner.nextLine();
             System.out.print("Pseudo: "); 
             pseudo = scanner.nextLine();
-
             valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone) &&
                     GestionnaireCSV.verifierUniqueAdresseCourriel(email) && GestionnaireCSV.verifierUniquePseudo(pseudo);
             if (!valide) {
@@ -109,7 +106,6 @@ public class Controleur {
                 }
             }
         } while (!valide);
-
         Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo);
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
         baseDeDonneesUtilisateurs.add(acheteur);
@@ -335,14 +331,84 @@ public class Controleur {
         }
     }
 
+    public String choisirUneCategorie(int choix) {
+        while (true) {
+            if(choix >= 1 && choix <= 5){
+                return options[choix - 1];
+        } else{
+            System.out.println("choix invalide. Choisissez un chiffre entre 1 et 5");
+            }
+        }
+    }
+    public void afficherCategorie(){
+        for (int i = 0; i < options.length; i++) {
+            System.out.println((i + 1) + ". " + options[i]);
+        }
+    }
+    public static boolean validateProduct(String description, double prix, int quantite) {
+        boolean valide = true;
+        if (description.length() > 200){
+            valide = false;
+            System.out.println("Description est plus grand que 200 characters");
+        }
+        if(prix < 0){
+            System.out.println("Le prix doit etre plus grand que 0");
+            valide = false;
+        }
+        if(quantite < 0){
+            System.out.println("La quantite doit etre plus grande que 0");
+            valide = false;
+
+        }
+        return valide;
+    }
+
+    public void evaluerProduit(Acheteur acheteur, Produit produit) {
+        System.out.print("Entrez votre évaluation (de 1 à 5): ");
+        int note;
+        try {
+            note = scanner.nextInt();
+            if (note < 1 || note > 5) {
+                throw new InputMismatchException();
+            }
+            scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("Évaluation invalide. Veuillez entrer un nombre entier de 1 à 5.");
+            scanner.nextLine();
+            return;
+        }
+        System.out.print("Entrez votre commentaire (appuyez sur Entrée pour ignorer): ");
+        String commentaire = scanner.nextLine();
+        Evaluations evaluation = new Evaluations(produit.getIdProduit(), acheteur.getPseudo(),note,commentaire);
+        produit.ajouterEvaluation(evaluation);
+ //       GestionnaireCSV.ecrireEvaluationCSV(evaluation);
+        System.out.println("Évaluation ajoutée avec succès.");
+    }
+
+    public void afficherEvaluationsProduit(Produit produit) {
+        List<Evaluations> evaluations = produit.getEvaluations();
+        if (evaluations.isEmpty()) {
+            System.out.println("Aucune évaluation disponible pour ce produit.");
+        } else {
+            System.out.println("Évaluations pour le produit " + produit.getTitre() + ":");
+            for (Evaluations evaluation : evaluations) {
+                System.out.println("Note: " + evaluation.getNote() + ", Commentaire: " + evaluation.getReviewText());
+            }
+        }
+    }
+
+
+
+
+
+
+
 
     public static void initialiserBaseDeDonneesUtilisateurs() {
-
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCSV()))) {
             while (scanner.hasNextLine()) {
                 String[] userData = scanner.nextLine().split(",");
                 Utilisateur utilisateur;
-
                 // Supposons que userData ait le format: nom, prenom, email, telephone, motDePasse, pseudo/typeEntreprise, typeUtilisateur
                 if ("Acheteur".equals(userData[6])) {
                     utilisateur = new Acheteur(userData[0], userData[1], userData[2], userData[4], userData[3], userData[5]);
@@ -359,7 +425,7 @@ public class Controleur {
         }
 
     System.out.println("Les pofils ont été initialisé avec succès");
-    System.out.println("La base de données UniShop conbient présentement " + baseDeDonneesUtilisateurs.size() 
+    System.out.println("La base de données UniShop contient présentement " + baseDeDonneesUtilisateurs.size()
         + " utilisateurs !\n\n\n\n");
     dodo(1500);
     }
@@ -375,13 +441,11 @@ public class Controleur {
     public void annulerInscription() {
         System.out.println("Êtes-vous sûr de vouloir supprimer votre compte ? (oui/non)");
         String reponse = scanner.nextLine();
-
         if ("oui".equalsIgnoreCase(reponse)) {
             for (int i = 0; i < 3; i++) {
                 System.out.print("Veuillez entrer votre mot de passe: ");
                 String motDePasse = scanner.nextLine();
                 Utilisateur utilisateur = trouverUtilisateurParMotDePasse(motDePasse);
-                
                 if (utilisateur != null) {
                     System.out.println("On est ici");
                     dodo(5000);
@@ -410,35 +474,51 @@ public class Controleur {
     public void offrirUnProduit(Revendeur revendeur) {
     String idEntreprise = revendeur.getIDEntreprise();
     // ...
-
         try {
             System.out.print("Entrez le titre du produit: ");
             String titre = scanner.nextLine();
-
+            afficherCategorie();
             System.out.print("Entrez la catégorie du produit: ");
-            String categorie = scanner.nextLine();
-
-            System.out.print("Entrez la description du produit: ");
-            String description = scanner.nextLine();
+            int choix = scanner.nextInt();
+            String categorie = choisirUneCategorie(choix);
 
             System.out.print("Entrez le prix du produit: ");
             double prix = scanner.nextDouble();
             scanner.nextLine();
+            System.out.print("Entrez la description du produit: ");
+            String description = scanner.nextLine();
 
             System.out.print("Combien d'exemplaires voulez-vous offrir? ");
             int quantite = scanner.nextInt();
             scanner.nextLine();
-
-            TypeDeProduit nouveauTypeDeProduit = new TypeDeProduit(titre, categorie, description, prix, quantite, revendeur);
-            revendeur.ajouterTypeDeProduit(nouveauTypeDeProduit);
-            ajouterABaseDeDonnesTypesDeProduits(nouveauTypeDeProduit); 
-            GestionnaireDeProduit.enregistrerTypeDeProduit(nouveauTypeDeProduit, idEntreprise);
-
-            System.out.println("Produit(s) ajouté(s) avec succès.");
+            boolean valide = validateProduct(description,prix,quantite) && verifierUniqueProduit(revendeur,titre);
+            if(valide) {
+                TypeDeProduit nouveauTypeDeProduit = new TypeDeProduit(titre, categorie, description, prix, quantite, revendeur);
+                revendeur.ajouterTypeDeProduit(nouveauTypeDeProduit);
+                ajouterABaseDeDonnesTypesDeProduits(nouveauTypeDeProduit);
+                GestionnaireDeProduit.enregistrerTypeDeProduit(nouveauTypeDeProduit, idEntreprise);
+                System.out.println("Produit(s) ajouté(s) avec succès.");
+            } else {
+                System.out.println("Echec de l'ajout");
+            }
         } catch (InputMismatchException e) {
             System.out.println("Entrée invalide. Veuillez réessayer.");
         }
     }
+
+    public boolean verifierUniqueProduit(Revendeur revendeur, String titre) {
+        List<TypeDeProduit> produits = revendeur.getListeTypesDeProduits();
+        boolean ok = true;
+        for (TypeDeProduit produit : produits) {
+            if (produit.getTitreProduit() == titre) {
+                ok = false;
+                System.out.println("Titre de produit existe deja pour ce revendeur");
+            }
+        }
+        return ok;
+    }
+
+
 
     public void ajouterABaseDeDonnesTypesDeProduits(TypeDeProduit nouveauTypeDeProduit) {
         baseDeDonnesTypesDeProduit.add(nouveauTypeDeProduit);
@@ -449,10 +529,9 @@ public class Controleur {
             System.out.println("Utilisateur non valide.");
             return;
         }
-
         Revendeur revendeurModifie = (Revendeur) revendeur;
+        removeUserByEmail(revendeur.getAdresseCourriel());
         System.out.println("Modifiez votre profil");
-
         // Modification de l'email
         System.out.print("Nouvelle adresse email: ");
         String email = scanner.nextLine();
@@ -461,7 +540,6 @@ public class Controleur {
         } else {
             System.out.println("Email non valide ou déjà utilisé.");
         }
-
         // Modification du nom de l'entreprise
         System.out.print("Nouveau nom de l'entreprise: ");
         String nomEntreprise = scanner.nextLine();
@@ -470,7 +548,6 @@ public class Controleur {
         } else {
             System.out.println("Nom de l'entreprise déjà utilisé.");
         }
-
         // Modification du mot de passe
         System.out.print("Nouveau mot de passe: ");
         String motDePasse = scanner.nextLine();
@@ -479,19 +556,20 @@ public class Controleur {
         } else {
             System.out.println("Mot de passe non conforme aux critères.");
         }
-
         System.out.println("Modifications enregistrées avec succès.");
+        GestionnaireCSV.ecrireUtilisateurCSV(revendeur);
+        baseDeDonneesUtilisateurs.add(revendeur);
     }
+
 
     private void modifierProfilAcheteur(Utilisateur acheteur) {
         if (!(acheteur instanceof Acheteur)) {
             System.out.println("Utilisateur non valide.");
             return;
         }
-
         Acheteur acheteurModifie = (Acheteur) acheteur;
+        removeUserByEmail(acheteur.getAdresseCourriel());
         System.out.println("Modifiez votre profil");
-
         // Modification du pseudo
         System.out.print("Nouveau pseudo: ");
         String pseudo = scanner.nextLine();
@@ -509,7 +587,6 @@ public class Controleur {
         } else {
             System.out.println("Email non valide ou déjà utilisé.");
         }
-
         // Modification du mot de passe
         System.out.print("Nouveau mot de passe: ");
         String motDePasse = scanner.nextLine();
@@ -521,8 +598,10 @@ public class Controleur {
 
         // Ajouter ici des instructions pour d'autres champs si nécessaire
         // ...
-
         System.out.println("Modifications enregistrées avec succès.");
+        GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
+        baseDeDonneesUtilisateurs.add(acheteur);
+        System.out.println("Taille: " + baseDeDonneesUtilisateurs.toString());
 
     }
 
@@ -553,6 +632,18 @@ public class Controleur {
 
         }
         return null;
+    }
+    private void removeUserByEmail(String email) {
+        Iterator<Utilisateur> iterator = baseDeDonneesUtilisateurs.iterator();
+        while (iterator.hasNext()) {
+            Utilisateur utilisateur = iterator.next();
+            if (utilisateur.getAdresseCourriel() == email) {
+                iterator.remove();
+                GestionnaireCSV.supprimerUtilisateurCSV(utilisateur);
+                return;
+            }
+        }
+
     }
 
     public static void initialiserListeTypeDeProduit() {
@@ -585,6 +676,7 @@ public class Controleur {
                         typeDeProduit = new TypeDeProduit(TypeDeProduitData[0], TypeDeProduitData[1], TypeDeProduitData[2], prix, quantite, revendeurDuProduit);
 
                         baseDeDonnesTypesDeProduit.add(typeDeProduit);
+                        revendeurDuProduit.ajouterTypeDeProduit(typeDeProduit);
                         typeDeProduit.toCSV();
                     }
                 }

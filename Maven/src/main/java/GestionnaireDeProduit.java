@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 
 public class GestionnaireDeProduit { 
-    private static final String CHEMIN_FICHIER_PRODUITS = "typesDeProduits.csv";
+    private static final String CHEMIN_FICHIER_PRODUITS = "typeDeProduits.csv";
 
     
     public static void enregistrerTypeDeProduit(TypeDeProduit typeDeProduit, String nomCompagnie) {

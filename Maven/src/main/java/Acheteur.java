@@ -43,4 +43,16 @@ public class Acheteur  extends Utilisateur{
         return sb.toString();
     }
 
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public void setEmail(String email) {
+        this.setAddresseCourriel(email);
+    }
+
+    @Override
+    public String getAdresseCourriel() {
+        return super.getAdresseCourriel();
+    }
 }
