@@ -5,7 +5,6 @@ public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_CSV = "utilisateurs.csv";
     private static final String CHEMIN_FICHIER_ARCHIVE = "anciensUtilisateurs.csv";
     private static final String CHEMIN_FICHIER_CSV_TYPEDEPRODUIT= "typeDeProduits.csv";
-    private static final String CHEMIN_FICHIER_CSV_UTILISATEURSSUPPLEMENTAIRE = "utilisateursSupplémentaires.csv";
 
 
     public static void ecrireUtilisateurCSV(Utilisateur utilisateur) {
@@ -207,9 +206,7 @@ public class GestionnaireCSV {
     public static String getCheminFichierCsvTypedeproduit() {
         return CHEMIN_FICHIER_CSV_TYPEDEPRODUIT;
     }
-    public static String getCheminFichierCsvUtilisateursSupplementaire() {
-        return CHEMIN_FICHIER_CSV_UTILISATEURSSUPPLEMENTAIRE;
-    }
+
 
 
     public static void modifierCSV(String cheminFichier, String ancienCourriel, String nouveauCourriel,
