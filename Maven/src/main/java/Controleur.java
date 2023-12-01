@@ -515,11 +515,6 @@ baseDeDonneesUtilisateurs.add(acheteur);
 
 
 
-
-
-
-
-
     public static void initialiserBaseDeDonneesUtilisateurs() {
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCSV()))) {
             while (scanner.hasNextLine()) {
@@ -538,6 +533,12 @@ baseDeDonneesUtilisateurs.add(acheteur);
             }
         } catch (FileNotFoundException e) {
             System.out.println("Fichier CSV non trouvé.");
+        }
+
+        //S'il y a moins de 15 utilisateurs on ajoute les utilisateurs par défaut :
+        if(baseDeDonneesUtilisateurs.size() < 15){
+            InitialiserAcheteursParDefaut();
+            InitialiserRevendeursParDefaut();
         }
 
     System.out.println("Les pofils ont été initialisé avec succès");
@@ -810,4 +811,28 @@ baseDeDonneesUtilisateurs.add(acheteur);
                 + " typeDeProduits !\n\n\n\n");
         dodo(3000);
     }
-}   
+
+    public static void InitialiserAcheteursParDefaut(){
+        baseDeDonneesUtilisateurs.add(new Acheteur("March", "Paul", "acheteur1@gmail.com", "patates12354678", "4389234776", "Patates1"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("May", "Cédric", "acheteur2@gmail.com", "patates12354678", "4389748372", "Patates2"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Fire", "Mario", "acheteur3@gmail.com", "patates12354678", "4385555555", "Patates3"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "patates12354678", "4381234321", "Patates4"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "patates12354678", "4389234778", "Patates5"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Eddy", "len", "acheteur6@gmail.com", "patates12354678", "4389234779", "Patates6"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "patates12354678", "4389237776", "Patates7"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "patates12354678", "4384454776", "Patates8"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Random1", "User1", "random1@gmail.com", "patates12354678", "4381111111", "Random1"));
+        baseDeDonneesUtilisateurs.add(new Acheteur("Random2", "User2", "random2@gmail.com", "patates12354678", "4382222222", "Random2"));
+        System.out.println("Des acheteurs par défaut on été ajouté");
+    }
+
+    public static void InitialiserRevendeursParDefaut() {
+        baseDeDonneesUtilisateurs.add(new Revendeur("PharmaC12", "Joe", "Joe@yahoo.ca", "8787878787", "5145145140"));
+        baseDeDonneesUtilisateurs.add(new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "8787878787", "5149876543"));
+        baseDeDonneesUtilisateurs.add(new Revendeur("PharmaC14", "Boule", "Boule@yahoo.ca", "8787878787", "5148901234"));
+        baseDeDonneesUtilisateurs.add(new Revendeur("PharmaC15", "Rich", "Rich@yahoo.ca", "8787878787", "5147654321"));
+        baseDeDonneesUtilisateurs.add(new Revendeur("PharmaC16", "Liv", "Liv@yahoo.ca", "8787878787", "5148765432"));
+        System.out.println("Des revendeurs par défaut on été ajouté");
+    }
+
+}
