@@ -52,5 +52,4 @@ public class TypeDeProduit {
     }
 
     // ... Autres méthodes si nécessaire
-}
-
+} 

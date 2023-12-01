@@ -19,6 +19,10 @@ public class Controleur {
         this.baseDeDonnesTypesDeProduit = new ArrayList<TypeDeProduit>();
     }
 
+    public List<TypeDeProduit> getBaseDeDonneesTypesDeProduit() {
+        return this.baseDeDonnesTypesDeProduit;
+    }
+
     public void demarrerApplication() {
         offrirMenuPrincipal();
     }
@@ -26,6 +30,8 @@ public class Controleur {
         boolean continuer = true;
 
         while (continuer) {
+
+            clearScreen();
             vue.afficherMenuPrincipal();
             System.out.print("\nChoisissez une option: ");
             String choix = scanner.nextLine();
@@ -108,7 +114,7 @@ public class Controleur {
         } while (!valide);
         Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo);
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
-        baseDeDonneesUtilisateurs.add(acheteur);
+baseDeDonneesUtilisateurs.add(acheteur);
         System.out.println("Inscription réussie.");
     }
 
@@ -176,7 +182,7 @@ public class Controleur {
 
     public void connecterUtilisateur() {
         vue.afficherMenuConnexion();
-        System.out.print("Choisissez une option: ");
+        System.out.print("\n\nChoisissez une option: ");
         String typeUtilisateur = scanner.nextLine();
 
         try {
@@ -199,9 +205,9 @@ public class Controleur {
             System.out.println("Une erreur est survenue.");
         }
     }
-
+//
     private void connecterAcheteur() {
-        System.out.print("Pseudo: ");
+        System.out.print("\n\n\nPseudo: ");
         String pseudo = scanner.nextLine();
         System.out.print("Mot de passe: ");
         String motDePasse = scanner.nextLine();
@@ -242,6 +248,7 @@ public class Controleur {
         }
     }
     public void afficherMenuAcheteur( Utilisateur acheteur) {
+        clearScreen();
         boolean continuer = true;
         while (continuer) {
             vue.afficherOptionsMenuAcheteur();
@@ -259,7 +266,10 @@ public class Controleur {
                     continuer = false; // Retourner au menu principal après annulation
                     break;
                 case "4":
-                     modifierProfilAcheteur(acheteur);
+                    modifierProfilAcheteur(acheteur);
+                    break;
+                case "5":
+                    naviguerCatalogueAsUser( (Acheteur) acheteur);
                     break;
                 default:
                     Vue.avertissementEntreInvalide();
@@ -322,6 +332,68 @@ public class Controleur {
         }
     }
 
+    public void naviguerCatalogueAsUser(Utilisateur achteurVoulantNaviguerListeDeProduit) {
+        clearScreen();
+        boolean continuer = true; 
+
+        while (continuer) {
+            System.out.println("Bienvenue sur le catalogue de produit !");
+            dodo(1000); 
+            Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
+            System.out.println("\n\n");
+            Vue.afficherOptionsAcheteurInteractionAvecLeProduit();
+            dodo(1000);
+            
+                String choix = scanner.nextLine(); 
+
+            switch(choix) {
+                case "1":
+                    System.out.println("Désolé, cette fonctionnalité n'est pas encore disponible");
+                    break;
+                case "2":
+                    continuer = false;
+                    break;
+                case "3":
+                    selectionnerUnProduitParNom( (Acheteur) achteurVoulantNaviguerListeDeProduit); 
+                    break; 
+                case "4":
+                    offrirMenuPrincipal();
+                    break;
+                default:
+                    Vue.avertissementEntreInvalide();
+                    break;
+            }
+        }
+    }
+
+
+
+       public void selectionnerUnProduitParNom(Acheteur acheteur) {
+            System.out.print("Entrez le nom du produit : ");
+            String nomProduitRecherche = scanner.nextLine();
+
+            TypeDeProduit produitTrouve = null;
+            for (TypeDeProduit produit : baseDeDonnesTypesDeProduit) {
+                if (produit.getTitreProduit().equalsIgnoreCase(nomProduitRecherche)) {
+                    produitTrouve = produit;
+                    break;
+                }
+            }
+
+            if (produitTrouve != null) {
+                offrirOptionInteractionsAvecLeProduit(produitTrouve, acheteur);
+            } else {
+                System.out.println("Produit non trouvé. Voulez-vous réessayer ? (oui/non)");
+                if (scanner.nextLine().equalsIgnoreCase("oui")) {
+                    selectionnerUnProduitParNom(acheteur);
+                } else {
+                    afficherMenuAcheteur(acheteur); // Retour au menu Acheteur
+                }
+            }
+        }
+
+
+
     public static void dodo(int temps) {
         try{ 
             Thread.sleep(temps);
@@ -329,6 +401,50 @@ public class Controleur {
         catch (InterruptedException e) {
             System.out.println("Thread interrompu");
         }
+    }
+
+
+        public void offrirOptionInteractionsAvecLeProduit(TypeDeProduit produitPourInteraction, Acheteur acheteurVoulantInteragir) {
+            System.out.println("Choisissez une option pour le produit " + produitPourInteraction.getTitreProduit() + ":");
+            Vue.afficherOptionsAcheteurInteractionProduitConfirme();           
+
+            String choix = scanner.nextLine();
+            switch (choix) {
+                case "1":
+                    likerProduit(produitPourInteraction, acheteurVoulantInteragir);
+                    System.out.println("Cette option n'est pas encore implémentée");
+                    dodo(2000);
+                    break;
+                case "2":
+                    afficherEvaluationsProduit(produitPourInteraction);
+                    System.out.println("Cette option n'est pas encore implémentée");
+                    dodo(2000);
+                    break;
+                case "3":
+                    evaluerProduit(produitPourInteraction, acheteurVoulantInteragir);
+                    System.out.println("Cette option n'est pas encore implémentée");
+                    dodo(2000);
+                    break;
+                default:
+                    System.out.println("Choix invalide. Veuillez réessayer.");
+                    offrirOptionInteractionsAvecLeProduit(produitPourInteraction, acheteurVoulantInteragir);
+                    break;
+            }
+        }
+
+    private void likerProduit(TypeDeProduit produit, Acheteur acheteur) {
+        // Implémentez la logique pour "liker" le produit
+        // ...
+    }
+
+    private void afficherEvaluationsProduit(TypeDeProduit produit) {
+        // Implémentez la logique pour afficher les évaluations du produit
+        // ...
+    }
+
+    private void evaluerProduit(TypeDeProduit produit, Acheteur acheteur) {
+        // Implémentez la logique pour permettre à l'acheteur d'évaluer le produit
+        // ...
     }
 
     public String choisirUneCategorie(int choix) {
@@ -427,7 +543,7 @@ public class Controleur {
     System.out.println("Les pofils ont été initialisé avec succès");
     System.out.println("La base de données UniShop contient présentement " + baseDeDonneesUtilisateurs.size()
         + " utilisateurs !\n\n\n\n");
-    dodo(1500);
+    dodo(3000);
     }
 
     public static boolean verifierExistanceFichierCSVUtilisateurs() {
@@ -692,6 +808,6 @@ public class Controleur {
         System.out.println("Les typeDeProduits ont été initialisé avec succès");
         System.out.println("La base de données UniShop contient présentement " + baseDeDonnesTypesDeProduit.size()
                 + " typeDeProduits !\n\n\n\n");
-        dodo(1500);
+        dodo(3000);
     }
 }   

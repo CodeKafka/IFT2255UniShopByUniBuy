@@ -6,11 +6,11 @@ public class Vue {
         System.out.println("(1) Inscription");
         System.out.println("(2) Connexion");
         System.out.println("(3) Navigation du catalogue de produit");
-        System.out.println("\n (4) Arrêter l'application");
+        System.out.println("\n(4) Arrêter l'application");
     }
 
     public void afficherMenuConnexion() {
-        System.out.println("Se connecter en tant que :");
+        System.out.println("\n\n\nSe connecter en tant que :");
         System.out.println("(1) Acheteur");
         System.out.println("(2) Revendeur");
         System.out.println("(3) Administrateur");
@@ -37,18 +37,18 @@ public class Vue {
     }
 
     public static void afficherOptionsMenuAcheteur() {
-        Controleur.dodo(1000);
-        System.out.println("Menu Acheteur");
+        System.out.println("Menu Acheteur\n");
         System.out.println("(1) Arrêter l'application");
         System.out.println("(2) Revenir au menu principal");   
         System.out.println("(3) Supprimer mon compte");
         System.out.println("(4) Modifier son profil");
+        System.out.println("(5) Naviguer le catalogue de produit en tant qu'acheteur");
         System.out.print("\nChoisissez une option: ");
     }
 
     public static void afficherOptionsRevendeur() {
         Controleur.dodo(1000);
-            System.out.println("Menu Revendeur");
+            System.out.println("\n\nMenu Revendeur\n");
             System.out.println("(1) Arrêter l'application");
             System.out.println("(2) Revenir au menu principal");   
             System.out.println("(3) Supprimer mon compte");
@@ -91,6 +91,32 @@ public class Vue {
     public static void afficherOptionsGuestCatalogueProduit() {
         System.out.println("(1) Faire une recherche");
         System.out.println("(2) Revenu au menu principal");
+    }
+
+    public static void afficherOptionsAcheteurCatalogueProduit() {
+        System.out.println("(1) Faire une recherche");
+        System.out.println("(2) Revenu au menu principal");
+        // permet de choisir un produit pour l'ajouter au panier ou voir ses évaluations, évaluer, etc.
+        System.out.println("(3) Sélectionner un produit ");
+    }
+
+    public static void afficherOptionsAcheteurInteractionAvecLeProduit() {
+        Controleur.dodo(1000); 
+        System.out.println("(1) Liker un produit");
+        System.out.println("(2) Afficher les évaluations d'un produit");
+        System.out.println("(3) Évaluer un produit");
+        System.out.println("(4) Revenir au menu principal\n\n");
+
+    }
+
+
+    public static void afficherOptionsAcheteurInteractionProduitConfirme() {
+        Controleur.dodo(1000); 
+        System.out.println("\n(1) Liker ");
+        System.out.println("(2) Afficher ses évaluations");
+        System.out.println("(3) Évaluer ");
+
+
     }
 
 }
