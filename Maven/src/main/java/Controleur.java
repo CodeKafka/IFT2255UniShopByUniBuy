@@ -839,7 +839,7 @@ baseDeDonneesUtilisateurs.add(acheteur);
 
         Revendeur[] revendeurParDefaut = new Revendeur[5];
 
-        revendeurParDefaut[0] = new Revendeur("PharmaC12", "Joe", "Joe@yahoo.ca", "8787878787", "5145145140");
+        revendeurParDefaut[0] = new Revendeur("\nPharmaC12", "Joe", "Joe@yahoo.ca", "8787878787", "5145145140");
         revendeurParDefaut[1] = new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "8787878787", "5149876543");
         revendeurParDefaut[2] = new Revendeur("PharmaC14", "Boule", "Boule@yahoo.ca", "8787878787", "5148901234");
         revendeurParDefaut[3] = new Revendeur("PharmaC15", "Rich", "Rich@yahoo.ca", "8787878787", "5147654321");
