@@ -815,9 +815,9 @@ baseDeDonneesUtilisateurs.add(acheteur);
     public static void InitialiserAcheteursParDefaut(){
         Acheteur[] acheteurParDefaut = new Acheteur[10];
 
-        acheteurParDefaut[0] = new Acheteur("\nMarch", "Paul", "acheteur1@gmail.com", "patates12354678", "4389234776", "Patates1");
-        acheteurParDefaut[1] = new Acheteur("May", "Cédric", "acheteur2@gmail.com", "patates12354678", "4389748372", "Patates2");
-        acheteurParDefaut[2] = new Acheteur("Fire", "Mario", "acheteur3@gmail.com", "patates12354678", "4385555555", "Patates3");
+        acheteurParDefaut[0] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com","ProxyPaige", "4389234776", "Pawgologist");
+        acheteurParDefaut[1] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P");
+        acheteurParDefaut[2] = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates");
         acheteurParDefaut[3] = new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "patates12354678", "4381234321", "Patates4");
         acheteurParDefaut[4] = new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "patates12354678", "4389234778", "Patates5");
         acheteurParDefaut[5] = new Acheteur("Eddy", "Len", "acheteur6@gmail.com", "patates12354678", "4389234779", "Patates6");
@@ -839,7 +839,7 @@ baseDeDonneesUtilisateurs.add(acheteur);
 
         Revendeur[] revendeurParDefaut = new Revendeur[5];
 
-        revendeurParDefaut[0] = new Revendeur("PharmaC12", "Joe", "Joe@yahoo.ca", "8787878787", "5145145140");
+        revendeurParDefaut[0] = new Revendeur("PharmaC", "Joe", "Joe@yahoo.ca", "8787878787", "5145145140");
         revendeurParDefaut[1] = new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "8787878787", "5149876543");
         revendeurParDefaut[2] = new Revendeur("PharmaC14", "Boule", "Boule@yahoo.ca", "8787878787", "5148901234");
         revendeurParDefaut[3] = new Revendeur("PharmaC15", "Rich", "Rich@yahoo.ca", "8787878787", "5147654321");
