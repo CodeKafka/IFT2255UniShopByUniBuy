@@ -12,11 +12,14 @@ public class Controleur {
     private Scanner scanner;
     private static List<Utilisateur> baseDeDonneesUtilisateurs;
     private static List<TypeDeProduit> baseDeDonnesTypesDeProduit;
+    public static List<Evaluations> baseDeDonnesEvaluations;
+    //TO DO: rajouter modifier CSV si le client change de pseudo
     public Controleur(Vue vue) {
         this.vue = vue;
         this.scanner = new Scanner(System.in);
         this.baseDeDonneesUtilisateurs = new ArrayList<Utilisateur>();
         this.baseDeDonnesTypesDeProduit = new ArrayList<TypeDeProduit>();
+        this.baseDeDonnesEvaluations = new ArrayList<Evaluations>();
     }
 
     public List<TypeDeProduit> getBaseDeDonneesTypesDeProduit() {
@@ -443,9 +446,27 @@ baseDeDonneesUtilisateurs.add(acheteur);
     }
 
     private void evaluerProduit(TypeDeProduit produit, Acheteur acheteur) {
-        // Implémentez la logique pour permettre à l'acheteur d'évaluer le produit
-        // ...
+        System.out.print("Entrez votre évaluation (de 1 à 5): ");
+        int note;
+        try {
+            note = scanner.nextInt();
+            if (note < 1 || note > 5) {
+                throw new InputMismatchException();
+            }
+            scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("Évaluation invalide. Veuillez entrer un nombre entier de 1 à 5.");
+            scanner.nextLine();
+            return;
+        }
+        System.out.print("Entrez votre commentaire (appuyez sur Entrée pour ignorer): ");
+        String commentaire = scanner.nextLine();
+        Evaluations evaluation = new Evaluations(produit, acheteur,note,commentaire);
+        baseDeDonnesEvaluations.add(evaluation);
+        GestionnaireCSV.ecrireEvaluationCSV(evaluation);
+        System.out.println("Évaluation ajoutée avec succès.");
     }
+
 
     public String choisirUneCategorie(int choix) {
         while (true) {
@@ -479,27 +500,7 @@ baseDeDonneesUtilisateurs.add(acheteur);
         return valide;
     }
 
-    public void evaluerProduit(Acheteur acheteur, Produit produit) {
-        System.out.print("Entrez votre évaluation (de 1 à 5): ");
-        int note;
-        try {
-            note = scanner.nextInt();
-            if (note < 1 || note > 5) {
-                throw new InputMismatchException();
-            }
-            scanner.nextLine();
-        } catch (InputMismatchException e) {
-            System.out.println("Évaluation invalide. Veuillez entrer un nombre entier de 1 à 5.");
-            scanner.nextLine();
-            return;
-        }
-        System.out.print("Entrez votre commentaire (appuyez sur Entrée pour ignorer): ");
-        String commentaire = scanner.nextLine();
-        Evaluations evaluation = new Evaluations(produit.getIdProduit(), acheteur.getPseudo(),note,commentaire);
-        produit.ajouterEvaluation(evaluation);
- //       GestionnaireCSV.ecrireEvaluationCSV(evaluation);
-        System.out.println("Évaluation ajoutée avec succès.");
-    }
+
 
     public void afficherEvaluationsProduit(Produit produit) {
         List<Evaluations> evaluations = produit.getEvaluations();
@@ -729,15 +730,58 @@ baseDeDonneesUtilisateurs.add(acheteur);
         File fichierCSV = new File(GestionnaireCSV.getCheminFichierCsvTypedeproduit());
         return fichierCSV.exists();
     }
-
-    private static Utilisateur trouverUtilisateurParEmail(String email) {
+    private static Acheteur trouverAcheteurParPseudo(String pseudoRecherche) {
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
-            if (utilisateur.verifierEmail(email)) {
-                return utilisateur;
+            if (utilisateur instanceof Acheteur) {
+                Acheteur acheteur = (Acheteur) utilisateur;
+                if (acheteur.getPseudo().equals(pseudoRecherche)) {
+                    return acheteur;
+                }
             }
         }
         return null;
     }
+
+    public static TypeDeProduit trouverTypeDeProduitParTitre(String titreRecherche) {
+        for (TypeDeProduit produit : baseDeDonnesTypesDeProduit) {
+            if (produit.getTitreProduit().equals(titreRecherche)) {
+                return produit;
+            }
+        }
+        return null;
+    }
+    public static void inialiserEvaluations(){
+        try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvEvaluations()))) {
+            while (scanner.hasNextLine()) {
+                String[] evals = scanner.nextLine().split(",");
+
+                if (evals.length == 4) {
+                    Acheteur AcheteurDuProduit = (Acheteur) trouverAcheteurParPseudo(evals[1]);
+                    TypeDeProduit produit = (TypeDeProduit) trouverTypeDeProduitParTitre(evals[0]);
+                    if(AcheteurDuProduit == null){
+                        System.out.println("L'acheteur ayant le pseudo  "+ evals[1]+ " n'existe pas.");
+                    }
+                    if (produit == null){
+                        System.out.println("Produit non trouve.");
+                    }
+
+                    if(AcheteurDuProduit != null && produit != null){
+                        Evaluations evaluations = new Evaluations(produit,AcheteurDuProduit,Integer.parseInt(evals[2]), evals[3]);
+                        baseDeDonnesEvaluations.add(evaluations);
+                    }
+                }
+                }
+
+            } catch (FileNotFoundException e) {
+            System.out.println("Fichier CSV eval non trouvé.");
+        }
+
+        System.out.println("Les baseDeDonnesEvaluations ont été initialisé avec succès");
+        System.out.println("La base de données UniShop contient présentement " + baseDeDonnesEvaluations.size()
+                + " evaluations !\n\n\n\n");
+        dodo(3000);
+    }
+
     private static Utilisateur trouverRevendeurParNomEntreprise(String nomEntreprise) {
         //retourne un utilisateur et non un revendeur
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
@@ -767,7 +811,6 @@ baseDeDonneesUtilisateurs.add(acheteur);
     }
 
     public static void initialiserListeTypeDeProduit() {
-
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvTypedeproduit()))) {
             while (scanner.hasNextLine()) {
                 String[] TypeDeProduitData = scanner.nextLine().split(",");
@@ -794,7 +837,6 @@ baseDeDonneesUtilisateurs.add(acheteur);
                         }
 
                         typeDeProduit = new TypeDeProduit(TypeDeProduitData[0], TypeDeProduitData[1], TypeDeProduitData[2], prix, quantite, revendeurDuProduit);
-
                         baseDeDonnesTypesDeProduit.add(typeDeProduit);
                         revendeurDuProduit.ajouterTypeDeProduit(typeDeProduit);
                         typeDeProduit.toCSV();

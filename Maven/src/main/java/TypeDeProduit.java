@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class TypeDeProduit {
     private String titreProduit, categorieProduit, descriptionProduit; 
     private Revendeur revendeurProduit;

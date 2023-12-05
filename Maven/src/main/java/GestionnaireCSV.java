@@ -5,6 +5,7 @@ public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_CSV = "utilisateurs.csv";
     private static final String CHEMIN_FICHIER_ARCHIVE = "anciensUtilisateurs.csv";
     private static final String CHEMIN_FICHIER_CSV_TYPEDEPRODUIT= "typeDeProduits.csv";
+    private static final String CHEMIN_FICHIER_CSV_EVALUATIONS = "evaluations.csv";
 
 
     public static void ecrireUtilisateurCSV(Utilisateur utilisateur) {
@@ -24,6 +25,26 @@ public class GestionnaireCSV {
             e.printStackTrace();
         }
     }
+    public static void ecrireEvaluationCSV(Evaluations evaluations) {
+        File fichierCSV = new File("evaluations.csv");
+
+        try {
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierCSV.exists()) {
+                fichierCSV.createNewFile();
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                out.println(evaluations.toCSV());
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     public static Utilisateur lireUtilisateurCSV(String identifiant) {
         try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV))) {
@@ -207,7 +228,9 @@ public class GestionnaireCSV {
         return CHEMIN_FICHIER_CSV_TYPEDEPRODUIT;
     }
 
-
+    public static String getCheminFichierCsvEvaluations() {
+        return CHEMIN_FICHIER_CSV_EVALUATIONS;
+    }
 
     public static void modifierCSV(String cheminFichier, String ancienCourriel, String nouveauCourriel,
                                    String ancienNom, String nouveauNom) {

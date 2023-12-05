@@ -1,18 +1,18 @@
 public class Evaluations {
 
-    private int idProduit;
-    private String userId;
+    private TypeDeProduit produit;
+    private Acheteur acheteur;
     private int note;
-    private String reviewText;
+    private String commentaire;
 
-    public Evaluations(int productId, String userId, int rating, String reviewText) {
-        this.idProduit = productId;
-        this.userId = userId;
-        this.note = rating;
-        this.reviewText = reviewText;
+    public Evaluations(TypeDeProduit produit, Acheteur acheteur, int note, String commentaire) {
+        this.produit = produit;
+        this.acheteur = acheteur;
+        this.note = note;
+        this.commentaire = commentaire;
     }
         public String toCSV() {
-            return idProduit + "," + userId + "," + note + "," + reviewText;
+            return produit.getTitreProduit() + "," + acheteur.getPseudo() + "," + note + "," + commentaire;
         }
 
     public int getNote() {
@@ -20,7 +20,7 @@ public class Evaluations {
     }
 
     public String getReviewText() {
-        return reviewText;
+        return commentaire;
     }
 }
 

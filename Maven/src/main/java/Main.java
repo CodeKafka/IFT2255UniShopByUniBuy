@@ -12,6 +12,7 @@ public class Main {
         if (Controleur.verifierExistanceFichierCSVTypesDeProduits()) {
             Controleur.initialiserListeTypeDeProduit();
         }
+        Controleur.inialiserEvaluations();
        controleur.demarrerApplication();
     }
 
