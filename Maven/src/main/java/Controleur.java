@@ -5,7 +5,7 @@ import java.lang.InterruptedException;
 import java.io.File;
 public class Controleur {
     private Vue vue;
-    String[] options = {"Livres et manuels", "Ressources d'apprentissage", "Articles de papeterie",
+    static String[] options = {"Livres et manuels", "Ressources d'apprentissage", "Articles de papeterie",
             "Matériel informatique"
             , "Équipement de bureau"};
 
@@ -13,6 +13,8 @@ public class Controleur {
     private static List<Utilisateur> baseDeDonneesUtilisateurs;
     private static List<TypeDeProduit> baseDeDonnesTypesDeProduit;
     public static List<Evaluations> baseDeDonnesEvaluations;
+    private static Map<String, String> nomsEtDescriptionsProduitsParDefaut;
+
     //TO DO: rajouter modifier CSV si le client change de pseudo
     public Controleur(Vue vue) {
         this.vue = vue;
@@ -22,8 +24,13 @@ public class Controleur {
         this.baseDeDonnesEvaluations = new ArrayList<Evaluations>();
     }
 
-    public List<TypeDeProduit> getBaseDeDonneesTypesDeProduit() {
-        return this.baseDeDonnesTypesDeProduit;
+    public static List<TypeDeProduit> getBaseDeDonneesTypesDeProduit() {
+        return baseDeDonnesTypesDeProduit;
+
+    }
+
+    public static List<Utilisateur> getBaseDeDonneesUtilisateurs() { 
+        return baseDeDonneesUtilisateurs;
     }
 
     public void demarrerApplication() {
@@ -117,7 +124,8 @@ public class Controleur {
         } while (!valide);
         Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo);
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
-baseDeDonneesUtilisateurs.add(acheteur);
+        GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
+        baseDeDonneesUtilisateurs.add(acheteur);
         System.out.println("Inscription réussie.");
     }
 
@@ -150,6 +158,7 @@ baseDeDonneesUtilisateurs.add(acheteur);
 
         Revendeur revendeur = new Revendeur(nomEntreprise, nomCEO, email, motDePasse, telephone);
         GestionnaireCSV.ecrireUtilisateurCSV(revendeur);
+        GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
         baseDeDonneesUtilisateurs.add(revendeur);
         System.out.println("Inscription réussie.");
     }
@@ -407,6 +416,14 @@ baseDeDonneesUtilisateurs.add(acheteur);
     }
 
 
+        public static void printWithTypewriterEffect(String text, int delay) {
+        for (int i = 0; i < text.length(); i++) {
+            System.out.print(text.charAt(i));
+            dodo(delay);
+        }
+    }
+
+
         public void offrirOptionInteractionsAvecLeProduit(TypeDeProduit produitPourInteraction, Acheteur acheteurVoulantInteragir) {
             System.out.println("Choisissez une option pour le produit " + produitPourInteraction.getTitreProduit() + ":");
             Vue.afficherOptionsAcheteurInteractionProduitConfirme();           
@@ -517,6 +534,8 @@ baseDeDonneesUtilisateurs.add(acheteur);
 
 
     public static void initialiserBaseDeDonneesUtilisateurs() {
+        
+        
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCSV()))) {
             while (scanner.hasNextLine()) {
                 String[] userData = scanner.nextLine().split(",");
@@ -535,17 +554,24 @@ baseDeDonneesUtilisateurs.add(acheteur);
         } catch (FileNotFoundException e) {
             System.out.println("Fichier CSV non trouvé.");
         }
+        
 
-        //S'il y a moins de 15 utilisateurs on ajoute les utilisateurs par défaut :
-        if(baseDeDonneesUtilisateurs.size() < 15){
-            InitialiserAcheteursParDefaut();
-            InitialiserRevendeursParDefaut();
+        //S'il y a moins de 15 utilisateurs on ajoute les utilisateurs par défaut et crée des TypeDeProduit par 
+        // défaut :
+    
+
+        if (baseDeDonneesUtilisateurs.size() >= 15) {
+        String taille = baseDeDonneesUtilisateurs.size() + "";
+        printWithTypewriterEffect("\n\nLes pofils ont été initialisé avec succès.", 40);
+        System.out.println();
+        dodo(1000);
+
+        printWithTypewriterEffect("La base de données UniShop contient présentement " + taille + " utilisateurs", 40);
+        System.out.println("\n\n\n");
+        dodo(3000);
+
+
         }
-
-    System.out.println("Les pofils ont été initialisé avec succès");
-    System.out.println("La base de données UniShop contient présentement " + baseDeDonneesUtilisateurs.size()
-        + " utilisateurs !\n\n\n\n");
-    dodo(3000);
     }
 
     public static boolean verifierExistanceFichierCSVUtilisateurs() {
@@ -693,7 +719,7 @@ baseDeDonneesUtilisateurs.add(acheteur);
         System.out.println("Modifiez votre profil");
         // Modification du pseudo
         System.out.print("Nouveau pseudo: ");
-        String pseudo = scanner.nextLine();
+    String pseudo = scanner.nextLine();
         if (GestionnaireCSV.verifierUniquePseudo(pseudo)) {
             acheteurModifie.setPseudo(pseudo);
         } else {
@@ -750,7 +776,7 @@ baseDeDonneesUtilisateurs.add(acheteur);
         }
         return null;
     }
-    public static void inialiserEvaluations(){
+    public static void initialiserEvaluations(){
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvEvaluations()))) {
             while (scanner.hasNextLine()) {
                 String[] evals = scanner.nextLine().split(",");
@@ -770,16 +796,19 @@ baseDeDonneesUtilisateurs.add(acheteur);
                         baseDeDonnesEvaluations.add(evaluations);
                     }
                 }
-                }
+                };
 
             } catch (FileNotFoundException e) {
             System.out.println("Fichier CSV eval non trouvé.");
         }
 
-        System.out.println("Les baseDeDonnesEvaluations ont été initialisé avec succès");
-        System.out.println("La base de données UniShop contient présentement " + baseDeDonnesEvaluations.size()
-                + " evaluations !\n\n\n\n");
-        dodo(3000);
+        printWithTypewriterEffect("La base de donné d'évaluations a été initialité avec succès.", 40); 
+        System.out.println();
+        printWithTypewriterEffect("Elle contient maintenant " + baseDeDonnesEvaluations.size() + " évaluation(s)", 40);
+        System.out.println("\n\n\n");
+        dodo(1000);
+        printWithTypewriterEffect("Vous serez redirigé vers le menu principal", 80);
+        dodo(1000);
     }
 
     private static Utilisateur trouverRevendeurParNomEntreprise(String nomEntreprise) {
@@ -847,12 +876,16 @@ baseDeDonneesUtilisateurs.add(acheteur);
         } catch (FileNotFoundException e) {
             System.out.println("Fichier CSV non trouvé.");
         }
+        String taille = baseDeDonnesTypesDeProduit.size() + "";
+        printWithTypewriterEffect("Les produits également ont été initialisé avec succès !", 40);
+        System.out.println();
+        dodo(2000);
 
-        System.out.println("Les typeDeProduits ont été initialisé avec succès");
-        System.out.println("La base de données UniShop contient présentement " + baseDeDonnesTypesDeProduit.size()
-                + " typeDeProduits !\n\n\n\n");
-        dodo(3000);
-    }
+        printWithTypewriterEffect("La base de données UniShop contient présentement " + taille + " produits.", 40);
+        System.out.println("\n\n\n");
+        dodo(2000);
+
+     }
 
     public static void InitialiserAcheteursParDefaut(){
         Acheteur[] acheteurParDefaut = new Acheteur[10];
@@ -866,15 +899,19 @@ baseDeDonneesUtilisateurs.add(acheteur);
         acheteurParDefaut[6] = new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "patates12354678", "4389237776", "Patates7");
         acheteurParDefaut[7] = new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "patates12354678", "4384454776", "Patates8");
         acheteurParDefaut[8] = new Acheteur("Random1", "User1", "random1@gmail.com", "patates12354678", "4381111111", "Random1");
-        acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "patates12354678", "4382222222", "Random2");
+        acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "patates12354677", "4382222222", "Random2");
         
 
         for(int i = 0; i < 10;i++){
             baseDeDonneesUtilisateurs.add(acheteurParDefaut[i]);
             GestionnaireCSV.ecrireUtilisateurCSV(acheteurParDefaut[i]);;
+            GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
         }
 
-        System.out.println("Des acheteurs par défaut on été ajouté");
+        printWithTypewriterEffect("Des acheteurs par défaut sont maintenant disponibles", 40);
+        System.out.println();
+        dodo(4000);
+
     }
 
     public static void InitialiserRevendeursParDefaut() {
@@ -891,9 +928,65 @@ baseDeDonneesUtilisateurs.add(acheteur);
         for(int i = 0; i < 5;i++){
             baseDeDonneesUtilisateurs.add(revendeurParDefaut[i]);
             GestionnaireCSV.ecrireUtilisateurCSV(revendeurParDefaut[i]);;
+            GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
         }
+        
+        printWithTypewriterEffect("Des revendeurs par défaut ont également été ajouté", 40);
+        System.out.println("\n\n\n");
+        dodo(2000);
+    }
+    private static void initialiserNomsEtDescriptionsProduitsParDefaut() {
+        nomsEtDescriptionsProduitsParDefaut = new HashMap<>();
+        nomsEtDescriptionsProduitsParDefaut.put("Chaise de bureau ergonomique", "Confortable et ajustable, idéale pour de longues heures de travail.");
+        nomsEtDescriptionsProduitsParDefaut.put("Clavier mécanique", "Clavier durable avec rétroéclairage LED et touches mécaniques pour une frappe rapide.");
+        nomsEtDescriptionsProduitsParDefaut.put("Souris sans fil", "Souris ergonomique sans fil avec plusieurs boutons programmables.");
+        nomsEtDescriptionsProduitsParDefaut.put("Moniteur LED 24 pouces", "Écran large de haute définition, parfait pour le multitâche.");
+        nomsEtDescriptionsProduitsParDefaut.put("Tapis de souris ergonomique", "Tapis avec support de poignet pour un confort accru lors de l'utilisation de la souris.");
+        nomsEtDescriptionsProduitsParDefaut.put("Lampe de bureau à LED", "Lampe de bureau à faible consommation d'énergie offrant un éclairage lumineux et clair.");
+        nomsEtDescriptionsProduitsParDefaut.put("Organisateur de bureau", "Gardez votre espace de travail rangé avec cet organisateur pratique et élégant.");
+        nomsEtDescriptionsProduitsParDefaut.put("Cahier de notes", "Cahier ligné parfait pour prendre des notes lors de réunions ou de cours.");
+        nomsEtDescriptionsProduitsParDefaut.put("Stylos à bille", "Ensemble de stylos à bille de haute qualité pour une écriture lisse et facile.");
+        nomsEtDescriptionsProduitsParDefaut.put("Agrafeuse", "Agrafeuse robuste pour organiser vos documents importants.");
+        nomsEtDescriptionsProduitsParDefaut.put("Trombones", "Trombones en métal résistants, idéaux pour regrouper vos papiers.");
+        nomsEtDescriptionsProduitsParDefaut.put("Perforateur", "Perforateur facile à utiliser, parfait pour préparer vos documents à archiver.");
+        nomsEtDescriptionsProduitsParDefaut.put("Support pour téléphone portable", "Support élégant et pratique pour garder votre téléphone visible et accessible.");
+        nomsEtDescriptionsProduitsParDefaut.put("Calendrier de bureau", "Calendrier personnalisable pour suivre vos rendez-vous et échéances.");
+        nomsEtDescriptionsProduitsParDefaut.put("Poubelle de bureau", "Poubelle discrète et pratique pour garder votre espace de travail propre.");
+        nomsEtDescriptionsProduitsParDefaut.put("Règle en plastique", "Règle transparente de 30 cm, idéale pour les mesures précises.");
+        nomsEtDescriptionsProduitsParDefaut.put("Étiqueteuse", "Créez des étiquettes personnalisées rapidement et facilement pour organiser vos dossiers.");
+        nomsEtDescriptionsProduitsParDefaut.put("Corbeille à papier", "Corbeille élégante pour éliminer discrètement vos déchets papier.");
+        nomsEtDescriptionsProduitsParDefaut.put("Bloc-notes adhésifs", "Blocs de notes adhésives colorés pour marquer des pages ou laisser des rappels.");
+        nomsEtDescriptionsProduitsParDefaut.put("Coussin de chaise", "Coussin ergonomique pour un confort supplémentaire sur votre chaise de bureau.");
+    }
+    public static void initialiserTypeDeProduitParDefaut() {
 
-        System.out.println("Des revendeurs par défaut on été ajouté");
+        initialiserNomsEtDescriptionsProduitsParDefaut();
+        Iterator<Map.Entry<String, String>> iter = nomsEtDescriptionsProduitsParDefaut.entrySet().iterator();
+
+        for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
+            if (utilisateur instanceof Revendeur) {
+                for (int i = 0; i < 4 && iter.hasNext(); i++) {
+                    Map.Entry<String, String> produitEtDescription = iter.next();
+                    String titre = produitEtDescription.getKey();
+                    String description = produitEtDescription.getValue();
+                    String categorie = options[i % options.length];
+                    double prix = 10.0 + i; // Prix fictif
+                    int quantite = 5 + i; // Quantité fictive
+
+                    TypeDeProduit nouveauProduit = new TypeDeProduit(titre, categorie, description, prix, quantite, (Revendeur) utilisateur);
+                    ((Revendeur) utilisateur).ajouterTypeDeProduit(nouveauProduit);
+                    baseDeDonnesTypesDeProduit.add(nouveauProduit);
+                    Revendeur objetRevendeur = (Revendeur) utilisateur;
+                    GestionnaireDeProduit.enregistrerTypeDeProduit(nouveauProduit, objetRevendeur.getIDEntreprise());
+        String message2 = "La base de données UniShop contient présentement " + baseDeDonnesTypesDeProduit.size() + " produits différents !";
+
+
+                }
+            }
+        }
+        printWithTypewriterEffect("Les produits de la plateforme ont été initialisé avec succès.", 40); 
+        System.out.println("\n\n\n");
+        dodo(3000);
     }
 
 }

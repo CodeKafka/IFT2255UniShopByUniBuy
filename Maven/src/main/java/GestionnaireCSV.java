@@ -6,19 +6,41 @@ public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_ARCHIVE = "anciensUtilisateurs.csv";
     private static final String CHEMIN_FICHIER_CSV_TYPEDEPRODUIT= "typeDeProduits.csv";
     private static final String CHEMIN_FICHIER_CSV_EVALUATIONS = "evaluations.csv";
+    private static int quantiteUtilisateursFichierCSV; 
+
+
+    public static int getQuantiteUtilisateursFichierCSV() { 
+        return quantiteUtilisateursFichierCSV; 
+    }
+
+    public static void incrementeQuantiteUtilisateursFichierCSV() {
+        quantiteUtilisateursFichierCSV += 1;
+    }
 
 
     public static void ecrireUtilisateurCSV(Utilisateur utilisateur) {
         File fichierCSV = new File("utilisateurs.csv");
 
+
         try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
             // Créer le fichier s'il n'existe pas déjà
-            if (!fichierCSV.exists()) {
+            if (!fichierExistaitDeja) {
+
+                Controleur.printWithTypewriterEffect("Création de la base de données d'utilisateurs pour la première fois", 40);
+                System.out.println();
+
+                Controleur.printWithTypewriterEffect("Veuillez patienter 5 secondes", 40);
+                System.out.println("\n\n\n");
+                Controleur.dodo(5000);
                 fichierCSV.createNewFile();
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                out.println(utilisateur.toCSV());
+                if (fichierExistaitDeja) {
+                    out.println();
+                } 
+                out.print(utilisateur.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -29,13 +51,17 @@ public class GestionnaireCSV {
         File fichierCSV = new File("evaluations.csv");
 
         try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
             // Créer le fichier s'il n'existe pas déjà
             if (!fichierCSV.exists()) {
                 fichierCSV.createNewFile();
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                out.println(evaluations.toCSV());
+                if (fichierExistaitDeja) {
+                    out.println();
+                } 
+                out.print(evaluations.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");

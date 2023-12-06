@@ -3,16 +3,28 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
         Vue vue = new Vue();
         Controleur controleur = new Controleur(vue);
-        if (Controleur.verifierExistanceFichierCSVUtilisateurs()) {
+
+        if (Controleur.verifierExistanceFichierCSVUtilisateurs()) { 
             Controleur.initialiserBaseDeDonneesUtilisateurs();
-        } 
-        if (Controleur.verifierExistanceFichierCSVTypesDeProduits()) {
             Controleur.initialiserListeTypeDeProduit();
+            Controleur.initialiserEvaluations();
+                
         }
-        Controleur.inialiserEvaluations();
+
+        else if( (Controleur.getBaseDeDonneesUtilisateurs().size() < 15) && 
+                                                    (GestionnaireCSV.getQuantiteUtilisateursFichierCSV() < 15) ) {
+            Controleur.InitialiserAcheteursParDefaut();
+            Controleur.InitialiserRevendeursParDefaut();
+            Controleur.initialiserTypeDeProduitParDefaut();
+        }
+
+        
+
+    
+        
+
        controleur.demarrerApplication();
     }
 
