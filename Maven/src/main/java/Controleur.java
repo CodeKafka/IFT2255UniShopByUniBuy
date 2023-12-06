@@ -345,16 +345,17 @@ public class Controleur {
         }
     }
 
-    public void naviguerCatalogueAsUser(Utilisateur achteurVoulantNaviguerListeDeProduit) {
+    public void naviguerCatalogueAsUser(Utilisateur acheteurVoulantNaviguerListeDeProduit) {
         clearScreen();
         boolean continuer = true; 
 
         while (continuer) {
+            System.out.println("\n\n\n");
             printWithTypewriterEffect("Bienvenue sur le catalogue de produit !", 40);
             dodo(1000); 
             Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
             System.out.println("\n\n");
-            printWithTypewriterEffect("Voici les options disponibles : ", 50);
+            printWithTypewriterEffect("Voici les options disponibles. ", 50);
             System.out.println("\n\n\n");
             Vue.afficherOptionsAcheteurCatalogueProduit();
             dodo(1000);
@@ -363,10 +364,10 @@ public class Controleur {
 
             switch(choix) {
                 case "1":
-                    System.out.println("Désolé, cette fonctionnalité n'est pas encore disponible");
+                    rechercherUnProduitParCategorie(acheteurVoulantNaviguerListeDeProduit);
                     break;
                 case "2":
-                    selectionnerUnProduitParNom( (Acheteur) achteurVoulantNaviguerListeDeProduit); 
+                    selectionnerUnProduitParNom( (Acheteur) acheteurVoulantNaviguerListeDeProduit); 
                     break; 
                 case "3":
                     offrirMenuPrincipal();
@@ -425,7 +426,7 @@ public class Controleur {
 
 
         public void offrirOptionInteractionsAvecLeProduit(TypeDeProduit produitPourInteraction, Acheteur acheteurVoulantInteragir) {
-            System.out.println("Choisissez une option pour le produit " + produitPourInteraction.getTitreProduit() + ":");
+            System.out.println("\n\n\nChoisissez une option pour le produit " + produitPourInteraction.getTitreProduit() + ".\n\n");
             Vue.afficherOptionsAcheteurInteractionAvecLeProduit();           
 
             String choix = scanner.nextLine();
@@ -455,6 +456,56 @@ public class Controleur {
                     break;
             }
         }
+
+
+    public void rechercherUnProduitParCategorie(Utilisateur acheteurVoulantRechercherUnproduit) {
+        Vue.afficherOptionsRechercheProduitPermises();
+        printWithTypewriterEffect("\n\nChoisissez une catégorie parmi les cinq mentionnées ci-haut : ", 40);
+        int choix = scanner.nextInt();
+        scanner.nextLine(); // Pour consommer le retour à la ligne restant
+
+        String categorie = "";
+        switch (choix) {
+            case 1:
+                categorie = "Livres et manuels";
+                break;
+            case 2:
+                categorie = "Ressources d'apprentissage";
+                break;
+            case 3:
+                categorie = "Articles de papeterie";
+                break;
+            case 4:
+                categorie = "Matériel informatique";
+                break;
+            case 5:
+                categorie = "Équipement de bureau";
+                break;
+            default:
+                System.out.println("Choix invalide. Veuillez réessayer.");
+                return;
+        }
+        categorie = options[choix -1];
+
+        vue.afficherProduitsParCategorie(categorie, baseDeDonnesTypesDeProduit);
+        System.out.println("\n\n(1) Revenir au menu du catalogue de produit");
+        System.out.println("(2) Arrêter l'application");
+        int action = scanner.nextInt();
+        scanner.nextLine();
+
+            switch(action) {
+                case 1:
+                    naviguerCatalogueAsUser(acheteurVoulantRechercherUnproduit);
+                    break;
+                case 2:
+                    System.exit(0);
+                    break; 
+                default:
+                    Vue.avertissementEntreInvalide();
+                    break;
+            }
+        // Si l'action est 1, retour au menu précédent (géré dans la méthode appelante)
+    }
 
     private void likerProduit(TypeDeProduit produit, Acheteur acheteur) {
         // Implémentez la logique pour "liker" le produit
@@ -572,7 +623,7 @@ public class Controleur {
 
         printWithTypewriterEffect("La base de données UniShop contient présentement " + taille + " utilisateurs", 40);
         System.out.println("\n\n\n");
-        dodo(2000);
+        dodo(1000);
 
 
         }
@@ -806,7 +857,7 @@ public class Controleur {
             System.out.println("Fichier CSV eval non trouvé.");
         }
 
-        printWithTypewriterEffect("La base de donné d'évaluations a été initialité avec succès.", 40); 
+        printWithTypewriterEffect("La base de données d'évaluations a été initialité avec succès.", 40); 
         System.out.println();
         printWithTypewriterEffect("Elle contient maintenant " + baseDeDonnesEvaluations.size() + " évaluation(s)", 40);
         System.out.println("\n\n\n");
@@ -883,7 +934,7 @@ public class Controleur {
         String taille = baseDeDonnesTypesDeProduit.size() + "";
         printWithTypewriterEffect("Les produits ont également été initialisé avec succès !", 40);
         System.out.println();
-        dodo(2000);
+        dodo(1000);
 
         printWithTypewriterEffect("La base de données UniShop contient présentement " + taille + " produits.", 40);
         System.out.println("\n\n\n");

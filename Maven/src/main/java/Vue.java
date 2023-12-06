@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Vue {
     public void afficherMenuPrincipal() {
-        System.out.println("(1) Inscription");
+        System.out.println("\n\n\n(1) Inscription");
         System.out.println("(2) Connexion");
         System.out.println("(3) Navigation du catalogue de produit");
         System.out.println("\n(4) Arrêter l'application");
@@ -37,13 +37,16 @@ public class Vue {
     }
 
     public static void afficherOptionsMenuAcheteur() {
-        System.out.println("Menu Acheteur\n");
+        System.out.println("\n\n\n");
+        Controleur.printWithTypewriterEffect("Bienvenur sur le menu pour les aheteurs.", 40); 
+        Controleur.dodo(1000);
+        System.out.println("\n\n");
         System.out.println("(1) Arrêter l'application");
         System.out.println("(2) Revenir au menu principal");   
         System.out.println("(3) Supprimer mon compte");
         System.out.println("(4) Modifier son profil");
         System.out.println("(5) Naviguer le catalogue de produit en tant qu'acheteur");
-        System.out.print("\nChoisissez une option: ");
+        System.out.print("\nChoisissez une option : ");
     }
 
     public static void afficherOptionsRevendeur() {
@@ -153,6 +156,27 @@ public class Vue {
         Controleur.printWithTypewriterEffect("Vous serez redirigé vers le menu précédant dans 5 secondes", 40); 
         Controleur.dodo(5000); 
 
+
+    }
+    public static  void afficherOptionsRechercheProduitPermises() {
+        System.out.println("(1) Livres et manuels");
+        System.out.println("(2) Ressources d'apprentissage");
+        System.out.println("(3) Articles de papeterie");
+        System.out.println("(4) Matériel informatique");
+        System.out.println("(5) Équipement de bureau");
+    }
+
+    public static void afficherProduitsParCategorie(String categorie, List<TypeDeProduit> produits) {
+
+        List<TypeDeProduit> listeFiltreParCategorie = new ArrayList<TypeDeProduit>();
+
+        for (TypeDeProduit produit : produits) {
+            if (produit.getCategorieProduit().equalsIgnoreCase(categorie)) {
+                listeFiltreParCategorie.add(produit);
+
+            }
+        }
+        afficherCatalogueProduits(listeFiltreParCategorie);
 
     }
 
