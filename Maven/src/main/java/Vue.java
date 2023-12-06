@@ -74,18 +74,33 @@ public class Vue {
 
 
     public static void afficherCatalogueProduits(List<TypeDeProduit> baseDeDonnesTypesDeProduit) {
-        System.out.println("Catalogue de produits:");
-        System.out.printf("%-20s %-20s %-30s %-10s %-10s %-20s%n", "Nom", "Catégorie", "Description", "Prix", "Quantité", "Revendeur");
+        System.out.println("\nCatalogue de produits:\n");
+        System.out.printf("%-35s %-30s %-10s %-5s %-20s%n", "Nom", "Catégorie", "Prix", "Quantité", "Revendeur");
 
         for (TypeDeProduit produit : baseDeDonnesTypesDeProduit) {
-            System.out.printf("%-20s %-20s %-30s %-10.2f %-10d %-20s%n",
+            System.out.printf("%-35s %-30s %-10s %-5s %-20s%n",
                 produit.getTitreProduit(),
                 produit.getCategorieProduit(),
-                produit.getDescriptionProduit(),
                 produit.getPrixProduit(),
                 produit.getQuantiteDisponible(),
                 produit.getRevendeurProduit().getIDEntreprise()); // Supposant que getIdentifiant() renvoie une information pertinente du revendeur
         }
+    }
+
+
+    public static void afficherDetailsDuProduit(TypeDeProduit produit)  { 
+        System.out.println("Description : \n\n\n");
+        Controleur.dodo(1000);
+        Controleur.printWithTypewriterEffect(produit.getDescriptionProduit(), 40);  
+
+        System.out.println("\n\n");
+        Controleur.printWithTypewriterEffect("Prix : " + produit.getPrixProduit() 
+                                                        + " | Quantité disponible : " 
+                                                        + produit.getQuantiteDisponible() 
+                                                        + " | Fabriquant " + produit.getRevendeurProduit().getIDEntreprise(), 40);
+        Controleur.printWithTypewriterEffect("Vous serez redirigié vers le menu précédent dans 10 secondes", 40);
+        Controleur.dodo(10000);
+
     }
 
     public static void afficherOptionsGuestCatalogueProduit() {
@@ -94,27 +109,49 @@ public class Vue {
     }
 
     public static void afficherOptionsAcheteurCatalogueProduit() {
-        System.out.println("(1) Faire une recherche");
-        System.out.println("(2) Revenu au menu principal");
-        // permet de choisir un produit pour l'ajouter au panier ou voir ses évaluations, évaluer, etc.
-        System.out.println("(3) Sélectionner un produit ");
+        System.out.println("(1) Rechercher un produit");
+        System.out.println("(2) Sélectionner un produit");
+        System.out.println("(3) Revenir au menu principal\n\n");
+
     }
 
     public static void afficherOptionsAcheteurInteractionAvecLeProduit() {
-        Controleur.dodo(1000); 
-        System.out.println("(1) Liker un produit");
-        System.out.println("(2) Afficher les évaluations d'un produit");
-        System.out.println("(3) Évaluer un produit");
-        System.out.println("(4) Revenir au menu principal\n\n");
+        System.out.println("(1) Afficher la description détaillée du produit");
+        System.out.println("(2) Aimer le produit");
+        System.out.println("(3) Évaluer le produit");
+        System.out.println("(4) Afficher les évalutions effectuées par les autres utilisateurs \n\n");
 
     }
 
 
-    public static void afficherOptionsAcheteurInteractionProduitConfirme() {
-        Controleur.dodo(1000); 
-        System.out.println("\n(1) Liker ");
-        System.out.println("(2) Afficher ses évaluations");
-        System.out.println("(3) Évaluer ");
+    // public static void afficherOptionsAcheteurInteractionProduitConfirme() {
+    //     Controleur.dodo(1000); 
+    //     System.out.println("\n(1) Liker ");
+    //     System.out.println("(2) Afficher ses évaluations");
+    //     System.out.println("(3) Évaluer ");
+    //
+    //
+    // }
+    public static void afficherEvaluationsDuProduit(TypeDeProduit produit) { 
+        List<Evaluations> listeEvaluationAAfficher = new ArrayList<Evaluations>(); 
+        int iter = 0;
+
+        for (Evaluations evaluation : Controleur.baseDeDonnesEvaluations) {
+            if (evaluation.getProduit() == produit) {
+                listeEvaluationAAfficher.add(evaluation); 
+            }
+        }
+
+        for (Evaluations evaluation : listeEvaluationAAfficher ) {
+            System.out.println("Evaluation " + iter + " : \n\n");
+            Controleur.printWithTypewriterEffect(listeEvaluationAAfficher.get(iter).getReviewText(), 40);
+            System.out.println("\n\n");
+            iter++;
+
+        }
+
+        Controleur.printWithTypewriterEffect("Vous serez redirigé vers le menu précédant dans 5 secondes", 40); 
+        Controleur.dodo(5000); 
 
 
     }

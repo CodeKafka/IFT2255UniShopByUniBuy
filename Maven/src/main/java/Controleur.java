@@ -323,7 +323,8 @@ public class Controleur {
         boolean continuer = true; 
 
         while (continuer) {
-            System.out.println("Bienvenue sur le catalogue de produit !");
+            System.out.println("Bienvenue sur le catalogue de produit !\n\n");
+
             dodo(1000); 
             Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
             dodo(1000);
@@ -349,11 +350,13 @@ public class Controleur {
         boolean continuer = true; 
 
         while (continuer) {
-            System.out.println("Bienvenue sur le catalogue de produit !");
+            printWithTypewriterEffect("Bienvenue sur le catalogue de produit !", 40);
             dodo(1000); 
             Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
             System.out.println("\n\n");
-            Vue.afficherOptionsAcheteurInteractionAvecLeProduit();
+            printWithTypewriterEffect("Voici les options disponibles : ", 50);
+            System.out.println("\n\n\n");
+            Vue.afficherOptionsAcheteurCatalogueProduit();
             dodo(1000);
             
                 String choix = scanner.nextLine(); 
@@ -363,12 +366,9 @@ public class Controleur {
                     System.out.println("Désolé, cette fonctionnalité n'est pas encore disponible");
                     break;
                 case "2":
-                    continuer = false;
-                    break;
-                case "3":
                     selectionnerUnProduitParNom( (Acheteur) achteurVoulantNaviguerListeDeProduit); 
                     break; 
-                case "4":
+                case "3":
                     offrirMenuPrincipal();
                     break;
                 default:
@@ -426,25 +426,29 @@ public class Controleur {
 
         public void offrirOptionInteractionsAvecLeProduit(TypeDeProduit produitPourInteraction, Acheteur acheteurVoulantInteragir) {
             System.out.println("Choisissez une option pour le produit " + produitPourInteraction.getTitreProduit() + ":");
-            Vue.afficherOptionsAcheteurInteractionProduitConfirme();           
+            Vue.afficherOptionsAcheteurInteractionAvecLeProduit();           
 
             String choix = scanner.nextLine();
             switch (choix) {
                 case "1":
-                    likerProduit(produitPourInteraction, acheteurVoulantInteragir);
-                    System.out.println("Cette option n'est pas encore implémentée");
+                    Vue.afficherDetailsDuProduit(produitPourInteraction);
+/*                     likerProduit(produitPourInteraction, acheteurVoulantInteragir) */;
                     dodo(2000);
                     break;
                 case "2":
-                    afficherEvaluationsProduit(produitPourInteraction);
+/*                     afficherEvaluationsProduit(produitPourInteraction); */
                     System.out.println("Cette option n'est pas encore implémentée");
                     dodo(2000);
                     break;
                 case "3":
-                    evaluerProduit(produitPourInteraction, acheteurVoulantInteragir);
-                    System.out.println("Cette option n'est pas encore implémentée");
+                    evaluerProduit(produitPourInteraction, acheteurVoulantInteragir); 
+                    System.out.println("Indisponible");
                     dodo(2000);
                     break;
+                case "4":
+                    Vue.afficherEvaluationsDuProduit(produitPourInteraction);
+                    dodo(2000); 
+            break;
                 default:
                     System.out.println("Choix invalide. Veuillez réessayer.");
                     offrirOptionInteractionsAvecLeProduit(produitPourInteraction, acheteurVoulantInteragir);
@@ -568,7 +572,7 @@ public class Controleur {
 
         printWithTypewriterEffect("La base de données UniShop contient présentement " + taille + " utilisateurs", 40);
         System.out.println("\n\n\n");
-        dodo(3000);
+        dodo(2000);
 
 
         }
@@ -877,7 +881,7 @@ public class Controleur {
             System.out.println("Fichier CSV non trouvé.");
         }
         String taille = baseDeDonnesTypesDeProduit.size() + "";
-        printWithTypewriterEffect("Les produits également ont été initialisé avec succès !", 40);
+        printWithTypewriterEffect("Les produits ont également été initialisé avec succès !", 40);
         System.out.println();
         dodo(2000);
 
@@ -986,7 +990,7 @@ public class Controleur {
         }
         printWithTypewriterEffect("Les produits de la plateforme ont été initialisé avec succès.", 40); 
         System.out.println("\n\n\n");
-        dodo(3000);
+        dodo(2000);
     }
 
 }

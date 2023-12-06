@@ -22,6 +22,10 @@ public class Evaluations {
     public String getReviewText() {
         return commentaire;
     }
+
+    public TypeDeProduit getProduit() {
+        return this.produit;
+    }
 }
 
 
