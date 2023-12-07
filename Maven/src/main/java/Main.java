@@ -20,11 +20,6 @@ public class Main {
             Controleur.initialiserTypeDeProduitParDefaut();
         }
 
-        
-
-    
-        
-
        controleur.demarrerApplication();
     }
 

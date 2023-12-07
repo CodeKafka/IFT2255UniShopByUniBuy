@@ -3,6 +3,10 @@ import java.util.*;
 
 import java.lang.InterruptedException;
 import java.io.File;
+
+/**
+ * La classe Controleur gère le contrôle de l'application et interagit avec l'utilisateur.
+ */
 public class Controleur {
     private Vue vue;
     static String[] options = {"Livres et manuels", "Ressources d'apprentissage", "Articles de papeterie",
@@ -16,6 +20,10 @@ public class Controleur {
     private static Map<String, String> nomsEtDescriptionsProduitsParDefaut;
 
     //TO DO: rajouter modifier CSV si le client change de pseudo
+    /**
+     * Constructeur de la classe Controleur.
+     * @param vue L'instance de la classe Vue associée au contrôleur.
+     */
     public Controleur(Vue vue) {
         this.vue = vue;
         this.scanner = new Scanner(System.in);
@@ -24,18 +32,30 @@ public class Controleur {
         this.baseDeDonnesEvaluations = new ArrayList<Evaluations>();
     }
 
+    /**
+     * Récupère la liste des types de produit dans la base de données.
+     * @return La liste des types de produit.
+     */
     public static List<TypeDeProduit> getBaseDeDonneesTypesDeProduit() {
         return baseDeDonnesTypesDeProduit;
 
     }
-
+    /**
+     * Récupère la liste des utilisateurs dans la base de données.
+     * @return La liste des utilisateurs.
+     */
     public static List<Utilisateur> getBaseDeDonneesUtilisateurs() { 
         return baseDeDonneesUtilisateurs;
     }
-
+    /**
+     * Démarre l'application en offrant le menu principal à l'utilisateur.
+     */
     public void demarrerApplication() {
         offrirMenuPrincipal();
     }
+    /**
+     * Présente le menu principal à l'utilisateur et gère ses choix.
+     */
     public void offrirMenuPrincipal() {
         boolean continuer = true;
 
@@ -71,6 +91,9 @@ public class Controleur {
         }
     }
     // Autres méthodes de gestion des actions de l'utilisateur
+    /**
+     * Permet à un nouvel utilisateur de s'inscrire en tant qu'acheteur ou revendeur.
+     */
     public void inscrireUtilisateur() {
         vue.afficherFormulaireInscription();
         System.out.println("Voulez-vous vous inscrire en tant que (1) Acheteur ou (2) Revendeur ?");
@@ -93,7 +116,9 @@ public class Controleur {
             scanner.nextLine(); // Pour consommer le reste de la ligne et éviter une boucle infinie
         }
     }
-
+    /**
+     * Permet à un nouvel utilisateur de s'inscrire en tant qu'acheteur.
+     */
     private void inscrireAcheteur() {
         System.out.println("Vous allez pouvoir entrer vos information en tant que nouvel acheteur");
         dodo(2000);
@@ -129,7 +154,9 @@ public class Controleur {
         System.out.println("Inscription réussie.");
     }
 
-
+    /**
+     * Permet à un nouvel utilisateur de s'inscrire en tant que revendeur.
+     */
     private void inscrireRevendeur() {
         boolean valide;
         String nomEntreprise, nomCEO, email, motDePasse, telephone;
@@ -163,7 +190,12 @@ public class Controleur {
         System.out.println("Inscription réussie.");
     }
 
-    /* EMMANUEL    @@@@@@@@@@@@@@@@@@@ */ 
+    /* EMMANUEL    @@@@@@@@@@@@@@@@@@@ */
+    /**
+     * Valide une adresse email selon une expression régulière.
+     * @param email L'adresse email à valider.
+     * @return true si l'adresse email est valide, sinon false.
+     */
     private boolean validerEmail(String email) {
         String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         if (!email.matches(regexEmail)) {
@@ -172,7 +204,11 @@ public class Controleur {
         }
         return true;
     }
-
+    /**
+     * Valide un mot de passe en vérifiant sa longueur.
+     * @param motDePasse Le mot de passe à valider.
+     * @return true si le mot de passe est valide, sinon false.
+     */
     private boolean validerMotDePasse(String motDePasse) {
         if (motDePasse.length() < 8) {
             System.out.println("Le mot de passe doit contenir au moins 8 caractères.");
@@ -181,6 +217,12 @@ public class Controleur {
         // Vous pouvez ajouter d'autres règles ici
         return true;
     }
+
+    /**
+     * Valide un numéro de téléphone selon une expression régulière.
+     * @param telephone Le numéro de téléphone à valider.
+     * @return true si le numéro de téléphone est valide, sinon false.
+     */
     private boolean validerTelephone(String telephone) {
         // Exemple de validation basique de numéro de téléphone
         String regexTelephone = "\\d{10}";
@@ -191,7 +233,9 @@ public class Controleur {
         return true;
     }
 
-
+    /**
+     *Permet à un Utilisateur de se connecter en vérifiant ses identifiants.
+     */
     public void connecterUtilisateur() {
         vue.afficherMenuConnexion();
         System.out.print("\n\nChoisissez une option: ");
@@ -217,7 +261,9 @@ public class Controleur {
             System.out.println("Une erreur est survenue.");
         }
     }
-//
+    /**
+     *Permet à un acheteur de se connecter en vérifiant ses identifiants.
+     */
     private void connecterAcheteur() {
         System.out.print("\n\n\nPseudo: ");
         String pseudo = scanner.nextLine();
@@ -236,7 +282,9 @@ public class Controleur {
             connecterAcheteur(); // Réessayer la connexion
         }
     }
-
+    /**
+     *Permet à un revendeur de se connecter en vérifiant ses identifiants.
+     */
     private void connecterRevendeur() {
         vue.afficherFormulaireConnexion();
         System.out.print("Nom de l'entreprise: ");
