@@ -6,6 +6,9 @@ import java.io.File;
 
 /**
  * La classe Controleur gère le contrôle de l'application et interagit avec l'utilisateur.
+ * Elle utilise la classe Vue pour l'affichage des menus et la communication avec l'utilisateur.
+ *
+ * @see Vue
  */
 public class Controleur {
     private Vue vue;
@@ -22,7 +25,9 @@ public class Controleur {
     //TO DO: rajouter modifier CSV si le client change de pseudo
     /**
      * Constructeur de la classe Controleur.
+     *
      * @param vue L'instance de la classe Vue associée au contrôleur.
+     * @see Vue
      */
     public Controleur(Vue vue) {
         this.vue = vue;
@@ -35,6 +40,7 @@ public class Controleur {
     /**
      * Récupère la liste des types de produit dans la base de données.
      * @return La liste des types de produit.
+     * @see TypeDeProduit
      */
     public static List<TypeDeProduit> getBaseDeDonneesTypesDeProduit() {
         return baseDeDonnesTypesDeProduit;
@@ -43,18 +49,21 @@ public class Controleur {
     /**
      * Récupère la liste des utilisateurs dans la base de données.
      * @return La liste des utilisateurs.
+     * @see Utilisateur
      */
     public static List<Utilisateur> getBaseDeDonneesUtilisateurs() { 
         return baseDeDonneesUtilisateurs;
     }
     /**
-     * Démarre l'application en offrant le menu principal à l'utilisateur.
+     * Démarre l'application en présentant le menu principal à l'utilisateur.
+     * @see #offrirMenuPrincipal()
      */
     public void demarrerApplication() {
         offrirMenuPrincipal();
     }
     /**
      * Présente le menu principal à l'utilisateur et gère ses choix.
+     * @see Vue#afficherMenuPrincipal()
      */
     public void offrirMenuPrincipal() {
         boolean continuer = true;
@@ -93,6 +102,9 @@ public class Controleur {
     // Autres méthodes de gestion des actions de l'utilisateur
     /**
      * Permet à un nouvel utilisateur de s'inscrire en tant qu'acheteur ou revendeur.
+     * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
+     * @see #inscrireAcheteur()
+     * @see #inscrireRevendeur()
      */
     public void inscrireUtilisateur() {
         vue.afficherFormulaireInscription();
@@ -118,6 +130,11 @@ public class Controleur {
     }
     /**
      * Permet à un nouvel utilisateur de s'inscrire en tant qu'acheteur.
+     * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
+     * @see #validerEmail(String)
+     * @see #validerMotDePasse(String)
+     * @see #validerTelephone(String)
+     * @see Vue#avertissementEntreInvalideSecondeTentative()
      */
     private void inscrireAcheteur() {
         System.out.println("Vous allez pouvoir entrer vos information en tant que nouvel acheteur");
@@ -156,6 +173,11 @@ public class Controleur {
 
     /**
      * Permet à un nouvel utilisateur de s'inscrire en tant que revendeur.
+     * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
+     * @see #validerEmail(String)
+     * @see #validerMotDePasse(String)
+     * @see #validerTelephone(String)
+     * @see Vue#avertissementEntreInvalideSecondeTentative()
      */
     private void inscrireRevendeur() {
         boolean valide;
@@ -195,6 +217,7 @@ public class Controleur {
      * Valide une adresse email selon une expression régulière.
      * @param email L'adresse email à valider.
      * @return true si l'adresse email est valide, sinon false.
+     * @throws IllegalArgumentException Si l'adresse email ne correspond pas à l'expression régulière.
      */
     private boolean validerEmail(String email) {
         String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
@@ -208,6 +231,7 @@ public class Controleur {
      * Valide un mot de passe en vérifiant sa longueur.
      * @param motDePasse Le mot de passe à valider.
      * @return true si le mot de passe est valide, sinon false.
+     * @throws IllegalArgumentException Si la longueur du mot de passe est inférieure à 8 caractères.
      */
     private boolean validerMotDePasse(String motDePasse) {
         if (motDePasse.length() < 8) {
@@ -222,6 +246,7 @@ public class Controleur {
      * Valide un numéro de téléphone selon une expression régulière.
      * @param telephone Le numéro de téléphone à valider.
      * @return true si le numéro de téléphone est valide, sinon false.
+     * @throws IllegalArgumentException Si le numéro de téléphone ne correspond pas à l'expression régulière.
      */
     private boolean validerTelephone(String telephone) {
         // Exemple de validation basique de numéro de téléphone
@@ -234,7 +259,11 @@ public class Controleur {
     }
 
     /**
-     *Permet à un Utilisateur de se connecter en vérifiant ses identifiants.
+     * Permet à un Utilisateur de se connecter en vérifiant ses identifiants.
+     * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
+     * @see Vue#afficherMenuConnexion()
+     * @see #connecterAcheteur()
+     * @see #connecterRevendeur()
      */
     public void connecterUtilisateur() {
         vue.afficherMenuConnexion();
@@ -262,7 +291,10 @@ public class Controleur {
         }
     }
     /**
-     *Permet à un acheteur de se connecter en vérifiant ses identifiants.
+     * Permet à un acheteur de se connecter en vérifiant ses identifiants.
+     * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
+     * @see GestionnaireCSV#verifierIdentifiantsAcheteur(String, String)
+     * @see #afficherMenuAcheteur(Acheteur)
      */
     private void connecterAcheteur() {
         System.out.print("\n\n\nPseudo: ");
@@ -283,7 +315,11 @@ public class Controleur {
         }
     }
     /**
-     *Permet à un revendeur de se connecter en vérifiant ses identifiants.
+     * Permet à un revendeur de se connecter en vérifiant ses identifiants.
+     * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
+     * @see Vue#afficherFormulaireConnexion()
+     * @see GestionnaireCSV#verifierIdentifiantsRevendeur(String, String, String)
+     * @see #afficherMenuRevendeur(Revendeur)
      */
     private void connecterRevendeur() {
         vue.afficherFormulaireConnexion();
