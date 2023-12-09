@@ -39,7 +39,7 @@ public class Vue {
 
     public static void afficherOptionsMenuAcheteur() {
         System.out.println("\n\n\n");
-        Controleur.printWithTypewriterEffect("Bienvenur sur le menu pour les aheteurs.", 40); 
+        Controleur.printWithTypewriterEffect("Bienvenue sur le menu pour les acheteurs.", 40); 
         Controleur.dodo(1000);
         System.out.println("\n\n");
         System.out.println("(1) Arrêter l'application");
@@ -123,7 +123,8 @@ public class Vue {
         System.out.println("(1) Afficher la description détaillée du produit");
         System.out.println("(2) Aimer le produit");
         System.out.println("(3) Évaluer le produit");
-        System.out.println("(4) Afficher les évalutions effectuées par les autres utilisateurs \n\n");
+        System.out.println("(4) Ajouter le produit selectionné au panier");
+        System.out.println("(5) Afficher les évalutions effectuées par les autres utilisateurs \n\n");
 
     }
 
@@ -179,6 +180,16 @@ public class Vue {
         }
         afficherCatalogueProduits(listeFiltreParCategorie);
 
+    }
+
+    public static void afficherPanier(Panier panier){
+            StringBuilder sb = new StringBuilder();
+            for (TypeDeProduit typeDeProduit: panier.getTypeDeProduits()) {
+                sb.append("Nom du produit: ").append(typeDeProduit.getTitreProduit())
+                        .append(", Prix: ").append(typeDeProduit.getPrixProduit())
+                        .append("\n");
+            }
+            System.out.println(sb.toString());
     }
 
 }

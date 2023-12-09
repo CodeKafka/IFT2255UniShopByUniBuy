@@ -6,6 +6,7 @@ public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_ARCHIVE = "anciensUtilisateurs.csv";
     private static final String CHEMIN_FICHIER_CSV_TYPEDEPRODUIT= "typeDeProduits.csv";
     private static final String CHEMIN_FICHIER_CSV_EVALUATIONS = "evaluations.csv";
+    private static final String CHEMIN_FICHIER_CSV_PANIER_DES_ACHETEURS = "panierdesachteurs.csv";
     private static int quantiteUtilisateursFichierCSV; 
 
 
@@ -258,6 +259,10 @@ public class GestionnaireCSV {
         return CHEMIN_FICHIER_CSV_EVALUATIONS;
     }
 
+     public static String getCheminFichierCsvPanierDesAcheteurs() {
+        return CHEMIN_FICHIER_CSV_PANIER_DES_ACHETEURS;
+    }
+
     public static void modifierCSV(String cheminFichier, String ancienCourriel, String nouveauCourriel,
                                    String ancienNom, String nouveauNom) {
         File file = new File(cheminFichier);
@@ -284,7 +289,35 @@ public class GestionnaireCSV {
         }
     }
 
+    
+   public static void ecrireTypeDeProduitPanierCSV(Acheteur acheteur, TypeDeProduit typeDeProduit) {
+        File fichierCSV = new File("panierdesachteurs.csv");
 
+        try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierExistaitDeja) {
+
+                Controleur.printWithTypewriterEffect("Création d'une liste de paniers pour chaque acheteur pour la première fois", 40);
+                System.out.println();
+
+                Controleur.printWithTypewriterEffect("Veuillez patienter 5 secondes", 40);
+                System.out.println("\n\n\n");
+                Controleur.dodo(5000);
+                fichierCSV.createNewFile();
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                if (fichierExistaitDeja) {
+                    out.println();
+                } 
+                out.print(acheteur.getPseudo() +", "+ typeDeProduit.getTitreProduit());
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        }
+    }
 
 }
 

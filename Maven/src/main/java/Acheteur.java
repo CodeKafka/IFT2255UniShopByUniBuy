@@ -7,7 +7,7 @@ public class Acheteur  extends Utilisateur{
     private ArrayList<ListeDeSouhaits> collectionDeListesDeSouhaits;
     private GestionnaireDeProblemes gestionnaireDeProblemes; 
     private ArrayList<Suivi> listeDeSuivis; 
-    private int nombreProduitsAchetes, nombreCommandePassees, likeRecuReview, pointsFidelite; 
+    private int nombreProduitsAchetes, nombreCommandePassees, likeRecuReview, pointsFidelite;
 
     public Acheteur(String nom, String prenom, String addresseCourriel, String motDePasse, String telephone,
                     String pseudo) {
@@ -18,31 +18,15 @@ public class Acheteur  extends Utilisateur{
 
     public String getPseudo(){
         return pseudo;
-
+    }
+    public Panier getPanier(){
+        return panier;
     }
     @Override
     public String toCSV() {
         // Ajouter le pseudo pour l'acheteur
         return super.toCSV() + "," + pseudo + ",Acheteur";
     }
-
-    public void ajouterPanier(Produit produit){
-        panier.ajouterProduit(produit);
-
-    }
-
-    public String getPanier() { // imprimer le panier
-        StringBuilder sb = new StringBuilder();
-        for (Produit produit : panier.getProduits().values()) {
-            sb.append("ID: ").append(produit.getIdProduit())
-                    .append(", Name: ").append(produit.getTitre())
-                    .append(", Price: ").append(produit.getPrix())
-                    .append(", Quantity: ").append(produit.getQuantite())
-                    .append("\n");
-        }
-        return sb.toString();
-    }
-
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }

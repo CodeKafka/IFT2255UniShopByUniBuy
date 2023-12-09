@@ -530,7 +530,13 @@ public class Controleur {
                     System.out.println("Indisponible");
                     dodo(2000);
                     break;
-                case "4":
+                 case "4":
+                    ajouterProduitSelectionneAupanier(acheteurVoulantInteragir,produitPourInteraction);
+                    System.out.println("Voici le contenue de votre panier : ");
+                    Vue.afficherPanier(acheteurVoulantInteragir.getPanier());
+                    dodo(2000);
+                    break;    
+                case "5":
                     Vue.afficherEvaluationsDuProduit(produitPourInteraction);
                     dodo(2000); 
             break;
@@ -541,6 +547,16 @@ public class Controleur {
             }
         }
 
+
+    private void ajouterProduitSelectionneAupanier(Acheteur acheteurVoulantInteragir,
+                TypeDeProduit produitPourInteraction) {
+                   if(acheteurVoulantInteragir.getPanier().contientLeTypeDeProduit(produitPourInteraction)){
+                    System.out.println("Vous avez déja ajouté ce produit à votre panier");
+                }else{
+                    acheteurVoulantInteragir.getPanier().ajouterTypeDeProduit(produitPourInteraction);
+                    GestionnaireCSV.ecrireTypeDeProduitPanierCSV(acheteurVoulantInteragir, produitPourInteraction);
+                }
+        }
 
     public void rechercherUnProduitParCategorie(Utilisateur acheteurVoulantRechercherUnproduit) {
         Vue.afficherOptionsRechercheProduitPermises();

@@ -5,7 +5,6 @@ public class Main {
     public static void main(String[] args) {
         Vue vue = new Vue();
         Controleur controleur = new Controleur(vue);
-
         if (Controleur.verifierExistanceFichierCSVUtilisateurs()) { 
             Controleur.initialiserBaseDeDonneesUtilisateurs();
             Controleur.initialiserListeTypeDeProduit();
@@ -19,8 +18,7 @@ public class Main {
             Controleur.InitialiserRevendeursParDefaut();
             Controleur.initialiserTypeDeProduitParDefaut();
         }
-
-       controleur.demarrerApplication();
-    }
+        controleur.demarrerApplication();
+}
 
 }

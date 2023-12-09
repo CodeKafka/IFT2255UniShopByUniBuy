@@ -53,6 +53,5 @@ public class TypeDeProduit {
             emailRevendeur,
             nomEntreprise);
     }
-
     // ... Autres méthodes si nécessaire
 } 
