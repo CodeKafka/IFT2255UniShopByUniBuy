@@ -1048,13 +1048,13 @@ public class Controleur {
         acheteurParDefaut[0] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com","ProxyPaige", "4389234776", "Pawgologist");
         acheteurParDefaut[1] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P");
         acheteurParDefaut[2] = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates");
-        acheteurParDefaut[3] = new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "patates12354678", "4381234321", "Patates4");
-        acheteurParDefaut[4] = new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "patates12354678", "4389234778", "Patates5");
-        acheteurParDefaut[5] = new Acheteur("Eddy", "Len", "acheteur6@gmail.com", "patates12354678", "4389234779", "Patates6");
-        acheteurParDefaut[6] = new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "patates12354678", "4389237776", "Patates7");
-        acheteurParDefaut[7] = new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "patates12354678", "4384454776", "Patates8");
-        acheteurParDefaut[8] = new Acheteur("Random1", "User1", "random1@gmail.com", "patates12354678", "4381111111", "Random1");
-        acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "patates12354677", "4382222222", "Random2");
+        acheteurParDefaut[3] = new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "Walter4678", "4381234321", "Patates4");
+        acheteurParDefaut[4] = new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "Rick4678", "4389234778", "Patates5");
+        acheteurParDefaut[5] = new Acheteur("Eddy", "Len", "acheteur6@gmail.com", "34Eddy678", "4389234779", "Patates6");
+        acheteurParDefaut[6] = new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "Sarah4678", "4389237776", "Patates7");
+        acheteurParDefaut[7] = new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "Patrick354678", "4384454776", "Patates8");
+        acheteurParDefaut[8] = new Acheteur("Random1", "User1", "random1@gmail.com", "random1578", "4381111111", "Random1");
+        acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "random4677", "4382222222", "Random2");
         
 
         for(int i = 0; i < 10;i++){
@@ -1073,11 +1073,11 @@ public class Controleur {
 
         Revendeur[] revendeurParDefaut = new Revendeur[5];
 
-        revendeurParDefaut[0] = new Revendeur("PharmaC", "Joe", "Joe@yahoo.ca", "8787878787", "5145145140");
-        revendeurParDefaut[1] = new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "8787878787", "5149876543");
-        revendeurParDefaut[2] = new Revendeur("PharmaC14", "Boule", "Boule@yahoo.ca", "8787878787", "5148901234");
-        revendeurParDefaut[3] = new Revendeur("PharmaC15", "Rich", "Rich@yahoo.ca", "8787878787", "5147654321");
-        revendeurParDefaut[4] = new Revendeur("PharmaC16", "Liv", "Liv@yahoo.ca", "8787878787", "5148765432");
+        revendeurParDefaut[0] = new Revendeur("PharmaC", "Joe", "Joe@yahoo.ca", "87rtrt87", "5145145140");
+        revendeurParDefaut[1] = new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "87gfoert787", "5149876543");
+        revendeurParDefaut[2] = new Revendeur("PharmaC14", "Boule", "Boule@yahoo.ca", "8niceji47", "5148901234");
+        revendeurParDefaut[3] = new Revendeur("PharmaC15", "Rich", "Rich@yahoo.ca", "dorodoro7", "5147654321");
+        revendeurParDefaut[4] = new Revendeur("PharmaC16", "Liv", "Liv@yahoo.ca", "8minemine", "5148765432");
 
 
         for(int i = 0; i < 5;i++){
