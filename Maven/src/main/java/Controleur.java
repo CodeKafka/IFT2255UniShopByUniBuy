@@ -295,16 +295,15 @@ public class Controleur {
      * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
      * @see GestionnaireCSV#verifierIdentifiantsAcheteur(String, String)
      * @see #afficherMenuAcheteur(Acheteur)
-     */
-    private void connecterAcheteur() {
+     */   
+  private void connecterAcheteur() {
         System.out.print("\n\n\nPseudo: ");
         String pseudo = scanner.nextLine();
         System.out.print("Mot de passe: ");
         String motDePasse = scanner.nextLine();
-
         if (GestionnaireCSV.verifierIdentifiantsAcheteur(pseudo, motDePasse)) {
             System.out.println("Connexion réussie.");
-            afficherMenuAcheteur(trouverUtilisateurParMotDePasse(motDePasse));
+            afficherMenuAcheteur(trouverAcheteurParPseudo(pseudo));
             // Continuer comme acheteur
         } else {
             System.out.println("Identifiants invalides. Voulez-vous réessayer ? (oui/non)");

@@ -8,7 +8,7 @@ public class Main {
         if (Controleur.verifierExistanceFichierCSVUtilisateurs()) { 
             Controleur.initialiserBaseDeDonneesUtilisateurs();
             Controleur.initialiserListeTypeDeProduit();
-            Controleur.initialiserEvaluations();
+           // Controleur.initialiserEvaluations();
                 
         }
 
