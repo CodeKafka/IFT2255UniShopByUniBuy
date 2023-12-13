@@ -102,8 +102,8 @@ public class Vue {
                                                         + " | Quantité disponible : " 
                                                         + produit.getQuantiteDisponible() 
                                                         + " | Fabriquant " + produit.getRevendeurProduit().getIDEntreprise(), 40);
-        Controleur.printWithTypewriterEffect("Vous serez redirigié vers le menu précédent dans 10 secondes", 40);
-        Controleur.dodo(10000);
+        Controleur.printWithTypewriterEffect("\n\nVous serez redirigié vers le menu précédent dans 5 secondes", 40);
+        Controleur.dodo(5000);
 
     }
 
@@ -115,7 +115,8 @@ public class Vue {
     public static void afficherOptionsAcheteurCatalogueProduit() {
         System.out.println("(1) Rechercher un produit");
         System.out.println("(2) Sélectionner un produit");
-        System.out.println("(3) Revenir au menu principal\n\n");
+        System.out.println("(3) Afficher mon panier");
+        System.out.println("(4) Revenir au menu principal\n\n");
 
     }
 
@@ -124,7 +125,8 @@ public class Vue {
         System.out.println("(2) Aimer le produit");
         System.out.println("(3) Évaluer le produit");
         System.out.println("(4) Ajouter le produit selectionné au panier");
-        System.out.println("(5) Afficher les évalutions effectuées par les autres utilisateurs \n\n");
+        System.out.println("(5) Afficher les évalutions effectuées par les autres utilisateurs");
+        System.out.println("(6) Afficher le contenu de mon panier\n\n");
 
     }
 
@@ -183,13 +185,20 @@ public class Vue {
     }
 
     public static void afficherPanier(Panier panier){
-            StringBuilder sb = new StringBuilder();
-            for (TypeDeProduit typeDeProduit: panier.getTypeDeProduits()) {
-                sb.append("Nom du produit: ").append(typeDeProduit.getTitreProduit())
-                        .append(", Prix: ").append(typeDeProduit.getPrixProduit())
-                        .append("\n");
+            if (panier.getTypeDeProduits().size() == 0) {
+                System.out.println("Votre panier est vide.");
             }
-            System.out.println(sb.toString());
+            else { 
+                StringBuilder sb = new StringBuilder();
+                for (TypeDeProduit typeDeProduit: panier.getTypeDeProduits()) {
+                    sb.append("Nom du produit: ").append(typeDeProduit.getTitreProduit())
+                            .append(", Prix: ").append(typeDeProduit.getPrixProduit())
+                            .append("\n");
+                }
+                System.out.println(sb.toString());
+            }
+            Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes", 40); 
+            Controleur.dodo(5000);
     }
 
 }

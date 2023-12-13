@@ -453,6 +453,10 @@ public class Controleur {
                     selectionnerUnProduitParNom( (Acheteur) acheteurVoulantNaviguerListeDeProduit); 
                     break; 
                 case "3":
+                    Acheteur utilisateurToAcheteur = (Acheteur) acheteurVoulantNaviguerListeDeProduit;
+                    Vue.afficherPanier(utilisateurToAcheteur.getPanier());
+                    break;
+                case "4":
                     offrirMenuPrincipal();
                     break;
                 default:
@@ -538,7 +542,9 @@ public class Controleur {
                 case "5":
                     Vue.afficherEvaluationsDuProduit(produitPourInteraction);
                     dodo(2000); 
-            break;
+                case "6":
+                    Vue.afficherPanier(acheteurVoulantInteragir.getPanier());
+                    break;
                 default:
                     System.out.println("Choix invalide. Veuillez réessayer.");
                     offrirOptionInteractionsAvecLeProduit(produitPourInteraction, acheteurVoulantInteragir);
