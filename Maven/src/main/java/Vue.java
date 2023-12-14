@@ -2,14 +2,23 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * La classe Vue fournit des méthodes pour afficher des menus et des informations à l'utilisateur.
+ */
+
 public class Vue {
+    /**
+     * Affiche le menu principal de l'application.
+     */
     public void afficherMenuPrincipal() {
         System.out.println("\n\n\n(1) Inscription");
         System.out.println("(2) Connexion");
         System.out.println("(3) Navigation du catalogue de produit");
         System.out.println("\n(4) Arrêter l'application");
     }
-
+    /**
+     * Affiche le menu de connexion pour tous les types d'utilisateurs prévus.
+     */
     public void afficherMenuConnexion() {
         System.out.println("\n\n\nSe connecter en tant que :");
         System.out.println("(1) Acheteur");
@@ -18,25 +27,40 @@ public class Vue {
     }
 
     // Autres méthodes d'affichage
+
+    /**
+     * Affiche le formulaire d'inscription.
+     */
     public void afficherFormulaireInscription() {
         System.out.println("Inscription - Veuillez entrer vos informations:");
         Controleur.dodo(1500);
        // Affiche les champs à remplir pour l'inscription
     }
 
+    /**
+     * Affiche le formulaire de connexion.
+     */
     public void afficherFormulaireConnexion() {
         System.out.println("Connexion - Veuillez entrer vos identifiants:\n");
         Controleur.dodo(2000);
        
         // Affiche les champs pour la connexion
     }
-
+    
+      /**
+     * Affiche les détails d'un produit.
+     *
+     * @param Un ArrayList des produits dont les détails doivent être affichés.
+     */
     public void afficherProduits(ArrayList<Produit> produits) {
         for (Produit produit : produits) {
             System.out.println(produit); // Supposons que Produit a une méthode toString() bien définie
         }
     }
 
+    /**
+     * Affiche le menu des options principales pour les acheteurs.
+     */
     public static void afficherOptionsMenuAcheteur() {
         System.out.println("\n\n\n");
         Controleur.printWithTypewriterEffect("Bienvenue sur le menu pour les acheteurs.", 40); 
@@ -50,6 +74,9 @@ public class Vue {
         System.out.print("\nChoisissez une option : ");
     }
 
+    /**
+     * Affiche le menu des options principales les revendeurs.
+     */
     public static void afficherOptionsRevendeur() {
         Controleur.dodo(1000);
             System.out.println("\n\nMenu Revendeur\n");
@@ -60,22 +87,34 @@ public class Vue {
             System.out.println("(5) Offrir un produit");
             System.out.print("\nChoisissez une option: ");
     }
-
+    /**
+     * Affiche un avertissement pour confirmer la suppression du compte.
+     */
     public static void avertissementSuppressionCompte() {
         System.out.println("Êtes-vous sûr de vouloir supprimer votre compte ? (oui/non)");
     }
-
+    
+    /**
+     * Affiche un avertissement pour une entrée invalide.
+     */
     public static void  avertissementEntreInvalide() {
         System.out.println("Entrée(s) invalide(s)");
         Controleur.dodo(1500);
         
     }
 
+    /**
+     * Affiche un avertissement pour une seconde tentative d'entrée invalide.
+     */
     public static void  avertissementEntreInvalideSecondeTentative() {
         System.out.println("Voulez-vous réessayer ? (oui/non)");
         
     }
-
+    
+     /**
+     * Affiche le catalogue de produits.
+     * @param baseDeDonnesTypesDeProduit La liste des types de produits contenue dans la base de données du programme.
+     */
 
     public static void afficherCatalogueProduits(List<TypeDeProduit> baseDeDonnesTypesDeProduit) {
         System.out.println("\nCatalogue de produits:\n");
@@ -91,7 +130,11 @@ public class Vue {
         }
     }
 
-
+    /**
+     * Affiche les détails d'un produit.
+     *
+     * @param produit Le Type de produit dont les détails doivent être affichés.
+     */
     public static void afficherDetailsDuProduit(TypeDeProduit produit)  { 
         System.out.println("Description : \n\n\n");
         Controleur.dodo(1000);
@@ -107,11 +150,17 @@ public class Vue {
 
     }
 
+    /**
+     * Affiche les options du catalogue de produits pour les invités.
+     */
     public static void afficherOptionsGuestCatalogueProduit() {
         System.out.println("(1) Faire une recherche");
         System.out.println("(2) Revenu au menu principal");
     }
 
+    /**
+     * Affiche les options du catalogue de produits pour les acheteurs.
+     */ 
     public static void afficherOptionsAcheteurCatalogueProduit() {
         System.out.println("(1) Rechercher un produit");
         System.out.println("(2) Sélectionner un produit");
@@ -121,6 +170,9 @@ public class Vue {
 
     }
 
+    /**
+     * Affiche les options d'interaction avec un produit pour les acheteurs.
+    */
     public static void afficherOptionsAcheteurInteractionAvecLeProduit() {
         System.out.println("(1) Afficher la description détaillée du produit");
         System.out.println("(2) Aimer le produit");
@@ -141,6 +193,12 @@ public class Vue {
     //
     //
     // }
+
+     /**
+     * Affiche les évaluations d'un produit.
+     *
+     * @param produit Le produit pour lequel on veut afficher les évaluations.
+     */
     public static void afficherEvaluationsDuProduit(TypeDeProduit produit) { 
         List<Evaluations> listeEvaluationAAfficher = new ArrayList<Evaluations>(); 
         int iter = 0;
@@ -164,6 +222,12 @@ public class Vue {
 
 
     }
+   /**
+   * Affiche les options de recherche de produits autorisées.
+   *
+   * Cette méthode affiche les différentes catégories de produits que l'utilisateur peut
+   * sélectionner lorsqu'il effectue une recherche de produits.
+   */
     public static  void afficherOptionsRechercheProduitPermises() {
         System.out.println("(1) Livres et manuels");
         System.out.println("(2) Ressources d'apprentissage");
@@ -171,7 +235,12 @@ public class Vue {
         System.out.println("(4) Matériel informatique");
         System.out.println("(5) Équipement de bureau");
     }
-
+     /**
+     * Affiche les produits par catégorie.
+     *
+     * @param categorie La catégorie des produits à afficher.
+     * @param produits La liste des produits qu'on souhaite filtrer par catégorie.
+     */
     public static void afficherProduitsParCategorie(String categorie, List<TypeDeProduit> produits) {
 
         List<TypeDeProduit> listeFiltreParCategorie = new ArrayList<TypeDeProduit>();
@@ -185,6 +254,12 @@ public class Vue {
         afficherCatalogueProduits(listeFiltreParCategorie);
 
     }
+
+     /**
+     * Affiche le contenue du panier pour un acheteur.
+     *
+     * @param panier Le panier à afficher.
+     */
 
     public static void afficherPanier(Panier panier){
             if (panier.getTypeDeProduits().size() == 0) {
