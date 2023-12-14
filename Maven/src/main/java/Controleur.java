@@ -745,30 +745,54 @@ public class Controleur {
             return;
         }
 
-        LinkedList<Produit> produitsAcheter = new LinkedList<>();
         for (TypeDeProduit typeDeProduit : acheteur.getPanier().getTypeDeProduits()) {
-            int idProduitUnique = genererIdProduitUnique();
             int quantite = demanderQuantiteProduit(typeDeProduit);
+            if (quantite > typeDeProduit.getQuantiteDisponible()) {
+                System.out.println("Quantité insuffisante pour le produit : " + typeDeProduit.getTitreProduit());
+                continue;
+            }
+
+            int idProduitUnique = genererIdProduitUnique();
             Produit produit = new Produit(idProduitUnique, typeDeProduit.getTitreProduit(),
                                           typeDeProduit.getCategorieProduit(), typeDeProduit.getDescriptionProduit(),
                                           quantite, typeDeProduit.getPrixProduit());
-            produitsAcheter.add(produit);
-        }
+            LinkedList<Produit> produitListe = new LinkedList<Produit>();
+            produitListe.add(produit);
 
-        annoncerMethodeDePaiement();
-        int idCommandeUnique = genererIdCommandeUnique();
-        Commande commande = new Commande(idCommandeUnique, produitsAcheter, acheteur, adresse, telephone);
-        commande.setEtatDeLaCommande("Commande effectuée");
 
-        // Traiter la commande (par exemple, l'ajouter à une base de données, l'afficher, etc.) 
-        if (demanderValidationCommande()) {
-            traiterCommande(commande);
-        }
-        // On revient au menu précédent si l'utilisateur indique qu'il veut annuler la commande
-        else {
-            return; 
-        }
+            int idCommandeUnique = genererIdCommandeUnique();
+            Commande commande = new Commande(idCommandeUnique, produitListe, acheteur, adresse, telephone);
+            commande.setEtatDeLaCommande("Commande effectuée");
 
+            if (acheteur.getPanier().getTypeDeProduits().size() > 1) {
+                printWithTypewriterEffect("Votre commande a été divisée en " + acheteur.getPanier().getTypeDeProduits().size() + " commandes, en raison des différents revendeurs impliqués", 40);
+                System.out.println();
+                dodo(1000);
+                printWithTypewriterEffect("vous recevrez une notification pour chacune d'elles si vous compléter la commande", 40); 
+
+                if (demanderValidationCommande()) {
+                    traiterCommande(commande, typeDeProduit);
+
+                }
+            }
+
+            else if (demanderValidationCommande()) {
+                traiterCommande(commande, typeDeProduit);
+            }
+        }
+        acheteur.getPanier().viderPanier(); 
+        System.out.println("\n\n");
+        printWithTypewriterEffect("Votre panier est maintenant vide", 40); 
+        printWithTypewriterEffect("...", 400); 
+        System.out.println();
+        printWithTypewriterEffect("Toutes vos commandes ont été enregistrée", 40); 
+        dodo(1000); 
+        System.out.println();
+        printWithTypewriterEffect("Les revendeur concernés ont été avisé et leur inventaires ont été mis à jour", 40); 
+        System.out.println();
+        printWithTypewriterEffect("Vous serez redirigié vers le catalogue de produits dans 5 secondes", 40); 
+        printWithTypewriterEffect("...", 400); 
+        dodo(3500); 
     }
 
 
@@ -848,9 +872,63 @@ public class Controleur {
         }
     }
     
-    public void traiterCommande(Commande commandeATraiter) {
+    public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProduitPourLaCommande) {
+        miseAjourBasesDeDonneesSuivantCommande(commandeATraiter, typeDeProduitPourLaCommande);
+
+        System.out.println("\n");
+        printWithTypewriterEffect("Mise à jour de la base de données de produits", 40); 
+        printWithTypewriterEffect("...", 300);
+        System.out.println();
+        printWithTypewriterEffect("Soyez patient pour votre commande", 40);
+        dodo(1000); 
+        System.out.println();
+        printWithTypewriterEffect("Le revendeur " + typeDeProduitPourLaCommande.getRevendeurProduit().getIDEntreprise() + " traite présentement " + typeDeProduitPourLaCommande.getRevendeurProduit().getListeDeCommande().size() + " commandes.", 40);
+         
+    }
+
+
+    public void miseAjourBasesDeDonneesSuivantCommande(Commande commande, TypeDeProduit typeDeProduit) {
+        int quantiteAchetee = commande.getProduitAcheter().get(0).getQuantite(); // Obtenir la quantité du produit acheté
+
+        mettreAJourQuantiteDansBaseDeDonnees(typeDeProduit, quantiteAchetee);
+        mettreAJourQuantiteChezRevendeur(typeDeProduit.getRevendeurProduit(), typeDeProduit, quantiteAchetee);
+        mettreAJourFichierCSV(typeDeProduit, quantiteAchetee);
+        miseAjourListeCommandesRevendeur(commande, typeDeProduit.getRevendeurProduit());
+
+    }
+
+
+    public void mettreAJourQuantiteDansBaseDeDonnees(TypeDeProduit typeDeProduit, int quantiteAchetee) {
+        int nouvelleQuantite = typeDeProduit.getQuantiteDisponible() - quantiteAchetee;
+        typeDeProduit.setQuantiteDisponible(nouvelleQuantite);
+    }
+
+    public void mettreAJourQuantiteChezRevendeur(Revendeur revendeur, TypeDeProduit typeDeProduit, int quantiteAchetee) {
+        for (TypeDeProduit produit : revendeur.getListeTypesDeProduits()) {
+            if (produit.equals(typeDeProduit)) {
+                int nouvelleQuantite = produit.getQuantiteDisponible() - quantiteAchetee;
+                produit.setQuantiteDisponible(nouvelleQuantite);
+                break;
+            }
+        }
+    }
+
+
+    public void mettreAJourFichierCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) { 
         return; 
     }
+    public void miseAjourListeCommandesRevendeur(Commande commande, Revendeur revendeur) {
+    // Vérifiez si le revendeur a déjà une liste de commandes initialisée
+    if (revendeur.getListeDeCommande() == null) {
+        revendeur.setListeDeCommandes(new ArrayList<>());
+    }
+
+    // Ajoutez la commande à la liste de commandes du revendeur
+    revendeur.getListeDeCommande().add(commande);
+}
+
+
+
 
 
 

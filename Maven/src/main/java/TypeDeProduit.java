@@ -54,4 +54,8 @@ public class TypeDeProduit {
             nomEntreprise);
     }
     // ... Autres méthodes si nécessaire
+
+    public void setQuantiteDisponible(int quantiteVoulueASet) {
+        this.quantiteDisponible = quantiteVoulueASet;
+    }
 } 

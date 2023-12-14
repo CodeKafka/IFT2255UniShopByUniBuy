@@ -20,6 +20,9 @@ public class Panier {
     public boolean contientLeTypeDeProduit(TypeDeProduit typeDeProduit){  
         return typeDeProduits.contains(typeDeProduit);
     }
+    public void viderPanier() {
+        this.typeDeProduits.clear();
+    }
 
 
 

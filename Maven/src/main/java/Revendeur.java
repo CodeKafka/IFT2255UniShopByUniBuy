@@ -4,6 +4,7 @@ import java.util.List;
 public class Revendeur extends Utilisateur {
     private String nomEntreprise, nomCEO, email, motDePass, telephone;
     private List<TypeDeProduit> typesDeProduits; // listes des produits du Revendeur
+    private List<Commande> listeDeCommandes;
 
     public Revendeur(String nomEntreprise, String nomCEO, String adresseCourriel, String motDePasse, String telephone) {
         super(nomEntreprise, nomCEO, adresseCourriel, motDePasse, telephone); 
@@ -47,6 +48,15 @@ public class Revendeur extends Utilisateur {
 
     public boolean verifierNomEntreprise(String nomEntreprise) {
         return this.nomEntreprise.equals(nomEntreprise);
+    }
+
+    public List<Commande> getListeDeCommande() { 
+        return this.listeDeCommandes;
+    } 
+
+
+    public void setListeDeCommandes(List<Commande> listeDeCommandes) {
+        this.listeDeCommandes = listeDeCommandes;
     }
 
 

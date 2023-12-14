@@ -66,6 +66,11 @@ public class Commande {
     }
 
 
+    public LinkedList<Produit> getProduitAcheter(){
+        return this.produitAcheter;
+    }
+
+
 
 
 }

@@ -9,6 +9,7 @@ public class Acheteur  extends Utilisateur{
     private ArrayList<Suivi> listeDeSuivis; 
     private int nombreProduitsAchetes, nombreCommandePassees, likeRecuReview, pointsFidelite;
 
+
     public Acheteur(String nom, String prenom, String addresseCourriel, String motDePasse, String telephone,
                     String pseudo) {
         super(nom, prenom, addresseCourriel, motDePasse, telephone);
@@ -20,7 +21,7 @@ public class Acheteur  extends Utilisateur{
         return pseudo;
     }
     public Panier getPanier(){
-        return panier;
+        return this.panier;
     }
     @Override
     public String toCSV() {

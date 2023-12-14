@@ -159,7 +159,7 @@ public class Vue {
 
         }
 
-        Controleur.printWithTypewriterEffect("Vous serez redirigé vers le menu précédant dans 5 secondes", 40); 
+        Controleur.printWithTypewriterEffect("Vous serez redirigé vers le menu précédant dans 5 secondes.", 40); 
         Controleur.dodo(5000); 
 
 
@@ -199,7 +199,7 @@ public class Vue {
                 }
                 System.out.println(sb.toString());
             }
-            Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes", 40); 
+            Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes.", 40); 
             Controleur.dodo(5000);
     }
 

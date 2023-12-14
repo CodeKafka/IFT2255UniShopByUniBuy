@@ -5,7 +5,7 @@ public class Produit {
     private int idProduit; 
     private String titre, categorie, description;
     private int quantite; 
-    private double prix;
+    private double prixUnitaire;
     private List<Evaluations> evaluations;
 
     public Produit(int idProduit, String titre, String categorie, String description, int quantite, double prix){
@@ -14,15 +14,15 @@ public class Produit {
         this.categorie = categorie;
         this.description = description;
         this.quantite = quantite;
-        this.prix = prix;
+        this.prixUnitaire = prix;
 
     }
 
     public int getQuantite() {
         return this.quantite;
     }
-    public double getPrix() {
-        return this.prix;
+    public double getPrixUnitaire() {
+        return this.prixUnitaire;
     }
 
     public String getTitre() {
