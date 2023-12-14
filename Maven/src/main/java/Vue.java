@@ -273,6 +273,13 @@ public class Vue {
                             .append("\n");
                 }
                 System.out.println(sb.toString());
+
+                double totalPanier = 0;
+                for (TypeDeProduit objetTypeDeProduit : panier.getTypeDeProduits()){
+                    totalPanier += objetTypeDeProduit.getPrixProduit();
+                }
+                System.out.println("Total : " + totalPanier + "$");
+                System.out.println("Points Cumulables : " + totalPanier + "points");
             }
             Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes.", 40); 
             Controleur.dodo(5000);
