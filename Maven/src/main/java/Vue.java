@@ -102,7 +102,7 @@ public class Vue {
                                                         + " | Quantité disponible : " 
                                                         + produit.getQuantiteDisponible() 
                                                         + " | Fabriquant " + produit.getRevendeurProduit().getIDEntreprise(), 40);
-        Controleur.printWithTypewriterEffect("\n\nVous serez redirigié vers le menu précédent dans 5 secondes", 40);
+        Controleur.printWithTypewriterEffect("\n\nVous serez redirigié vers le menu précédent dans 5 secondes. ", 40);
         Controleur.dodo(5000);
 
     }
@@ -116,7 +116,8 @@ public class Vue {
         System.out.println("(1) Rechercher un produit");
         System.out.println("(2) Sélectionner un produit");
         System.out.println("(3) Afficher mon panier");
-        System.out.println("(4) Revenir au menu principal\n\n");
+        System.out.println("(4) Passer une commande");
+        System.out.println("(5) Revenir au menu principal\n\n");
 
     }
 
@@ -126,7 +127,8 @@ public class Vue {
         System.out.println("(3) Évaluer le produit");
         System.out.println("(4) Ajouter le produit selectionné au panier");
         System.out.println("(5) Afficher les évalutions effectuées par les autres utilisateurs");
-        System.out.println("(6) Afficher le contenu de mon panier\n\n");
+        System.out.println("(6) Afficher le contenu de mon panier");
+        System.out.println("(7) Passer une commande\n\n");
 
     }
 

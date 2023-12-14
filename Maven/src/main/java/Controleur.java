@@ -456,7 +456,10 @@ public class Controleur {
                     Acheteur utilisateurToAcheteur = (Acheteur) acheteurVoulantNaviguerListeDeProduit;
                     Vue.afficherPanier(utilisateurToAcheteur.getPanier());
                     break;
-                case "4":
+                case "4": 
+                    passerUneCommande((Acheteur) acheteurVoulantNaviguerListeDeProduit); 
+                    break;
+                case "5":
                     offrirMenuPrincipal();
                     break;
                 default:
@@ -545,6 +548,9 @@ public class Controleur {
                 case "6":
                     Vue.afficherPanier(acheteurVoulantInteragir.getPanier());
                     break;
+                case "7": 
+                    passerUneCommande(acheteurVoulantInteragir);
+                    break; 
                 default:
                     System.out.println("Choix invalide. Veuillez réessayer.");
                     offrirOptionInteractionsAvecLeProduit(produitPourInteraction, acheteurVoulantInteragir);
@@ -611,6 +617,244 @@ public class Controleur {
             }
         // Si l'action est 1, retour au menu précédent (géré dans la méthode appelante)
     }
+
+
+    public void passerUneCommande(Acheteur acheteur) {
+        if (acheteur.getPanier().getTypeDeProduits().isEmpty()) {
+            printWithTypewriterEffect("Votre panier est vide. Vous ne pouvez pas passer de commande.", 40); 
+            return;
+        }
+
+        printWithTypewriterEffect("(1) Utiliser les informations par défaut", 40);
+        System.out.println();
+        printWithTypewriterEffect("(2) Entrer de nouvelles informations pour la commande", 40);
+        System.out.println("\n");
+
+        System.out.print("Choisissez une option pour la commande : ");
+        int choix = scanner.nextInt();
+        scanner.nextLine(); // Nettoie le buffer
+
+        switch (choix) {
+            case 1:
+                utiliserInformationsParDefaut(acheteur);
+                break;
+            case 2:
+                entrerNouvellesInformations(acheteur);
+                break;
+            default:
+                printWithTypewriterEffect("Choix invalide. Veuillez réessayer.", 40);
+                dodo(2000);
+                passerUneCommande(acheteur);
+                break;
+        }
+
+    }
+
+    public void utiliserInformationsParDefaut(Acheteur acheteur) {
+        System.out.println("\n");
+        printWithTypewriterEffect("Utilisation des informations par défaut...", 40);
+        dodo(1500);
+        String adresse = demanderAdresseLivraison();
+        String numeroTelephone = acheteur.getTelephone();
+        finaliserCommande(acheteur, adresse, numeroTelephone);
+        
+    }
+
+    public void entrerNouvellesInformations(Acheteur acheteur) {
+        System.out.println("\n");
+        printWithTypewriterEffect("Utilisation de nouvelles informations...", 40); 
+        dodo(1500);
+        String adresse = demanderAdresseLivraison(); 
+        String numeroTelephone = demanderTelephone(); 
+        finaliserCommande(acheteur, adresse, numeroTelephone);
+    }
+
+    public String demanderTelephone() { 
+        System.out.println("\n");
+        printWithTypewriterEffect("Veuillez entrer le numéro de téléphone auquel nous pouvons vous contacter pour cette commande : ", 40);
+        String telephone = scanner.nextLine(); 
+
+        if (validerTelephone(telephone)) {
+            printWithTypewriterEffect("Numéro de téléphone enregistré : " + telephone, 40);
+            dodo(1500); 
+        }
+        else {
+            demanderTelephone();
+        }
+        return telephone;
+    }
+
+
+    public String demanderAdresseLivraison() {
+            System.out.println("\n");
+            printWithTypewriterEffect("Veuillez entrer l'adresse de livraison pour cette commande : ", 40);
+            String adresse = scanner.nextLine();
+             
+            // Valider et enregistrer l'adresse - pour l'instant, simplement affichée
+            printWithTypewriterEffect("Adresse de livraison enregistrée : " + adresse, 40);
+            dodo(1500);
+            return adresse;
+    }
+
+    public String demanderModePaiement() { 
+        String mode; 
+        System.out.println("\n\n");
+        System.out.println("(1) PayPal");
+        System.out.println("(2) Débit");
+        System.out.println("(3) Crédit");
+
+        printWithTypewriterEffect("\nChoisissez votre mode de paiement : ", 40); 
+
+
+        int choixPaiement = scanner.nextInt(); 
+        scanner.hasNextLine(); 
+
+        if (choixPaiement < 1 || choixPaiement > 3) { 
+            printWithTypewriterEffect("Choix invalide. Veuillez réessayer.", 40);
+            demanderModePaiement();
+        }
+
+        switch (choixPaiement) {
+            case 1:
+                return "compte Paypal";
+            case 2: 
+                return "carte de dédit";
+            case 3:
+                return "carte de crédit";
+            default: 
+                return null; 
+        } 
+    }
+
+    public void annoncerMethodeDePaiement() {
+        String methodePaiement = demanderModePaiement();
+        printWithTypewriterEffect("Vous avez choisis la méthode de paiment de " + methodePaiement + ".", 40);
+        System.out.println("");
+        printWithTypewriterEffect("Connexion aux serveurs de paiement", 40);
+        printWithTypewriterEffect("...", 250);
+        System.out.print("\n\nSuccès !");
+        dodo(1000);
+        printWithTypewriterEffect(" Votre " + methodePaiement + " a été débité", 40);
+
+    }
+
+
+    public void finaliserCommande(Acheteur acheteur, String adresse, String telephone) {
+        if (acheteur.getPanier().getTypeDeProduits().isEmpty()) {
+            printWithTypewriterEffect("Votre panier est vide. Vous ne pouvez pas passer de commande.", 40); 
+            return;
+        }
+
+        LinkedList<Produit> produitsAcheter = new LinkedList<>();
+        for (TypeDeProduit typeDeProduit : acheteur.getPanier().getTypeDeProduits()) {
+            int idProduitUnique = genererIdProduitUnique();
+            int quantite = demanderQuantiteProduit(typeDeProduit);
+            Produit produit = new Produit(idProduitUnique, typeDeProduit.getTitreProduit(),
+                                          typeDeProduit.getCategorieProduit(), typeDeProduit.getDescriptionProduit(),
+                                          quantite, typeDeProduit.getPrixProduit());
+            produitsAcheter.add(produit);
+        }
+
+        annoncerMethodeDePaiement();
+        int idCommandeUnique = genererIdCommandeUnique();
+        Commande commande = new Commande(idCommandeUnique, produitsAcheter, acheteur, adresse, telephone);
+        commande.setEtatDeLaCommande("Commande effectuée");
+
+        // Traiter la commande (par exemple, l'ajouter à une base de données, l'afficher, etc.) 
+        if (demanderValidationCommande()) {
+            traiterCommande(commande);
+        }
+        // On revient au menu précédent si l'utilisateur indique qu'il veut annuler la commande
+        else {
+            return; 
+        }
+
+    }
+
+
+
+    private int demanderQuantiteProduit(TypeDeProduit typeDeProduit) {
+        int quantite = 0;
+        boolean quantiteValide = false;
+        while (!quantiteValide) {
+            printWithTypewriterEffect("\n\nEntrez la quantité pour le produit " + typeDeProduit.getTitreProduit() + ".", 40); 
+            System.out.println();
+            printWithTypewriterEffect("Notez qu'il y a présentement " + typeDeProduit.getQuantiteDisponible() + " " + typeDeProduit.getTitreProduit() + " disponible(s)  dans l'inventaire.", 40);
+            dodo(1000);
+            System.out.println();
+            System.out.print("Quantité voulue : ");
+            try {
+                quantite = scanner.nextInt();
+                scanner.nextLine(); // Nettoyer le buffer du scanner
+                if (quantite > 0 && quantite <= typeDeProduit.getQuantiteDisponible()) {
+                    quantiteValide = true;
+                } else {
+                    System.out.println("Quantité invalide ou insuffisante. Veuillez réessayer.");
+                    System.out.println("\n\n Note : ");
+                    printWithTypewriterEffect("Si vous vouler annuler votre commande, suivez les instructions suivantes :", 40);
+                    System.out.println("\n");
+                    printWithTypewriterEffect("Veuillez arrêter l'application en appuyant sur crlt + z et contactez le revendeur après avoir redémarré l'application.", 40);
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre.");
+                scanner.nextLine(); // Nettoyer le buffer du scanner
+            }
+        }
+        return quantite;
+    }
+
+    private int genererIdProduitUnique() {
+        return UUID.randomUUID().hashCode();
+    }
+
+    private int genererIdCommandeUnique() {
+        return UUID.randomUUID().hashCode();
+    }
+
+
+
+
+
+    public boolean demanderValidationCommande() {
+        printWithTypewriterEffect("\nToutes les informations ont été enregistrées.\n", 40);
+        System.out.println();
+        printWithTypewriterEffect("Connexion aux serveurs et confirmation", 40); 
+        printWithTypewriterEffect("...", 250);
+        System.out.println();
+        System.out.println("(1) Confirmer et passer la commande");
+        System.out.println("(2) Annuler la commande et revenir au menu précédent\n\n");
+        printWithTypewriterEffect("Voulez-vous passer la commande ?\n", 40);
+
+        while (true) {
+            System.out.print("Entrez votre choix : ");
+            try {
+                int choix = scanner.nextInt();
+                scanner.nextLine(); // Nettoyer le buffer
+
+                switch (choix) {
+                    case 1:
+                        System.out.println("Commande confirmée. Traitement en cours...");
+                        return true; // Confirmer la commande
+                    case 2:
+                        System.out.println("Commande annulée. Retour au menu précédent.");
+                        return false; // Annuler la commande
+                    default:
+                        System.out.println("Choix invalide. Veuillez réessayer.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrée invalide. Veuillez entrer un nombre.");
+                scanner.nextLine(); // Nettoyer le buffer
+            }
+        }
+    }
+    
+    public void traiterCommande(Commande commandeATraiter) {
+        return; 
+    }
+
+
+
+    
 
     private void likerProduit(TypeDeProduit produit, Acheteur acheteur) {
         // Implémentez la logique pour "liker" le produit

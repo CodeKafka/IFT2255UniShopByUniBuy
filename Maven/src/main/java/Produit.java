@@ -7,7 +7,6 @@ public class Produit {
     private int quantite; 
     private double prix;
     private List<Evaluations> evaluations;
-    private ArrayList<String> images, videos;
 
     public Produit(int idProduit, String titre, String categorie, String description, int quantite, double prix){
         this.idProduit = idProduit;
@@ -16,7 +15,6 @@ public class Produit {
         this.description = description;
         this.quantite = quantite;
         this.prix = prix;
-        this.evaluations = new ArrayList<Evaluations>();
 
     }
 

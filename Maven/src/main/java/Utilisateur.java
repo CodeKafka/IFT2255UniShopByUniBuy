@@ -16,6 +16,10 @@
             this.addresseCourriel = addresseCourriel;
         }
 
+        public String getTelephone() {
+            return this.telephone;
+        }
+
         public String getAdresseCourriel() {
             return this.addresseCourriel;
         }

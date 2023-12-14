@@ -8,10 +8,12 @@ public class Commande {
     Acheteur acheteur;
     String etatDeLaCommande;
     String numeroDeSuivi;
+    String adresseCommande;
+    String numeroTelephoneCommande;
 
     public Commande(){
     }
-  public Commande(int idCommande, LinkedList<Produit> listeDeProduit, Acheteur acheteur){
+  public Commande(int idCommande, LinkedList<Produit> listeDeProduit, Acheteur acheteur, String adresse, String telephone){
    this.idCommande = idCommande;
    this.produitAcheter = listeDeProduit;
    this.acheteur = acheteur;
@@ -52,11 +54,15 @@ public class Commande {
 
   //public void confirmerReception() ????
 
-  public void SignalerProbleme(){ //annuler plutot
+    public void SignalerProbleme(){ //annuler plutot
 
-  }
+    }
     public void annulerCommande(){ //Gestionnaire de commande
 
+    }
+
+    public void setEtatDeLaCommande(String etat) { 
+        this.etatDeLaCommande = etat;
     }
 
 
