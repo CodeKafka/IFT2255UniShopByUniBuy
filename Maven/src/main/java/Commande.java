@@ -70,7 +70,17 @@ public class Commande {
         return this.produitAcheter;
     }
 
-
-
+    public String toCSV(){     
+        Produit produit = produitAcheter.get(0);
+        double prixDeLaCommande =  produit.getPrixUnitaire()*produit.getQuantite();
+    return String.format("%d,%s,%.2f,%d,%.2f,%s,%s", 
+            idCommande, 
+            produit.getTitre(),
+            produit.getPrixUnitaire(),
+            produit.getQuantite(), 
+            prixDeLaCommande,
+            acheteur.getPseudo(),
+            acheteur.getAdresseCourriel());
+    }
 
 }

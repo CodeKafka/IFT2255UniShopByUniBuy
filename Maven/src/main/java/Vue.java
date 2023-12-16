@@ -70,7 +70,8 @@ public class Vue {
         System.out.println("(2) Revenir au menu principal");   
         System.out.println("(3) Supprimer mon compte");
         System.out.println("(4) Modifier son profil");
-        System.out.println("(5) Naviguer le catalogue de produit en tant qu'acheteur");
+        System.out.println("(5) Voir les commandes réalisées");
+        System.out.println("(6) Naviguer le catalogue de produit en tant qu'acheteur");
         System.out.print("\nChoisissez une option : ");
     }
 
@@ -279,7 +280,7 @@ public class Vue {
                     totalPanier += objetTypeDeProduit.getPrixProduit();
                 }
                 System.out.println("Total : " + totalPanier + "$");
-                System.out.println("Points Cumulables : " + totalPanier + "points");
+                System.out.println("Points Cumulables : " + totalPanier + " points");
             }
             Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes.", 40); 
             Controleur.dodo(5000);

@@ -7,6 +7,8 @@ public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_CSV_TYPEDEPRODUIT= "typeDeProduits.csv";
     private static final String CHEMIN_FICHIER_CSV_EVALUATIONS = "evaluations.csv";
     private static final String CHEMIN_FICHIER_CSV_PANIER_DES_ACHETEURS = "panierdesachteurs.csv";
+    private static final String CHEMIN_FICHIER_CSV_COMMANDES = "commandes.csv";
+
     private static int quantiteUtilisateursFichierCSV; 
 
 
@@ -235,11 +237,43 @@ public class GestionnaireCSV {
         }
     }
 
+    public static void supprimerTypeDeProduitCSV(TypeDeProduit typeDeProduit) {
+        File fichierCSV = new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT);
+        File tempFile = new File(fichierCSV.getAbsolutePath() + ".tmp");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV));
+             PrintWriter pw = new PrintWriter(new FileWriter(tempFile))) {
+
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                if (ligne.length() > 10 && (!ligneContientTypeDeProduit(ligne, typeDeProduit))) {
+                    pw.println(ligne);
+                    pw.flush();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (!fichierCSV.delete()) {
+            System.out.println("Impossible de supprimer l'ancien fichier CSV (Type de produit).");
+            return;
+        }
+        if (!tempFile.renameTo(fichierCSV)) {
+            System.out.println("Impossible de renommer le fichier temporaire (Type de produit).");
+        }
+    }
+
     private static boolean ligneContientUtilisateur(String ligne, Utilisateur utilisateur) {
             String[] champs = ligne.split(",");
             // Supposons que l'email est le troisième champ pour tous les types d'utilisateurs
             return champs[2].equals(utilisateur.getAdresseCourriel());
         }
+    private static boolean ligneContientTypeDeProduit(String ligne, TypeDeProduit typeDeProduit) {
+            String[] champs = ligne.split(",");
+            return champs[0].equals(typeDeProduit.getTitreProduit());
+        }
+
     public static void archiverUtilisateur(Utilisateur utilisateur) {
         try (PrintWriter out = new PrintWriter(new FileOutputStream(CHEMIN_FICHIER_ARCHIVE, true))) {
             out.println(utilisateur.toCSV());
@@ -261,6 +295,9 @@ public class GestionnaireCSV {
 
      public static String getCheminFichierCsvPanierDesAcheteurs() {
         return CHEMIN_FICHIER_CSV_PANIER_DES_ACHETEURS;
+    }
+    public static String getCheminFichierCsvCommandes() {
+        return CHEMIN_FICHIER_CSV_COMMANDES;
     }
 
     public static void modifierCSV(String cheminFichier, String ancienCourriel, String nouveauCourriel,
@@ -318,9 +355,86 @@ public class GestionnaireCSV {
             e.printStackTrace();
         }
     }
+public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) {
+        File fichierCSV = new File("typeDeProduits.csv");
 
+        try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierExistaitDeja) {
+                fichierCSV.createNewFile();
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                if (fichierExistaitDeja) {
+                    out.println();
+                } 
+                out.print(typeDeProduit.toCSV());
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        }
+    }
+
+public static void ecrireCommandeCSV(Commande commande) {
+    File fichierCSV = new File("commandes.csv");
+
+        try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierExistaitDeja) {
+                Controleur.printWithTypewriterEffect("Création d'une liste de commande pour la première fois", 40);
+                System.out.println();
+
+                Controleur.printWithTypewriterEffect("Veuillez patienter 5 secondes", 40);
+                System.out.println("\n\n\n");
+                Controleur.dodo(5000);
+                fichierCSV.createNewFile();
+                
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                if (fichierExistaitDeja) {
+                    out.println();
+                } 
+                out.print(commande.toCSV());
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        } 
 }
 
+public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
+
+    File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
+
+    System.out.println("Utilisateur : " + acheteur.getPseudo());
+        int i = 1;
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV))) {
+            
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                String[] informationsCommande = ligne.split(",");
+
+                if (informationsCommande[5].equals(acheteur.getPseudo())) {
+                    System.out.println("\n"+ i + ".\n" + "ID commande : " + informationsCommande[0] + "\nProduit acheté : " + informationsCommande[1]);
+                    System.out.println("Prix : " + informationsCommande[2] + "\nQantité : " + informationsCommande[3] + "\nTotal de la commande : "+ informationsCommande[4]);
+                    i++;      
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(i == 1){
+            System.out.println("Vous n'avez pas encore réalisé de commande.");
+        }
+}
+
+}
 
 
 

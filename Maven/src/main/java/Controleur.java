@@ -364,6 +364,9 @@ public class Controleur {
                     modifierProfilAcheteur(acheteur);
                     break;
                 case "5":
+                    GestionnaireCSV.afficherCommandesDeLAcheteur( (Acheteur) acheteur ) ; 
+                    break;   
+                case "6":
                     naviguerCatalogueAsUser( (Acheteur) acheteur);
                     break;
                 default:
@@ -915,6 +918,8 @@ public class Controleur {
 
 
     public void mettreAJourFichierCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) { 
+        GestionnaireCSV.supprimerTypeDeProduitCSV(typeDeProduit);
+        GestionnaireCSV.ecrireTypeDeProduitNouvelleQuantiteCSV(typeDeProduit, quantiteAchetee);
         return; 
     }
     public void miseAjourListeCommandesRevendeur(Commande commande, Revendeur revendeur) {
@@ -925,6 +930,7 @@ public class Controleur {
 
     // Ajoutez la commande à la liste de commandes du revendeur
     revendeur.getListeDeCommande().add(commande);
+    GestionnaireCSV.ecrireCommandeCSV(commande);
 }
 
 
