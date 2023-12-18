@@ -365,6 +365,8 @@ public class Controleur {
                     break;
                 case "5":
                     GestionnaireCSV.afficherCommandesDeLAcheteur( (Acheteur) acheteur ) ; 
+                    System.out.println();
+                    dodo(2000);
                     break;   
                 case "6":
                     naviguerCatalogueAsUser( (Acheteur) acheteur);
@@ -930,7 +932,7 @@ public class Controleur {
 
     // Ajoutez la commande à la liste de commandes du revendeur
     revendeur.getListeDeCommande().add(commande);
-    GestionnaireCSV.ecrireCommandeCSV(commande);
+    GestionnaireCSV.ecrireCommandeCSV(commande,revendeur);
 }
 
 
@@ -1328,6 +1330,7 @@ public class Controleur {
     }
 
     public static void initialiserListeTypeDeProduit() {
+        int j = 1;
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvTypedeproduit()))) {
             while (scanner.hasNextLine()) {
                 String[] TypeDeProduitData = scanner.nextLine().split(",");
@@ -1475,6 +1478,58 @@ public class Controleur {
         printWithTypewriterEffect("Les produits de la plateforme ont été initialisé avec succès.", 40); 
         System.out.println("\n\n\n");
         dodo(2000);
+    }
+
+    public static void initialiserCommandes() {
+        int i = 0;
+         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvCommandes()))) {
+            while (scanner.hasNextLine()) {
+                String[] informationsCommande = scanner.nextLine().split(",");
+                Commande commandeActuelle;
+
+                //format : idCommandes0, titreProduit1, idProduit2, prixUnitaire3, quantité4, prixTotale5, nomAcheteur6, nomEntreprise7, emailRevendeur8, adresseLivraison9, téléphoneLivraison10
+                if (informationsCommande.length == 11) {
+                    //chercher le revendeur grace à l'email
+                    Revendeur revendeurDuProduit = (Revendeur) trouverRevendeurParNomEntreprise(informationsCommande[7]);
+                    Acheteur  acheteurDuProduit = trouverAcheteurParPseudo(informationsCommande[6]);
+                    TypeDeProduit typeDeProduitAcheter = trouverTypeDeProduitParTitre(informationsCommande[1]);
+                  
+                    if(revendeurDuProduit == null){
+                        System.out.println("Le Revendeur ayant le nom d'entreprise "+ informationsCommande[7] + " n'existe pas, " +
+                                "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
+                    }
+                    else if(acheteurDuProduit == null){
+                       System.out.println("L'acheteur ayant le pseudo"+ informationsCommande[6] + " n'existe pas, " +
+                                "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
+                    }
+                    else if(typeDeProduitAcheter == null){
+                       System.out.println("Le produit "+ informationsCommande[1] + " n'existe pas, " +
+                                "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
+                    }
+                    else {
+                    Produit produitAcheter = new Produit(Integer.parseInt(informationsCommande[2]), typeDeProduitAcheter.getTitreProduit(),typeDeProduitAcheter.getCategorieProduit(),typeDeProduitAcheter.getDescriptionProduit(),Integer.parseInt(informationsCommande[4]),typeDeProduitAcheter.getPrixProduit());
+                    LinkedList<Produit> listeDeProduitDeLaCommande = new LinkedList<>();
+                    listeDeProduitDeLaCommande.add(produitAcheter);
+                    commandeActuelle = new Commande(Integer.parseInt(informationsCommande[0]),listeDeProduitDeLaCommande,acheteurDuProduit,informationsCommande[9],informationsCommande[10]);
+
+                        revendeurDuProduit.ajouterCommande(commandeActuelle); 
+                        i++;
+                    }
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichier CSV non trouvé.");
+        }
+       
+        printWithTypewriterEffect("Les commandes ont également été initialisé avec succès !", 40);
+        System.out.println();
+        dodo(1000);
+        printWithTypewriterEffect("Un total de "+ i +" commandes ont déja été faites sur Unishop !", 40);
+        System.out.println();
+        dodo(1000);
+
+
     }
 
 }

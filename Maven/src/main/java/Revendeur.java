@@ -4,7 +4,7 @@ import java.util.List;
 public class Revendeur extends Utilisateur {
     private String nomEntreprise, nomCEO, email, motDePass, telephone;
     private List<TypeDeProduit> typesDeProduits; // listes des produits du Revendeur
-    private List<Commande> listeDeCommandes;
+    private List<Commande> listeDeCommandes = new ArrayList<>();
 
     public Revendeur(String nomEntreprise, String nomCEO, String adresseCourriel, String motDePasse, String telephone) {
         super(nomEntreprise, nomCEO, adresseCourriel, motDePasse, telephone); 
@@ -57,6 +57,12 @@ public class Revendeur extends Utilisateur {
 
     public void setListeDeCommandes(List<Commande> listeDeCommandes) {
         this.listeDeCommandes = listeDeCommandes;
+    }
+
+    public void ajouterCommande(Commande commandeAajouter){
+        if(!this.listeDeCommandes.contains(commandeAajouter)){
+            this.listeDeCommandes.add(commandeAajouter);
+        }
     }
 
 

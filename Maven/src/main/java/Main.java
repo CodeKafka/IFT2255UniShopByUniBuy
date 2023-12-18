@@ -9,6 +9,7 @@ public class Main {
             Controleur.initialiserBaseDeDonneesUtilisateurs();
             Controleur.initialiserListeTypeDeProduit();
            // Controleur.initialiserEvaluations();
+           Controleur.initialiserCommandes();
                 
         }
 

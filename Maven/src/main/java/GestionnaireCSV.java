@@ -377,7 +377,7 @@ public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDePr
         }
     }
 
-public static void ecrireCommandeCSV(Commande commande) {
+public static void ecrireCommandeCSV(Commande commande, Revendeur revendeur) {
     File fichierCSV = new File("commandes.csv");
 
         try {
@@ -398,7 +398,7 @@ public static void ecrireCommandeCSV(Commande commande) {
                 if (fichierExistaitDeja) {
                     out.println();
                 } 
-                out.print(commande.toCSV());
+                out.print(commande.toCSV(revendeur));
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -418,9 +418,21 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
             while ((ligne = br.readLine()) != null) {
                 String[] informationsCommande = ligne.split(",");
 
-                if (informationsCommande[5].equals(acheteur.getPseudo())) {
-                    System.out.println("\n"+ i + ".\n" + "ID commande : " + informationsCommande[0] + "\nProduit acheté : " + informationsCommande[1]);
-                    System.out.println("Prix : " + informationsCommande[2] + "\nQantité : " + informationsCommande[3] + "\nTotal de la commande : "+ informationsCommande[4]);
+                if (ligne.length() > 10 && informationsCommande[6].equals(acheteur.getPseudo())) {
+                    System.out.println("\n"+ i + "-" + "\nID commande : " + informationsCommande[0] +
+                    "\n    Information sur le produit : " +
+                    "\nProduit acheté : " + informationsCommande[1] +
+                    "\nPrix : " + informationsCommande[3] + "$ " +
+                    "\nQantité : " + informationsCommande[4] +
+                    "\nTotal de la commande : " + informationsCommande[5] + "$ " +
+                    "\n    Information sur le revendeur : " +
+                    "\nNom de l'entreprise : " + informationsCommande[7]+
+                    "\nadresse courriel de l'entreprise : " + informationsCommande[8]+
+                    "\n    Information utilisée pour réaliser la commande : " +
+                    "\nadresse de livraison : " + informationsCommande[9] +
+                    "\nnuméro de téléphone : " + informationsCommande[10]
+                    );
+
                     i++;      
                 }
             }

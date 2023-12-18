@@ -70,17 +70,22 @@ public class Commande {
         return this.produitAcheter;
     }
 
-    public String toCSV(){     
+    public String toCSV(Revendeur revendeurDuProduit){     
+        
         Produit produit = produitAcheter.get(0);
         double prixDeLaCommande =  produit.getPrixUnitaire()*produit.getQuantite();
-    return String.format("%d,%s,%.2f,%d,%.2f,%s,%s", 
+    return String.format("%d,%s,%d,%.2f,%d,%.2f,%s,%s,%s,%s,%s", 
             idCommande, 
             produit.getTitre(),
+            produit.getIdProduit(),
             produit.getPrixUnitaire(),
             produit.getQuantite(), 
             prixDeLaCommande,
             acheteur.getPseudo(),
-            acheteur.getAdresseCourriel());
+            revendeurDuProduit.getIDEntreprise(),
+            revendeurDuProduit.getEmail(),
+            adresseCommande,
+            numeroTelephoneCommande);
     }
 
 }
