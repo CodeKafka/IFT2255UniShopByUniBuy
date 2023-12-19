@@ -367,7 +367,7 @@ public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDePr
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-                    out.println();
+                    out.print(typeDeProduit.toCSV());
                 } 
                 out.print(typeDeProduit.toCSV());
             }
