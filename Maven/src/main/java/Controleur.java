@@ -367,8 +367,18 @@ public class Controleur {
                     GestionnaireCSV.afficherCommandesDeLAcheteur( (Acheteur) acheteur ) ; 
                     System.out.println();
                     dodo(2000);
-                    break;   
+                    break; 
                 case "6":
+                    demanderConfirmationDuneCommande((Acheteur) acheteur ) ; 
+                    System.out.println();
+                    dodo(2000);
+                    break;      
+                case "7":
+                    signalerProblemeAvecUneCommande((Acheteur) acheteur );
+                    System.out.println();
+                    dodo(2000);
+                    break;     
+                case "8":
                     naviguerCatalogueAsUser( (Acheteur) acheteur);
                     break;
                 default:
@@ -377,6 +387,132 @@ public class Controleur {
             }
         }
     }
+
+    private void signalerProblemeAvecUneCommande(Acheteur acheteur) {
+        printWithTypewriterEffect("Voici les commandes que vous avez réalisées : \n", 40);
+        GestionnaireCSV.afficherCommandesDeLAcheteur(acheteur);
+
+        int IdCommande = demanderIDdelacommande(acheteur);
+        Commande commande = trouverCommandeParID(acheteur,IdCommande);
+
+        if(commande != null){ 
+            Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(commande.getProduitAcheter().get(0).getTitre());
+            printWithTypewriterEffect("Voici la commande que vous avez sélectionné : \n", 40);
+            afficherCommande(commande);
+            printWithTypewriterEffect("Êtes vous sur de vouloir signaler un problème avec cette commande ?(oui/non) : \n", 40);
+            String choix = scanner.nextLine();
+
+            if (choix.equalsIgnoreCase("oui")) {
+            commande.setEtatDeLaCommande("Signalé");
+            GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande, revendeur);
+            printWithTypewriterEffect("La commande "+ IdCommande +" à été signalée au revendeur \n", 40);
+
+            } else if (choix.equalsIgnoreCase("non")){
+            printWithTypewriterEffect("L'état de la commande "+ IdCommande +" n'as pas été signalée \n", 40);
+            }
+
+        }
+    }
+
+    private void demanderConfirmationDuneCommande(Acheteur acheteur) {
+      
+        int IdCommande = demanderIDdelacommande(acheteur);
+        Commande commande = trouverCommandeParID(acheteur,IdCommande);
+
+        if(commande != null){
+            Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(commande.getProduitAcheter().get(0).getTitre());
+            printWithTypewriterEffect("Voici la commande que vous avez sélectionné : \n", 40);
+            afficherCommande(commande);
+
+            printWithTypewriterEffect("Êtes vous sur de vouloir modifié l'état de la commande à livré ?(oui/non) : \n", 40);
+            String choix = scanner.nextLine();
+
+            if (choix.equalsIgnoreCase("oui")) {
+            commande.setEtatDeLaCommande("Livrée");
+            GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande, revendeur);
+            printWithTypewriterEffect("L'état de la commande "+ IdCommande +" à été mis à livrée  \n", 40);
+   
+            } else if (choix.equalsIgnoreCase("non")){
+            printWithTypewriterEffect("L'état de la commande "+ IdCommande +" n'as pas été changé \n", 40);
+            }
+        
+            
+        }
+
+    }
+    public Revendeur trouverRevendeurParTitreTypeDeProduit(String titreTypeDeProduit){
+
+        for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
+            try{
+                Revendeur revendeur = (Revendeur) utilisateur;
+                for(TypeDeProduit typeDeProduit : revendeur.getListeTypesDeProduits()){
+                  if( titreTypeDeProduit.equals(typeDeProduit.getTitreProduit())){
+                   return revendeur;
+                  }
+                }   
+                }
+            catch(ClassCastException e){}
+          }
+          return null;
+
+    }
+
+    private void afficherCommande(Commande commande) {
+        
+        String nomDuProduit = commande.getProduitAcheter().get(0).getTitre();
+        int quantite = commande.getProduitAcheter().get(0).getQuantite();
+        double prix = commande.getProduitAcheter().get(0).getPrixUnitaire();
+        Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(nomDuProduit);
+
+        System.out.println("\nID commande : " + commande.getidCommande() +
+                    "\n    Information sur le produit : " +
+                    "\nProduit acheté : " + nomDuProduit +
+                    "\nPrix : " + prix + "$ " +
+                    "\nQantité : " + quantite +
+                    "\nTotal de la commande : " + prix*quantite + "$ " +
+                    "\n    Information sur le revendeur : " +
+                    "\nNom de l'entreprise : " +revendeur.getIDEntreprise() +
+                    "\nadresse courriel de l'entreprise : " + revendeur.getAdresseCourriel() +
+                    "\n    Information utilisée pour réaliser la commande : " +
+                    "\nadresse de livraison : " + commande.getAdresseDeLivraison() +
+                    "\nnuméro de téléphone : " + commande.getNumeroTelephoneCommande() + 
+                    "\n    État de la commande : " +
+                    "\nétat de l'acheminement : " + commande.getEtatDeLaCommande() + "\n\n"
+                    );
+    }
+
+    private Commande trouverCommandeParID(Acheteur acheteur, int IdCommande) {
+        
+          for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
+            try{
+                Revendeur revendeur = (Revendeur) utilisateur;
+                for(Commande commandeDuRevendeur : revendeur.getListeDeCommande()){
+
+                  if((commandeDuRevendeur.getidCommande() == (IdCommande)) && commandeDuRevendeur.getPseudoDeLacheteur() == acheteur.getPseudo()){
+                   return commandeDuRevendeur;
+                  }
+                }   
+                }
+            catch(ClassCastException e){}
+          }
+          printWithTypewriterEffect("\nLa commande que vous avez entré est introuvable", 40);;
+          return null;
+    }
+
+    private int demanderIDdelacommande(Acheteur acheteur) {
+        int intIdCommande = 0;
+        System.out.println("\n");
+        printWithTypewriterEffect("Veuillez entrer l'ID de la commande que vous souhaité sélectionné : ", 40);
+        String Idcommande = scanner.nextLine();
+        try {
+            intIdCommande = Integer.parseInt(Idcommande);
+        } catch (NumberFormatException e) {
+            System.out.println("La valeur de l'ID entrée n'est pas un entier valide.");
+        }
+
+        return intIdCommande;
+    }
+
     public void afficherMenuRevendeur(Revendeur revendeur) {
         boolean continuer = true;
         while (continuer) {
@@ -1488,7 +1624,7 @@ public class Controleur {
                 Commande commandeActuelle;
 
                 //format : idCommandes0, titreProduit1, idProduit2, prixUnitaire3, quantité4, prixTotale5, nomAcheteur6, nomEntreprise7, emailRevendeur8, adresseLivraison9, téléphoneLivraison10
-                if (informationsCommande.length == 11) {
+                if (informationsCommande.length == 12) {
                     //chercher le revendeur grace à l'email
                     Revendeur revendeurDuProduit = (Revendeur) trouverRevendeurParNomEntreprise(informationsCommande[7]);
                     Acheteur  acheteurDuProduit = trouverAcheteurParPseudo(informationsCommande[6]);
@@ -1511,7 +1647,7 @@ public class Controleur {
                     LinkedList<Produit> listeDeProduitDeLaCommande = new LinkedList<>();
                     listeDeProduitDeLaCommande.add(produitAcheter);
                     commandeActuelle = new Commande(Integer.parseInt(informationsCommande[0]),listeDeProduitDeLaCommande,acheteurDuProduit,informationsCommande[9],informationsCommande[10]);
-
+                    commandeActuelle.setEtatDeLaCommande(informationsCommande[11]);
                         revendeurDuProduit.ajouterCommande(commandeActuelle); 
                         i++;
                     }

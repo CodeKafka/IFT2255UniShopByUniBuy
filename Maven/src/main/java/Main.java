@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
         Vue vue = new Vue();
         Controleur controleur = new Controleur(vue);
         if (Controleur.verifierExistanceFichierCSVUtilisateurs()) { 

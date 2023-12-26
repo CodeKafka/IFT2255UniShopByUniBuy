@@ -26,6 +26,7 @@ public class Commande {
       Integer valeur = 0;
 
       System.out.print("Veuillez entrer l'état de la commande (entrez un chiffre) :\n 1-Collecte  \n 2-En acheminement \n 3-Livrée ");
+      System.out.print("\n Entrer votre choix :");
 
       try{
       valeur = scanner.nextInt();}
@@ -48,9 +49,25 @@ public class Commande {
           System.out.println("L'état de la commande n'as pas été modifiée");
       }
 
-      scanner.close();
+    
     }
 
+
+    public int getidCommande(){
+        return idCommande;
+    }
+
+    public String getPseudoDeLacheteur(){
+        return acheteur.getPseudo();
+    }
+
+    public String getAdresseDeLivraison(){
+        return adresseCommande;
+    }
+
+     public String getNumeroTelephoneCommande(){
+        return numeroTelephoneCommande;
+    }
 
   //public void confirmerReception() ????
 
@@ -74,7 +91,7 @@ public class Commande {
         
         Produit produit = produitAcheter.get(0);
         double prixDeLaCommande =  produit.getPrixUnitaire()*produit.getQuantite();
-    return String.format("%d,%s,%d,%.2f,%d,%.2f,%s,%s,%s,%s,%s", 
+    return String.format("%d,%s,%d,%.2f,%d,%.2f,%s,%s,%s,%s,%s,%s", 
             idCommande, 
             produit.getTitre(),
             produit.getIdProduit(),
@@ -85,7 +102,11 @@ public class Commande {
             revendeurDuProduit.getIDEntreprise(),
             revendeurDuProduit.getEmail(),
             adresseCommande,
-            numeroTelephoneCommande);
+            numeroTelephoneCommande,
+            etatDeLaCommande);
+    }
+    public String getEtatDeLaCommande() {
+        return etatDeLaCommande;
     }
 
 }

@@ -41,7 +41,7 @@ public class GestionnaireCSV {
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-                    out.println();
+                    out.print(utilisateur.toCSV());
                 } 
                 out.print(utilisateur.toCSV());
             }
@@ -346,7 +346,7 @@ public class GestionnaireCSV {
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-                    out.println();
+                    out.print(acheteur.getPseudo() +", "+ typeDeProduit.getTitreProduit());
                 } 
                 out.print(acheteur.getPseudo() +", "+ typeDeProduit.getTitreProduit());
             }
@@ -367,9 +367,9 @@ public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDePr
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-                    out.print(typeDeProduit.toCSV());
+                    out.print("");
                 } 
-                out.print(typeDeProduit.toCSV());
+                out.println(typeDeProduit.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -396,9 +396,9 @@ public static void ecrireCommandeCSV(Commande commande, Revendeur revendeur) {
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-                    out.println();
+                    out.print("");
                 } 
-                out.print(commande.toCSV(revendeur));
+                out.println(commande.toCSV(revendeur));
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -430,7 +430,9 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
                     "\nadresse courriel de l'entreprise : " + informationsCommande[8]+
                     "\n    Information utilisée pour réaliser la commande : " +
                     "\nadresse de livraison : " + informationsCommande[9] +
-                    "\nnuméro de téléphone : " + informationsCommande[10]
+                    "\nnuméro de téléphone : " + informationsCommande[10] +
+                    "\n    État de la commande : " +
+                    "\nétat de l'acheminement : " + informationsCommande[11]
                     );
 
                     i++;      
@@ -444,6 +446,51 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
         if(i == 1){
             System.out.println("Vous n'avez pas encore réalisé de commande.");
         }
+}
+
+
+
+public static void modifierEtatDeLaCommandeDansLeCSV(Commande commande, Revendeur revendeur) {
+    supprimerCommandeDansLeCSV(commande);
+    ecrireCommandeCSV(commande, revendeur);
+}
+
+private static void supprimerCommandeDansLeCSV(Commande commande) {
+    File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
+        File tempFile = new File(fichierCSV.getAbsolutePath() + ".tmp");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV));
+             PrintWriter pw = new PrintWriter(new FileWriter(tempFile))) {
+
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                if (ligne.length() > 10 && (!ligneContientCommande(ligne, commande))) {
+                    pw.println(ligne);
+                    pw.flush();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (!fichierCSV.delete()) {
+            System.out.println("Impossible de supprimer l'ancien fichier CSV (Commande).");
+            return;
+        }
+        if (!tempFile.renameTo(fichierCSV)) {
+            System.out.println("Impossible de renommer le fichier temporaire (Commande).");
+        }
+}
+
+private static boolean ligneContientCommande(String ligne, Commande commande) {
+    String[] champs = ligne.split(",");
+    try {
+        int idCommandeCSV = Integer.parseInt(champs[0]);
+        return idCommandeCSV == commande.getidCommande();
+    } catch (NumberFormatException e) {
+        
+    }
+   return false;
 }
 
 }

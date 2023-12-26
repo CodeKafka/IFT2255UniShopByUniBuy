@@ -1,0 +1,320 @@
+Attributs de la classe Main :
+
+Méthodes de la classe Main :
+- + main(String[] arg1) : void
+- - getReturnType(Type arg1) : String
+- - getFieldType(Field arg1) : String
+- - getTypeString(Type arg1) : String
+- + inspectDirectory(String arg1) : void
+- + inspectClass(java.lang.Class<?> arg1) : void
+- - getVisibilitySymbol(int arg1) : String
+- - getParameterType(Type arg1) : String
+- - lambda$0(File arg1, String arg2) : boolean
+
+Attributs de la classe GestionnaireDeProduit :
+- - CHEMIN_FICHIER_PRODUITS : String
+
+Méthodes de la classe GestionnaireDeProduit :
+- + enregistrerTypeDeProduit(TypeDeProduit arg1, String arg2) : void
+- + initialiserTypeDeProduit() : void
+
+Attributs de la classe Utilisateur :
+- - nom : String
+- - prenom : String
+- - addresseCourriel : String
+- - motDePasse : String
+- - telephone : String
+
+Méthodes de la classe Utilisateur :
+- + toCSV() : String
+- + getMotDePasse() : String
+- + setAddresseCourriel(String arg1) : void
+- + getTelephone() : String
+- + getAdresseCourriel() : String
+- + setNom(String arg1) : void
+- + setPrenom(String arg1) : void
+- + setTelephone(String arg1) : void
+- + setMotDePasse(String arg1) : void
+- + supprimerCompte() : void
+- + verifierMotDePasse(String arg1) : boolean
+- + verifierEmail(String arg1) : boolean
+
+Attributs de la classe TypeDeProduit :
+- - titreProduit : String
+- - categorieProduit : String
+- - descriptionProduit : String
+- - revendeurProduit : Revendeur
+- - prixProduit : double
+- - quantiteDisponible : int
+
+Méthodes de la classe TypeDeProduit :
+- + toCSV() : String
+- + getTitreProduit() : String
+- + getCategorieProduit() : String
+- + getDescriptionProduit() : String
+- + getPrixProduit() : double
+- + getQuantiteDisponible() : int
+- + getRevendeurProduit() : Revendeur
+- + setQuantiteDisponible(int arg1) : void
+
+Attributs de la classe ListeDeSouhaits :
+- - listeProduitsSouhaites : HashMap<Acheteur, Produit>
+
+Méthodes de la classe ListeDeSouhaits :
+- + ajouterAListeDeSouaits(Produit arg1) : void
+- + retirerDeListeDeSouhaits(Produit arg1) : void
+
+Attributs de la classe Evaluations :
+- - produit : TypeDeProduit
+- - acheteur : Acheteur
+- - note : int
+- - commentaire : String
+
+Méthodes de la classe Evaluations :
+- + toCSV() : String
+- + getNote() : int
+- + getReviewText() : String
+- + getProduit() : TypeDeProduit
+
+Attributs de la classe Produit :
+- - idProduit : int
+- - titre : String
+- - categorie : String
+- - description : String
+- - quantite : int
+- - prixUnitaire : double
+- - evaluations : List<Evaluations>
+
+Méthodes de la classe Produit :
+- + getQuantite() : int
+- + getPrixUnitaire() : double
+- + getTitre() : String
+- + setQuantite(int arg1) : void
+- + getIdProduit() : int
+- + getEvaluations() : List<Evaluations>
+- + ajouterEvaluation(Evaluations arg1) : void
+
+Attributs de la classe Acheteur :
+- - pseudo : String
+- - panier : Panier
+- - collectionDeListesDeSouhaits : ArrayList<ListeDeSouhaits>
+- - gestionnaireDeProblemes : GestionnaireDeProblemes
+- - listeDeSuivis : ArrayList<Suivi>
+- - nombreProduitsAchetes : int
+- - nombreCommandePassees : int
+- - likeRecuReview : int
+- - pointsFidelite : int
+
+Méthodes de la classe Acheteur :
+- + toCSV() : String
+- + getAdresseCourriel() : String
+- + setEmail(String arg1) : void
+- + getPseudo() : String
+- + getPanier() : Panier
+- + setPseudo(String arg1) : void
+
+Attributs de la classe Vue :
+
+Méthodes de la classe Vue :
+- + afficherMenuPrincipal() : void
+- + afficherMenuConnexion() : void
+- + afficherFormulaireInscription() : void
+- + afficherFormulaireConnexion() : void
+- + afficherProduits(ArrayList<Produit> arg1) : void
+- + afficherOptionsMenuAcheteur() : void
+- + afficherOptionsRevendeur() : void
+- + avertissementSuppressionCompte() : void
+- + avertissementEntreInvalide() : void
+- + avertissementEntreInvalideSecondeTentative() : void
+- + afficherCatalogueProduits(List<TypeDeProduit> arg1) : void
+- + afficherDetailsDuProduit(TypeDeProduit arg1) : void
+- + afficherOptionsGuestCatalogueProduit() : void
+- + afficherOptionsAcheteurCatalogueProduit() : void
+- + afficherOptionsAcheteurInteractionAvecLeProduit() : void
+- + afficherEvaluationsDuProduit(TypeDeProduit arg1) : void
+- + afficherOptionsRechercheProduitPermises() : void
+- + afficherProduitsParCategorie(String arg1, List<TypeDeProduit> arg2) : void
+- + afficherPanier(Panier arg1) : void
+
+Attributs de la classe Commande :
+- ~ idCommande : int
+- ~ produitAcheter : LinkedList<Produit>
+- ~ acheteur : Acheteur
+- ~ etatDeLaCommande : String
+- ~ numeroDeSuivi : String
+- ~ adresseCommande : String
+- ~ numeroTelephoneCommande : String
+
+Méthodes de la classe Commande :
+- + toCSV(Revendeur arg1) : String
+- + MettreAjourEtatDeLaCommande() : void
+- + SignalerProbleme() : void
+- + annulerCommande() : void
+- + setEtatDeLaCommande(String arg1) : void
+- + getProduitAcheter() : LinkedList<Produit>
+
+Attributs de la classe GestionnaireDeProblemes :
+- - listeDeProblemes : ArrayList<Probleme>
+
+Méthodes de la classe GestionnaireDeProblemes :
+- + signalerProbleme(Probleme arg1) : void
+- + proposerSolution(Probleme arg1) : void
+- + suivreProbleme(Probleme arg1) : void
+
+Attributs de la classe Revendeur :
+- - nomEntreprise : String
+- - nomCEO : String
+- - email : String
+- - motDePass : String
+- - telephone : String
+- - typesDeProduits : List<TypeDeProduit>
+- - listeDeCommandes : List<Commande>
+
+Méthodes de la classe Revendeur :
+- + toCSV() : String
+- + getIDEntreprise() : String
+- + getEmail() : String
+- + ajouterTypeDeProduit(TypeDeProduit arg1) : void
+- + getListeTypesDeProduits() : List<TypeDeProduit>
+- + setEmail(String arg1) : void
+- + setNomEntreprise(String arg1) : void
+- + verifierNomEntreprise(String arg1) : boolean
+- + getListeDeCommande() : List<Commande>
+- + setListeDeCommandes(List<Commande> arg1) : void
+- + ajouterCommande(Commande arg1) : void
+
+Attributs de la classe Controleur :
+- - vue : Vue
+- ~ options : String[]
+- - scanner : Scanner
+- - baseDeDonneesUtilisateurs : List<Utilisateur>
+- - baseDeDonnesTypesDeProduit : List<TypeDeProduit>
+- + baseDeDonnesEvaluations : List<Evaluations>
+- - nomsEtDescriptionsProduitsParDefaut : Map<String, String>
+
+Méthodes de la classe Controleur :
+- + getBaseDeDonneesUtilisateurs() : List<Utilisateur>
+- + demarrerApplication() : void
+- + offrirMenuPrincipal() : void
+- + clearScreen() : void
+- + inscrireUtilisateur() : void
+- + connecterUtilisateur() : void
+- + naviguerCatalogueAsGuest() : void
+- + getBaseDeDonneesTypesDeProduit() : List<TypeDeProduit>
+- + dodo(int arg1) : void
+- + printWithTypewriterEffect(String arg1, int arg2) : void
+- - inscrireAcheteur() : void
+- - inscrireRevendeur() : void
+- - validerEmail(String arg1) : boolean
+- - validerMotDePasse(String arg1) : boolean
+- - validerTelephone(String arg1) : boolean
+- - connecterAcheteur() : void
+- - connecterRevendeur() : void
+- - trouverAcheteurParPseudo(String arg1) : Acheteur
+- + afficherMenuAcheteur(Utilisateur arg1) : void
+- - trouverUtilisateurParMotDePasse(String arg1) : Utilisateur
+- + afficherMenuRevendeur(Revendeur arg1) : void
+- + annulerInscription() : void
+- - modifierProfilAcheteur(Utilisateur arg1) : void
+- + naviguerCatalogueAsUser(Utilisateur arg1) : void
+- - modifierProfilRevendeur(Utilisateur arg1) : void
+- + offrirUnProduit(Revendeur arg1) : void
+- + rechercherUnProduitParCategorie(Utilisateur arg1) : void
+- + selectionnerUnProduitParNom(Acheteur arg1) : void
+- + passerUneCommande(Acheteur arg1) : void
+- + offrirOptionInteractionsAvecLeProduit(TypeDeProduit arg1, Acheteur arg2) : void
+- - evaluerProduit(TypeDeProduit arg1, Acheteur arg2) : void
+- - ajouterProduitSelectionneAupanier(Acheteur arg1, TypeDeProduit arg2) : void
+- + utiliserInformationsParDefaut(Acheteur arg1) : void
+- + entrerNouvellesInformations(Acheteur arg1) : void
+- + demanderAdresseLivraison() : String
+- + finaliserCommande(Acheteur arg1, String arg2, String arg3) : void
+- + demanderTelephone() : String
+- + demanderModePaiement() : String
+- + annoncerMethodeDePaiement() : void
+- - demanderQuantiteProduit(TypeDeProduit arg1) : int
+- - genererIdProduitUnique() : int
+- - genererIdCommandeUnique() : int
+- + demanderValidationCommande() : boolean
+- + traiterCommande(Commande arg1, TypeDeProduit arg2) : void
+- + miseAjourBasesDeDonneesSuivantCommande(Commande arg1, TypeDeProduit arg2) : void
+- + mettreAJourQuantiteDansBaseDeDonnees(TypeDeProduit arg1, int arg2) : void
+- + mettreAJourQuantiteChezRevendeur(Revendeur arg1, TypeDeProduit arg2, int arg3) : void
+- + mettreAJourFichierCSV(TypeDeProduit arg1, int arg2) : void
+- + miseAjourListeCommandesRevendeur(Commande arg1, Revendeur arg2) : void
+- - likerProduit(TypeDeProduit arg1, Acheteur arg2) : void
+- - afficherEvaluationsProduit(TypeDeProduit arg1) : void
+- + afficherEvaluationsProduit(Produit arg1) : void
+- + choisirUneCategorie(int arg1) : String
+- + afficherCategorie() : void
+- + validateProduct(String arg1, double arg2, int arg3) : boolean
+- + initialiserBaseDeDonneesUtilisateurs() : void
+- + verifierExistanceFichierCSVUtilisateurs() : boolean
+- + verifierUniqueProduit(Revendeur arg1, String arg2) : boolean
+- + ajouterABaseDeDonnesTypesDeProduits(TypeDeProduit arg1) : void
+- - removeUserByEmail(String arg1) : void
+- + verifierExistanceFichierCSVTypesDeProduits() : boolean
+- + trouverTypeDeProduitParTitre(String arg1) : TypeDeProduit
+- + initialiserEvaluations() : void
+- - trouverRevendeurParNomEntreprise(String arg1) : Utilisateur
+- + initialiserListeTypeDeProduit() : void
+- + InitialiserAcheteursParDefaut() : void
+- + InitialiserRevendeursParDefaut() : void
+- - initialiserNomsEtDescriptionsProduitsParDefaut() : void
+- + initialiserTypeDeProduitParDefaut() : void
+- + initialiserCommandes() : void
+
+Attributs de la classe GestionnaireCSV :
+- - CHEMIN_FICHIER_CSV : String
+- - CHEMIN_FICHIER_ARCHIVE : String
+- - CHEMIN_FICHIER_CSV_TYPEDEPRODUIT : String
+- - CHEMIN_FICHIER_CSV_EVALUATIONS : String
+- - CHEMIN_FICHIER_CSV_PANIER_DES_ACHETEURS : String
+- - CHEMIN_FICHIER_CSV_COMMANDES : String
+- - quantiteUtilisateursFichierCSV : int
+
+Méthodes de la classe GestionnaireCSV :
+- + supprimerUtilisateurCSV(Utilisateur arg1) : void
+- + archiverUtilisateur(Utilisateur arg1) : void
+- - ligneContientTypeDeProduit(String arg1, TypeDeProduit arg2) : boolean
+- + getCheminFichierCsvPanierDesAcheteurs() : String
+- + getQuantiteUtilisateursFichierCSV() : int
+- + lireUtilisateurCSV(String arg1) : Utilisateur
+- + verifierUniqueAdresseCourrielRevendeur(String arg1) : boolean
+- - ligneContientUtilisateur(String arg1, Utilisateur arg2) : boolean
+- + verifierUniqueAdresseCourriel(String arg1) : boolean
+- + verifierUniquePseudo(String arg1) : boolean
+- + ecrireUtilisateurCSV(Utilisateur arg1) : void
+- + incrementeQuantiteUtilisateursFichierCSV() : void
+- + verifierUniqueNomRevendeur(String arg1) : boolean
+- + verifierIdentifiantsAcheteur(String arg1, String arg2) : boolean
+- + verifierIdentifiantsRevendeur(String arg1, String arg2, String arg3) : boolean
+- + afficherCommandesDeLAcheteur(Acheteur arg1) : void
+- + ecrireTypeDeProduitPanierCSV(Acheteur arg1, TypeDeProduit arg2) : void
+- + supprimerTypeDeProduitCSV(TypeDeProduit arg1) : void
+- + ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit arg1, int arg2) : void
+- + ecrireCommandeCSV(Commande arg1, Revendeur arg2) : void
+- + ecrireEvaluationCSV(Evaluations arg1) : void
+- + getCheminFichierCSV() : String
+- + modifierCSV(String arg1, String arg2, String arg3, String arg4, String arg5) : void
+- + getCheminFichierCsvTypedeproduit() : String
+- + getCheminFichierCsvEvaluations() : String
+- + getCheminFichierCsvCommandes() : String
+
+Attributs de la classe Probleme :
+
+Méthodes de la classe Probleme :
+
+Attributs de la classe Panier :
+- - typeDeProduits : LinkedList<TypeDeProduit>
+
+Méthodes de la classe Panier :
+- + ajouterTypeDeProduit(TypeDeProduit arg1) : void
+- + getTypeDeProduits() : LinkedList<TypeDeProduit>
+- + contientLeTypeDeProduit(TypeDeProduit arg1) : boolean
+- + viderPanier() : void
+
+Attributs de la classe Suivi :
+
+Méthodes de la classe Suivi :
+
