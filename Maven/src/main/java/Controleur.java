@@ -405,7 +405,7 @@ public class Controleur {
             if (choix.equalsIgnoreCase("oui")) {
             commande.setEtatDeLaCommande("Signalé");
             GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande, revendeur);
-            printWithTypewriterEffect("La commande "+ IdCommande +" à été signalée au revendeur \n", 40);
+            printWithTypewriterEffect("La commande "+ IdCommande +" à été signalée au revendeur "+ revendeur.getIDEntreprise() +" \n", 40);
 
             } else if (choix.equalsIgnoreCase("non")){
             printWithTypewriterEffect("L'état de la commande "+ IdCommande +" n'as pas été signalée \n", 40);
