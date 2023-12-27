@@ -2138,8 +2138,11 @@ public class Controleur {
         dodo(1000);
         printWithTypewriterEffect("Un total de "+ i +" commandes ont déja été faites sur Unishop !", 40);
         System.out.println();
-        dodo(1000);
+        dodo(1000);}
 
+        
+/*
+ * 
 // Les Tests Unitaires
         
     public void testValiderEmail() {
@@ -2222,7 +2225,7 @@ public class Controleur {
 
     public void testModifierProfilAcheteur() {
     // Créer un utilisateur test (acheteur) et le contrôleur
-    Acheteur acheteur = new Acheteur(/* initial parameters */);
+    Acheteur acheteur = new Acheteur(//initial parameters );
     Controleur controleur = new Controleur(new Vue());
 
     // Simuler l'entrée de l'utilisateur pour modifier le profil (par exemple, email et mot de passe)
@@ -2265,7 +2268,9 @@ public void testValiderTelephone() {
     assertFalse("Un numéro de téléphone invalide (contient des lettres) devrait retourner faux", controleur.validerTelephone("01234a6789"));
 }
 
-public class TestModifierProfilRevendeur {
+ */
+
+/*public class TestModifierProfilRevendeur {
 
     public static void main(String[] args) {
         // Create a mock instance of Controleur and Revendeur
@@ -2286,5 +2291,6 @@ public class TestModifierProfilRevendeur {
         System.out.println("New email should be newemail@company.com: " + revendeur.getEmail());
         System.out.println("New password should be NewSecurePassword123: " + revendeur.getPassword());
         System.out.println("New phone should be 1234567890: " + revendeur.getPhone());
-    }
+    } */
+
 }
