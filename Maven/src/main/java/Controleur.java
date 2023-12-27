@@ -342,6 +342,15 @@ public class Controleur {
             connecterRevendeur(); // Réessayer la connexion
         }
     }
+/**
+ * Affiche l'interface du menu de l'acheteur et gère les entrées utilisateur pour différentes fonctionnalités.
+ * Le menu permet à l'acheteur de réaliser diverses actions incluant la sortie de l'application,
+ * la modification de leur profil, la visualisation et la gestion des commandes, ainsi que la navigation dans le catalogue.
+ * Le menu sera continuellement affiché jusqu'à ce que l'utilisateur choisisse de sortir ou de revenir au menu principal.
+ *
+ * @param acheteur L'objet utilisateur de l'acheteur, contenant son profil et d'autres informations nécessaires.
+ */
+
     public void afficherMenuAcheteur( Utilisateur acheteur) {
         clearScreen();
         boolean continuer = true;
@@ -388,6 +397,15 @@ public class Controleur {
         }
     }
 
+/**
+ * Permet à l'acheteur de signaler un problème avec une de ses commandes.
+ * Cette méthode affiche d'abord toutes les commandes réalisées par l'acheteur,
+ * puis demande à l'utilisateur de choisir une commande spécifique à signaler.
+ * Si une commande valide est sélectionnée, l'utilisateur est invité à confirmer son intention de signaler un problème.
+ * En cas de confirmation, l'état de la commande est mis à jour pour refléter le problème signalé.
+ *
+ * @param acheteur L'acheteur qui souhaite signaler un problème avec une commande.
+ */
     private void signalerProblemeAvecUneCommande(Acheteur acheteur) {
         printWithTypewriterEffect("Voici les commandes que vous avez réalisées : \n", 40);
         GestionnaireCSV.afficherCommandesDeLAcheteur(acheteur);
@@ -414,6 +432,15 @@ public class Controleur {
         }
     }
 
+
+/**
+ * Invite l'acheteur à confirmer la réception d'une commande en modifiant son état à "Livrée".
+ * La méthode demande d'abord à l'acheteur de spécifier l'ID de la commande qu'il souhaite confirmer.
+ * Après la sélection de la commande, l'acheteur est invité à confirmer ou non que la commande a été reçue.
+ * En cas de confirmation, l'état de la commande est mis à jour comme "Livrée".
+ *
+ * @param acheteur L'acheteur qui souhaite confirmer la réception d'une commande.
+ */
     private void demanderConfirmationDuneCommande(Acheteur acheteur) {
       
         int IdCommande = demanderIDdelacommande(acheteur);
@@ -440,6 +467,17 @@ public class Controleur {
         }
 
     }
+
+/**
+ * Recherche dans la base de données des utilisateurs et retourne le revendeur qui propose un type de produit spécifique.
+ * Parcourt tous les utilisateurs enregistrés et tente de les convertir en objet Revendeur.
+ * Pour chaque revendeur, vérifie si l'un de ses types de produits correspond au titre spécifié.
+ * Retourne le premier revendeur correspondant trouvé, ou null si aucun ne correspond.
+ *
+ * @param titreTypeDeProduit Le titre du type de produit pour lequel on cherche un revendeur.
+ * @return Revendeur qui vend le type de produit spécifié, ou null si aucun revendeur correspondant n'est trouvé.
+ */
+    
     public Revendeur trouverRevendeurParTitreTypeDeProduit(String titreTypeDeProduit){
 
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
@@ -456,7 +494,16 @@ public class Controleur {
           return null;
 
     }
-
+    
+/**
+ * Affiche les détails d'une commande donnée, y compris les informations sur le produit acheté,
+ * le prix et la quantité, ainsi que des informations sur le revendeur et l'état actuel de la commande.
+ * La commande est supposée contenir au moins un produit acheté pour que les informations soient récupérées et affichées correctement.
+ * La méthode récupère également les informations du revendeur associé au produit pour afficher ses détails.
+ *
+ * @param commande La commande dont les détails doivent être affichés.
+ */
+    
     private void afficherCommande(Commande commande) {
         
         String nomDuProduit = commande.getProduitAcheter().get(0).getTitre();
@@ -481,6 +528,17 @@ public class Controleur {
                     );
     }
 
+/**
+ * Recherche et retourne une commande spécifique en fonction de l'ID de commande fourni,
+ * en supposant que la commande appartient à l'acheteur donné. Cette méthode parcourt tous les utilisateurs
+ * dans la base de données, tente de les caster en Revendeur, et cherche parmi les commandes de chaque revendeur
+ * pour trouver la commande correspondant à l'ID et l'acheteur spécifiés. Retourne la commande trouvée ou null
+ * si aucune commande correspondante n'est trouvée, avec un message d'erreur affiché à l'utilisateur.
+ *
+ * @param acheteur L'acheteur associé à la commande recherchée.
+ * @param IdCommande L'ID de la commande à rechercher.
+ * @return La commande correspondant à l'ID et à l'acheteur donnés, ou null si aucune commande correspondante n'est trouvée.
+ */
     private Commande trouverCommandeParID(Acheteur acheteur, int IdCommande) {
         
           for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
@@ -499,6 +557,16 @@ public class Controleur {
           return null;
     }
 
+/**
+ * Invite l'acheteur à entrer l'ID de la commande qu'il souhaite sélectionner.
+ * La méthode guide l'acheteur avec un message affiché à l'écran et attend l'entrée de l'utilisateur.
+ * Elle tente ensuite de convertir cette entrée en un entier. Si la conversion échoue,
+ * un message d'erreur est affiché et une valeur par défaut de 0 est retournée.
+ * Sinon, l'ID de commande entré est retourné sous forme d'entier.
+ *
+ * @param acheteur L'acheteur qui est en train de sélectionner une commande.
+ * @return L'ID de la commande en tant qu'entier, ou 0 si une entrée invalide est fournie.
+ */
     private int demanderIDdelacommande(Acheteur acheteur) {
         int intIdCommande = 0;
         System.out.println("\n");
@@ -512,7 +580,14 @@ public class Controleur {
 
         return intIdCommande;
     }
-
+/**
+ * Affiche le menu du revendeur et gère les différentes options de menu que le revendeur peut sélectionner.
+ * Les options incluent quitter l'application, revenir au menu principal, annuler l'inscription,
+ * modifier le profil du revendeur, et offrir un nouveau produit à vendre.
+ * Le menu restera affiché et continuera de demander une entrée jusqu'à ce que le revendeur choisisse de quitter ou de revenir au menu principal.
+ *
+ * @param revendeur Le revendeur actuellement connecté et utilisant l'interface.
+ */
     public void afficherMenuRevendeur(Revendeur revendeur) {
         boolean continuer = true;
         while (continuer) {
@@ -543,6 +618,18 @@ public class Controleur {
             }
         }
     }
+
+
+/**
+ * Permet à un utilisateur invité de naviguer dans le catalogue de produits.
+ * Affiche le catalogue de produits et offre une interaction simple à l'utilisateur 
+ * pour parcourir les produits disponibles ou quitter le navigateur de catalogue.
+ * La navigation continue jusqu'à ce que l'utilisateur choisisse de quitter.
+ *
+ * Le processus consiste à accueillir l'utilisateur, afficher les produits,
+ * puis présenter les options d'interaction. Si l'utilisateur sélectionne une option non disponible,
+ * un message d'erreur est affiché. L'utilisateur peut quitter la navigation à tout moment.
+ */
     public void naviguerCatalogueAsGuest() {
         boolean continuer = true; 
 
@@ -569,6 +656,15 @@ public class Controleur {
         }
     }
 
+/**
+ * Permet à un utilisateur enregistré (acheteur) de naviguer dans le catalogue de produits.
+ * Affiche le catalogue et propose différentes options pour interagir avec les produits,
+ * telles que la recherche par catégorie, la sélection par nom, la visualisation du panier,
+ * la passation de commandes, ou le retour au menu principal.
+ * La navigation continue jusqu'à ce que l'utilisateur choisisse de quitter ou d'effectuer une autre action.
+ *
+ * @param acheteurVoulantNaviguerListeDeProduit L'acheteur qui navigue dans la liste de produits.
+ */
     public void naviguerCatalogueAsUser(Utilisateur acheteurVoulantNaviguerListeDeProduit) {
         clearScreen();
         boolean continuer = true; 
@@ -610,7 +706,15 @@ public class Controleur {
         }
     }
 
-
+/**
+ * Permet à l'acheteur de sélectionner un produit par son nom dans la base de données des produits.
+ * L'utilisateur est invité à saisir le nom du produit qu'il recherche, et le système recherche ce produit
+ * dans la base de données des types de produits. Si le produit est trouvé, l'utilisateur peut interagir
+ * avec ce produit via différentes options. Sinon, l'utilisateur est invité à réessayer ou à retourner
+ * au menu précédent.
+ *
+ * @param acheteur L'acheteur qui cherche à sélectionner un produit par nom.
+ */
 
        public void selectionnerUnProduitParNom(Acheteur acheteur) {
             System.out.print("Entrez le nom du produit : ");
@@ -637,7 +741,14 @@ public class Controleur {
         }
 
 
-
+/**
+ * Met le thread actuel en pause pour une durée spécifiée.
+ * Cette méthode est conçue pour introduire un délai dans l'exécution,
+ * typiquement utilisée pour simuler un chargement ou pour améliorer l'expérience utilisateur
+ * en ajoutant des pauses entre des affichages consécutifs dans l'interface console.
+ *
+ * @param temps La durée de la pause en millisecondes.
+ */
     public static void dodo(int temps) {
         try{ 
             Thread.sleep(temps);
@@ -646,7 +757,15 @@ public class Controleur {
             System.out.println("Thread interrompu");
         }
     }
-
+/**
+ * Affiche le texte donné à l'écran avec un effet de machine à écrire, caractère par caractère,
+ * en introduisant un délai entre chaque caractère pour simuler l'effet d'écriture.
+ * Cet effet est utilisé pour améliorer l'expérience utilisateur en rendant l'affichage du texte
+ * plus engageant dans les interfaces console.
+ *
+ * @param text  Le texte à afficher avec l'effet machine à écrire.
+ * @param delay Le délai entre chaque caractère en millisecondes.
+ */
 
         public static void printWithTypewriterEffect(String text, int delay) {
         for (int i = 0; i < text.length(); i++) {
@@ -655,7 +774,16 @@ public class Controleur {
         }
     }
 
-
+/**
+ * Présente un menu d'interactions possibles à l'acheteur pour un produit spécifique.
+ * L'utilisateur peut choisir de visualiser les détails du produit, d'évaluer le produit,
+ * d'ajouter le produit à son panier, de consulter les évaluations, ou de passer une commande.
+ * Chaque option est représentée par un numéro, et l'utilisateur est invité à sélectionner une option.
+ * En fonction de l'option choisie, différentes actions sont exécutées.
+ *
+ * @param produitPourInteraction Le produit avec lequel l'acheteur interagit.
+ * @param acheteurVoulantInteragir L'acheteur qui interagit avec le produit.
+ */
         public void offrirOptionInteractionsAvecLeProduit(TypeDeProduit produitPourInteraction, Acheteur acheteurVoulantInteragir) {
             System.out.println("\n\n\nChoisissez une option pour le produit " + produitPourInteraction.getTitreProduit() + ".\n\n");
             Vue.afficherOptionsAcheteurInteractionAvecLeProduit();           
@@ -699,7 +827,14 @@ public class Controleur {
             }
         }
 
-
+/**
+ * Ajoute un produit sélectionné au panier de l'acheteur. Vérifie d'abord si le produit est déjà 
+ * dans le panier pour éviter les doublons. Si le produit n'est pas déjà présent, il est ajouté au panier 
+ * de l'acheteur et les détails sont enregistrés via le système de gestion CSV.
+ *
+ * @param acheteurVoulantInteragir L'acheteur qui souhaite ajouter un produit à son panier.
+ * @param produitPourInteraction Le produit que l'acheteur souhaite ajouter à son panier.
+ */
     private void ajouterProduitSelectionneAupanier(Acheteur acheteurVoulantInteragir,
                 TypeDeProduit produitPourInteraction) {
                    if(acheteurVoulantInteragir.getPanier().contientLeTypeDeProduit(produitPourInteraction)){
@@ -710,6 +845,14 @@ public class Controleur {
                 }
         }
 
+/**
+ * Permet à un utilisateur (acheteur) de rechercher des produits selon différentes catégories.
+ * L'utilisateur choisit parmi une liste prédéfinie de catégories et, en fonction de sa sélection,
+ * les produits correspondants à la catégorie sont affichés. Après l'affichage, l'utilisateur a 
+ * la possibilité de revenir au menu précédent ou de quitter l'application.
+ *
+ * @param acheteurVoulantRechercherUnproduit L'utilisateur qui souhaite effectuer la recherche de produit par catégorie.
+ */
     public void rechercherUnProduitParCategorie(Utilisateur acheteurVoulantRechercherUnproduit) {
         Vue.afficherOptionsRechercheProduitPermises();
         printWithTypewriterEffect("\n\nChoisissez une catégorie parmi les cinq mentionnées ci-haut : ", 40);
@@ -759,6 +902,15 @@ public class Controleur {
         // Si l'action est 1, retour au menu précédent (géré dans la méthode appelante)
     }
 
+/**
+ * Permet à un acheteur de passer une commande à partir des articles présents dans son panier.
+ * L'utilisateur peut choisir d'utiliser les informations de livraison par défaut associées à son compte
+ * ou d'entrer de nouvelles informations pour la commande actuelle. Si le panier est vide, l'utilisateur est informé
+ * et ne peut pas procéder à la commande. Une fois les informations de commande confirmées ou saisies,
+ * la commande est traitée en conséquence.
+ *
+ * @param acheteur L'acheteur qui souhaite passer une commande.
+ */
 
     public void passerUneCommande(Acheteur acheteur) {
         if (acheteur.getPanier().getTypeDeProduits().isEmpty()) {
@@ -791,6 +943,14 @@ public class Controleur {
 
     }
 
+/**
+ * Utilise les informations par défaut de l'acheteur pour finaliser une commande. 
+ * Les informations par défaut comprennent l'adresse de livraison actuelle de l'acheteur et son numéro de téléphone.
+ * Ce processus inclut l'affichage d'un message indiquant que les informations par défaut sont utilisées,
+ * une pause pour simuler le traitement, puis la finalisation de la commande avec ces informations.
+ *
+ * @param acheteur L'acheteur qui finalise la commande avec ses informations par défaut.
+ */
     public void utiliserInformationsParDefaut(Acheteur acheteur) {
         System.out.println("\n");
         printWithTypewriterEffect("Utilisation des informations par défaut...", 40);
@@ -801,6 +961,15 @@ public class Controleur {
         
     }
 
+/**
+ * Permet à l'acheteur de saisir de nouvelles informations pour finaliser une commande.
+ * L'acheteur est invité à entrer une nouvelle adresse de livraison et un nouveau numéro de téléphone.
+ * Après la saisie des nouvelles informations, la commande est finalisée avec ces nouvelles données.
+ * La méthode affiche d'abord un message indiquant que de nouvelles informations sont en cours de saisie,
+ * puis elle guide l'utilisateur à travers le processus de saisie avant de finaliser la commande.
+ *
+ * @param acheteur L'acheteur qui souhaite finaliser la commande avec de nouvelles informations.
+ */
     public void entrerNouvellesInformations(Acheteur acheteur) {
         System.out.println("\n");
         printWithTypewriterEffect("Utilisation de nouvelles informations...", 40); 
@@ -810,6 +979,15 @@ public class Controleur {
         finaliserCommande(acheteur, adresse, numeroTelephone);
     }
 
+/**
+ * Invite l'utilisateur à saisir un numéro de téléphone et valide cette saisie.
+ * La méthode affiche un message demandant un numéro de téléphone et vérifie ensuite si le numéro saisi est valide.
+ * Si le numéro est valide, il est enregistré et un message de confirmation est affiché.
+ * Si le numéro n'est pas valide, la méthode se rappelle elle-même pour demander à nouveau un numéro.
+ * La saisie et la validation se poursuivent jusqu'à ce qu'un numéro de téléphone valide soit fourni.
+ *
+ * @return Le numéro de téléphone validé saisi par l'utilisateur.
+ */
     public String demanderTelephone() { 
         System.out.println("\n");
         printWithTypewriterEffect("Veuillez entrer le numéro de téléphone auquel nous pouvons vous contacter pour cette commande : ", 40);
@@ -825,7 +1003,14 @@ public class Controleur {
         return telephone;
     }
 
-
+/**
+ * Invite l'utilisateur à saisir une adresse de livraison pour la commande.
+ * La méthode affiche un message demandant une adresse de livraison puis enregistre la saisie de l'utilisateur.
+ * Une fois l'adresse saisie, elle est affichée à l'utilisateur comme confirmation de l'enregistrement.
+ * La méthode pourrait être étendue pour inclure une validation de l'adresse saisie.
+ *
+ * @return L'adresse de livraison saisie par l'utilisateur.
+ */
     public String demanderAdresseLivraison() {
             System.out.println("\n");
             printWithTypewriterEffect("Veuillez entrer l'adresse de livraison pour cette commande : ", 40);
@@ -837,6 +1022,15 @@ public class Controleur {
             return adresse;
     }
 
+/**
+ * Invite l'utilisateur à choisir un mode de paiement parmi les options disponibles.
+ * Les options incluent PayPal, Débit, et Crédit. L'utilisateur est invité à entrer un choix numérique
+ * correspondant à l'une de ces méthodes. Si un choix invalide est fait, l'utilisateur est invité à réessayer.
+ * Une fois un choix valide effectué, le mode de paiement correspondant est retourné.
+ *
+ * @return Une chaîne représentant le mode de paiement sélectionné ("compte Paypal", "carte de débit", ou "carte de crédit").
+ *         Retourne null si aucun choix valide n'est effectué (bien que la méthode réessaye jusqu'à ce qu'un choix valide soit fait).
+ */
     public String demanderModePaiement() { 
         String mode; 
         System.out.println("\n\n");
@@ -867,6 +1061,13 @@ public class Controleur {
         } 
     }
 
+/**
+ * Annonce et traite la méthode de paiement choisie par l'utilisateur.
+ * Cette méthode commence par inviter l'utilisateur à choisir une méthode de paiement,
+ * confirme le choix, simule une connexion aux serveurs de paiement, et annonce le succès du débit.
+ * L'effet visuel de typographie est utilisé pour améliorer l'expérience utilisateur lors de l'annonce
+ * des différentes étapes de la procédure de paiement.
+ */
     public void annoncerMethodeDePaiement() {
         String methodePaiement = demanderModePaiement();
         printWithTypewriterEffect("Vous avez choisis la méthode de paiment de " + methodePaiement + ".", 40);
@@ -879,7 +1080,17 @@ public class Controleur {
 
     }
 
-
+/**
+ * Finalise une commande pour l'acheteur avec les produits sélectionnés dans son panier.
+ * Vérifie si le panier contient des articles avant de procéder. Pour chaque produit, demande la quantité,
+ * génère des identifiants uniques pour le produit et la commande, puis crée une nouvelle commande.
+ * Si le panier contient des produits de plusieurs revendeurs, la commande peut être divisée en plusieurs commandes.
+ * Après le traitement de toutes les commandes, vide le panier de l'acheteur et affiche des messages de confirmation.
+ *
+ * @param acheteur   L'acheteur qui passe la commande.
+ * @param adresse    L'adresse de livraison de l'acheteur pour la commande.
+ * @param telephone  Le numéro de téléphone de l'acheteur pour la commande.
+ */
     public void finaliserCommande(Acheteur acheteur, String adresse, String telephone) {
         if (acheteur.getPanier().getTypeDeProduits().isEmpty()) {
             printWithTypewriterEffect("Votre panier est vide. Vous ne pouvez pas passer de commande.", 40); 
@@ -937,7 +1148,16 @@ public class Controleur {
     }
 
 
-
+/**
+ * Invite l'utilisateur à entrer la quantité désirée d'un produit spécifique pour une commande.
+ * La méthode affiche le nom du produit et la quantité disponible dans l'inventaire, puis attend que l'utilisateur
+ * entre une quantité valide. La validité est déterminée par la quantité disponible et si l'entrée est un nombre positif.
+ * Si l'utilisateur entre une quantité invalide ou insuffisante, il est invité à réessayer. La méthode gère également
+ * les entrées non numériques en invitant à nouveau l'utilisateur à saisir une valeur numérique.
+ *
+ * @param typeDeProduit Le produit pour lequel l'utilisateur doit spécifier la quantité.
+ * @return La quantité validée entrée par l'utilisateur pour le produit spécifié.
+ */
     private int demanderQuantiteProduit(TypeDeProduit typeDeProduit) {
         int quantite = 0;
         boolean quantiteValide = false;
@@ -978,8 +1198,15 @@ public class Controleur {
 
 
 
-
-
+/**
+ * Demande à l'utilisateur de confirmer ou d'annuler la commande en cours.
+ * Affiche un message indiquant que toutes les informations ont été enregistrées, simule une connexion
+ * aux serveurs pour la confirmation, puis présente deux options : confirmer la commande ou annuler.
+ * L'utilisateur doit faire un choix numérique. La méthode gère les choix valides ainsi que les entrées invalides,
+ * invitant l'utilisateur à réessayer jusqu'à ce qu'une réponse valide soit donnée.
+ *
+ * @return vrai (true) si l'utilisateur confirme la commande, faux (false) si l'utilisateur annule la commande.
+ */
     public boolean demanderValidationCommande() {
         printWithTypewriterEffect("\nToutes les informations ont été enregistrées.\n", 40);
         System.out.println();
@@ -1012,7 +1239,16 @@ public class Controleur {
             }
         }
     }
-    
+
+/**
+ * Traite la commande spécifiée en mettant à jour les bases de données concernées et en informant l'utilisateur
+ * de l'avancement de la commande. La méthode simule une mise à jour de la base de données des produits et informe
+ * l'utilisateur de l'état actuel de traitement de sa commande par le revendeur.
+ * Des messages sont affichés pour indiquer l'avancement et les étapes de traitement de la commande.
+ *
+ * @param commandeATraiter La commande à traiter.
+ * @param typeDeProduitPourLaCommande Le type de produit concerné par la commande.
+ */
     public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProduitPourLaCommande) {
         miseAjourBasesDeDonneesSuivantCommande(commandeATraiter, typeDeProduitPourLaCommande);
 
@@ -1027,7 +1263,16 @@ public class Controleur {
          
     }
 
-
+/**
+ * Met à jour les bases de données pertinentes après l'exécution d'une commande.
+ * Cela inclut la mise à jour de la quantité de produit dans la base de données, la mise à jour
+ * de l'inventaire chez le revendeur, la mise à jour du fichier CSV pour le suivi, et la mise à jour
+ * de la liste des commandes du revendeur. Cette méthode est appelée après qu'une commande soit passée
+ * pour s'assurer que toutes les informations pertinentes reflètent la nouvelle réalité de l'inventaire et des commandes.
+ *
+ * @param commande La commande qui a été passée.
+ * @param typeDeProduit Le type de produit concerné par la commande.
+ */
     public void miseAjourBasesDeDonneesSuivantCommande(Commande commande, TypeDeProduit typeDeProduit) {
         int quantiteAchetee = commande.getProduitAcheter().get(0).getQuantite(); // Obtenir la quantité du produit acheté
 
@@ -1038,12 +1283,24 @@ public class Controleur {
 
     }
 
-
+/**
+ * Met à jour la quantité disponible du produit donné dans la base de données.
+ *
+ * @param typeDeProduit Le produit dont la quantité doit être mise à jour.
+ * @param quantiteAchetee La quantité du produit qui a été achetée.
+ */
     public void mettreAJourQuantiteDansBaseDeDonnees(TypeDeProduit typeDeProduit, int quantiteAchetee) {
         int nouvelleQuantite = typeDeProduit.getQuantiteDisponible() - quantiteAchetee;
         typeDeProduit.setQuantiteDisponible(nouvelleQuantite);
     }
 
+/**
+ * Met à jour la quantité disponible pour un produit donné dans l'inventaire du revendeur.
+ *
+ * @param revendeur Le revendeur qui détient le produit.
+ * @param typeDeProduit Le produit dont la quantité doit être mise à jour chez le revendeur.
+ * @param quantiteAchetee La quantité du produit qui a été achetée.
+ */
     public void mettreAJourQuantiteChezRevendeur(Revendeur revendeur, TypeDeProduit typeDeProduit, int quantiteAchetee) {
         for (TypeDeProduit produit : revendeur.getListeTypesDeProduits()) {
             if (produit.equals(typeDeProduit)) {
@@ -1054,12 +1311,23 @@ public class Controleur {
         }
     }
 
-
+/**
+ * Met à jour le fichier CSV pour refléter la nouvelle quantité disponible d'un produit après une commande.
+ *
+ * @param typeDeProduit Le produit dont la quantité a été mise à jour.
+ * @param quantiteAchetee La quantité du produit qui a été achetée.
+ */
     public void mettreAJourFichierCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) { 
         GestionnaireCSV.supprimerTypeDeProduitCSV(typeDeProduit);
         GestionnaireCSV.ecrireTypeDeProduitNouvelleQuantiteCSV(typeDeProduit, quantiteAchetee);
         return; 
     }
+/**
+ * Met à jour la liste des commandes d'un revendeur pour y inclure une nouvelle commande.
+ *
+ * @param commande La commande à ajouter à la liste du revendeur.
+ * @param revendeur Le revendeur chez qui la commande doit être ajoutée.
+ */
     public void miseAjourListeCommandesRevendeur(Commande commande, Revendeur revendeur) {
     // Vérifiez si le revendeur a déjà une liste de commandes initialisée
     if (revendeur.getListeDeCommande() == null) {
@@ -1088,6 +1356,15 @@ public class Controleur {
         // ...
     }
 
+/**
+ * Permet à un acheteur d'évaluer un produit spécifique. L'utilisateur est invité à entrer une note de 1 à 5.
+ * En cas d'entrée invalide, un message d'erreur est affiché et la méthode est terminée.
+ * Après avoir entré une note valide, l'utilisateur peut également ajouter un commentaire textuel pour l'évaluation.
+ * Une fois l'évaluation complétée, elle est ajoutée à la base de données des évaluations et enregistrée via un fichier CSV.
+ *
+ * @param produit Le produit à évaluer.
+ * @param acheteur L'acheteur qui réalise l'évaluation.
+ */
     private void evaluerProduit(TypeDeProduit produit, Acheteur acheteur) {
         System.out.print("Entrez votre évaluation (de 1 à 5): ");
         int note;
@@ -1110,7 +1387,14 @@ public class Controleur {
         System.out.println("Évaluation ajoutée avec succès.");
     }
 
-
+/**
+ * Permet de choisir une catégorie parmi des options prédéfinies en fonction d'un choix numérique.
+ * Valide si le choix est dans la plage acceptée (1 à 5) et retourne la catégorie correspondante.
+ * Continue de demander jusqu'à ce qu'un choix valide soit fait.
+ *
+ * @param choix Le choix numérique de l'utilisateur pour la catégorie.
+ * @return La catégorie choisie correspondant au numéro entré.
+ */
     public String choisirUneCategorie(int choix) {
         while (true) {
             if(choix >= 1 && choix <= 5){
@@ -1120,11 +1404,27 @@ public class Controleur {
             }
         }
     }
+
+/**
+ * Affiche toutes les catégories disponibles à partir d'un tableau d'options.
+ * Numérote chaque catégorie pour une sélection facile par l'utilisateur.
+ */
     public void afficherCategorie(){
         for (int i = 0; i < options.length; i++) {
             System.out.println((i + 1) + ". " + options[i]);
         }
     }
+
+/**
+ * Valide les informations d'un produit selon certains critères: description, prix, et quantité.
+ * La description ne doit pas dépasser 200 caractères, le prix doit être positif,
+ * et la quantité doit être supérieure à 0.
+ *
+ * @param description La description du produit à valider.
+ * @param prix Le prix du produit à valider.
+ * @param quantite La quantité du produit à valider.
+ * @return vrai (true) si le produit passe toutes les validations, faux (false) autrement.
+ */
     public static boolean validateProduct(String description, double prix, int quantite) {
         boolean valide = true;
         if (description.length() > 200){
@@ -1144,7 +1444,13 @@ public class Controleur {
     }
 
 
-
+/**
+ * Affiche toutes les évaluations associées à un produit spécifique.
+ * Si aucune évaluation n'est disponible, un message indiquant l'absence d'évaluations est affiché.
+ * Sinon, chaque évaluation est affichée avec sa note et son commentaire.
+ *
+ * @param produit Le produit pour lequel les évaluations doivent être affichées.
+ */
     public void afficherEvaluationsProduit(Produit produit) {
         List<Evaluations> evaluations = produit.getEvaluations();
         if (evaluations.isEmpty()) {
@@ -1158,7 +1464,13 @@ public class Controleur {
     }
 
 
-
+/**
+ * Initialise la base de données des utilisateurs en lisant à partir d'un fichier CSV.
+ * La méthode lit chaque ligne du fichier CSV, crée un utilisateur en fonction du type (Acheteur ou Revendeur),
+ * et ajoute l'utilisateur à la base de données. Si la base de données contient déjà un nombre significatif
+ * d'utilisateurs (par exemple, plus de 15), elle affiche simplement un message indiquant le nombre d'utilisateurs.
+ * En cas d'erreur, comme un fichier introuvable, un message d'erreur est affiché.
+ */
     public static void initialiserBaseDeDonneesUtilisateurs() {
         
         
@@ -1200,14 +1512,32 @@ public class Controleur {
         }
     }
 
+/**
+ * Vérifie l'existence du fichier CSV des utilisateurs.
+ * Utilise le chemin fourni par le GestionnaireCSV pour vérifier si le fichier existe sur le système de fichiers.
+ *
+ * @return vrai (true) si le fichier existe, faux (false) sinon.
+ */
     public static boolean verifierExistanceFichierCSVUtilisateurs() {
         File fichierCSV = new File(GestionnaireCSV.getCheminFichierCSV());
         return fichierCSV.exists();
     }
+
+/**
+ * Efface le contenu affiché sur l'écran de la console.
+ * Utilise les séquences d'échappement ANSI pour effacer l'écran en déplaçant le curseur
+ * en haut de l'écran et en supprimant tout le contenu affiché.
+ */
     public static void clearScreen() {  
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
     } 
+
+/**
+ * Permet à l'utilisateur de supprimer son compte après confirmation et vérification de son mot de passe.
+ * L'utilisateur a un nombre limité d'essais pour entrer le bon mot de passe avant de retourner au menu principal.
+ * Si le mot de passe est correct, le compte de l'utilisateur est supprimé de la base de données.
+ */
     public void annulerInscription() {
         System.out.println("Êtes-vous sûr de vouloir supprimer votre compte ? (oui/non)");
         String reponse = scanner.nextLine();
@@ -1232,6 +1562,13 @@ public class Controleur {
         }
     }
 
+/**
+ * Recherche dans la base de données des utilisateurs pour trouver un utilisateur basé sur le mot de passe fourni.
+ * Retourne l'utilisateur si un correspondant est trouvé; sinon, retourne null.
+ *
+ * @param motDePasse Le mot de passe de l'utilisateur à rechercher.
+ * @return Utilisateur correspondant au mot de passe ou null si aucun utilisateur correspondant n'est trouvé.
+ */
     private Utilisateur trouverUtilisateurParMotDePasse(String motDePasse) {
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
             if (utilisateur.verifierMotDePasse(motDePasse)) {
@@ -1240,7 +1577,14 @@ public class Controleur {
         }
         return null;
     }
- 
+
+/**
+ * Permet à un revendeur d'offrir un nouveau produit. Le revendeur est invité à entrer les détails du produit,
+ * y compris le titre, la catégorie, le prix, la description et la quantité à offrir. Avant l'ajout, la méthode
+ * valide le produit et s'assure qu'il n'existe pas déjà dans l'inventaire du revendeur.
+ *
+ * @param revendeur Le revendeur qui souhaite offrir un nouveau produit.
+ */
     public void offrirUnProduit(Revendeur revendeur) {
     String idEntreprise = revendeur.getIDEntreprise();
     // ...
@@ -1276,6 +1620,14 @@ public class Controleur {
         }
     }
 
+/**
+ * Vérifie que le titre du produit à offrir est unique dans la liste des produits du revendeur.
+ * Si le produit existe déjà, retourne false et affiche un message d'erreur.
+ *
+ * @param revendeur Le revendeur dont l'inventaire est vérifié.
+ * @param titre     Le titre du produit à vérifier pour l'unicité.
+ * @return vrai (true) si le titre du produit est unique, faux (false) sinon.
+ */
     public boolean verifierUniqueProduit(Revendeur revendeur, String titre) {
         List<TypeDeProduit> produits = revendeur.getListeTypesDeProduits();
         boolean ok = true;
@@ -1289,11 +1641,24 @@ public class Controleur {
     }
 
 
-
+/**
+ * Ajoute un nouveau type de produit à la base de données des types de produits.
+ * Cette méthode étend l'inventaire de produits disponibles en ajoutant le produit spécifié.
+ *
+ * @param nouveauTypeDeProduit Le nouveau type de produit à ajouter à la base de données.
+ */
     public void ajouterABaseDeDonnesTypesDeProduits(TypeDeProduit nouveauTypeDeProduit) {
         baseDeDonnesTypesDeProduit.add(nouveauTypeDeProduit);
     }
 
+/**
+ * Permet à un utilisateur identifié comme revendeur de modifier les informations de son profil.
+ * Les modifications possibles incluent l'adresse email, le nom de l'entreprise et le mot de passe.
+ * Valide chaque modification avant de l'appliquer et met à jour la base de données des utilisateurs
+ * ainsi que le fichier CSV correspondant.
+ *
+ * @param revendeur L'utilisateur revendeur dont le profil doit être modifié.
+ */
     private void modifierProfilRevendeur(Utilisateur revendeur) {
         if (!(revendeur instanceof Revendeur)) {
             System.out.println("Utilisateur non valide.");
@@ -1334,7 +1699,15 @@ public class Controleur {
         GestionnaireCSV.modifierCSV("typeDeProduits.csv",ancienCourriel, email, nouveauNom, nomEntreprise);
     }
 
-
+    
+/**
+ * Permet à un utilisateur identifié comme acheteur de modifier les informations de son profil.
+ * Les modifications possibles incluent le pseudo, l'adresse email, et le mot de passe.
+ * Valide chaque modification avant de l'appliquer et met à jour la base de données des utilisateurs
+ * ainsi que le fichier CSV correspondant.
+ *
+ * @param acheteur L'utilisateur acheteur dont le profil doit être modifié.
+ */
     private void modifierProfilAcheteur(Utilisateur acheteur) {
         if (!(acheteur instanceof Acheteur)) {
             System.out.println("Utilisateur non valide.");
@@ -1369,19 +1742,29 @@ public class Controleur {
             System.out.println("Mot de passe non conforme aux critères.");
         }
 
-        // Ajouter ici des instructions pour d'autres champs si nécessaire
-        // ...
         System.out.println("Modifications enregistrées avec succès.");
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
         baseDeDonneesUtilisateurs.add(acheteur);
         System.out.println("Taille: " + baseDeDonneesUtilisateurs.toString());
 
     }
-
+/**
+ * Vérifie l'existence du fichier CSV contenant les types de produits.
+ * Cette méthode vérifie si le fichier CSV des types de produits existe dans le système de fichiers.
+ *
+ * @return true si le fichier CSV existe, sinon false.
+ */
     public static boolean verifierExistanceFichierCSVTypesDeProduits() {
         File fichierCSV = new File(GestionnaireCSV.getCheminFichierCsvTypedeproduit());
         return fichierCSV.exists();
     }
+/**
+ * Recherche un acheteur par son pseudo dans la base de données des utilisateurs.
+ * Cette méthode parcourt la liste des utilisateurs à la recherche d'un acheteur ayant le pseudo spécifié.
+ *
+ * @param pseudoRecherche Le pseudo de l'acheteur recherché.
+ * @return L'acheteur correspondant au pseudo recherché, ou null s'il n'est pas trouvé.
+ */
     private static Acheteur trouverAcheteurParPseudo(String pseudoRecherche) {
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
             if (utilisateur instanceof Acheteur) {
@@ -1393,7 +1776,14 @@ public class Controleur {
         }
         return null;
     }
-
+    
+/**
+ * Recherche un type de produit par son titre dans la base de données des types de produits.
+ * Cette méthode parcourt la liste des types de produits à la recherche d'un type ayant le titre spécifié.
+ *
+ * @param titreRecherche Le titre du type de produit recherché.
+ * @return Le type de produit correspondant au titre recherché, ou null s'il n'est pas trouvé.
+ */
     public static TypeDeProduit trouverTypeDeProduitParTitre(String titreRecherche) {
         for (TypeDeProduit produit : baseDeDonnesTypesDeProduit) {
             if (produit.getTitreProduit().equals(titreRecherche)) {
@@ -1402,6 +1792,12 @@ public class Controleur {
         }
         return null;
     }
+
+/**
+ * Initialise la base de données d'évaluations en lisant un fichier CSV.
+ * Cette méthode lit un fichier CSV contenant des évaluations, crée des objets d'évaluation, et les ajoute à la base de données.
+ * Elle gère également les cas où l'acheteur ou le produit correspondant à une évaluation n'existe pas.
+ */
     public static void initialiserEvaluations(){
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvEvaluations()))) {
             while (scanner.hasNextLine()) {
@@ -1437,6 +1833,14 @@ public class Controleur {
         dodo(1000);
     }
 
+
+/**
+ * Recherche un revendeur par le nom de son entreprise dans la base de données des utilisateurs.
+ * Cette méthode parcourt la liste des utilisateurs pour trouver un revendeur ayant le nom d'entreprise spécifié.
+ *
+ * @param nomEntreprise Le nom de l'entreprise du revendeur recherché.
+ * @return L'utilisateur correspondant au nom de l'entreprise, ou null s'il n'est pas trouvé ou n'est pas un revendeur.
+ */
     private static Utilisateur trouverRevendeurParNomEntreprise(String nomEntreprise) {
         //retourne un utilisateur et non un revendeur
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
@@ -1452,6 +1856,14 @@ public class Controleur {
         }
         return null;
     }
+
+/**
+ * Supprime un utilisateur de la base de données et du fichier CSV par son adresse email.
+ * Cette méthode parcourt la liste des utilisateurs, recherche celui ayant l'adresse email spécifiée,
+ * et le supprime de la base de données ainsi que du fichier CSV correspondant.
+ *
+ * @param email L'adresse email de l'utilisateur à supprimer.
+ */
     private void removeUserByEmail(String email) {
         Iterator<Utilisateur> iterator = baseDeDonneesUtilisateurs.iterator();
         while (iterator.hasNext()) {
@@ -1465,6 +1877,16 @@ public class Controleur {
 
     }
 
+/**
+ * Initialise la liste des types de produits en lisant un fichier CSV.
+ * Cette méthode lit un fichier CSV contenant des informations sur les types de produits,
+ * crée des objets de type de produit, et les ajoute à la liste des types de produits ainsi qu'au revendeur correspondant.
+ * Elle gère également les cas où le revendeur associé à un produit n'existe pas.
+ * Les données lues sont supposées avoir le format suivant : titreProduit, categorieProduit, descriptionProduit, prixProduit, quantiteDisponible, emailRevendeur, nomEntreprise.
+ *
+ * @throws FileNotFoundException Si le fichier CSV n'est pas trouvé.
+ * @throws NumberFormatException Si une conversion de chaîne en nombre échoue lors de la lecture des données CSV.
+ */
     public static void initialiserListeTypeDeProduit() {
         int j = 1;
         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvTypedeproduit()))) {
@@ -1513,6 +1935,17 @@ public class Controleur {
         dodo(2000);
 
      }
+/**
+ * Initialise la base de données avec des acheteurs par défaut.
+ * Cette méthode crée un ensemble de comptes acheteurs par défaut et les ajoute à la base de données des utilisateurs.
+ * Chaque acheteur est créé avec des informations prédéfinies telles que le nom, le prénom, l'email, le mot de passe,
+ * le téléphone et le pseudo. Ces comptes par défaut sont utiles pour peupler la base de données lors du démarrage
+ * initial de l'application ou pour des fins de test. Après avoir ajouté les acheteurs, la méthode met à jour le fichier
+ * CSV correspondant et affiche un message indiquant la disponibilité des comptes par défaut.
+ *
+ * @see Acheteur
+ * @see GestionnaireCSV
+ */
 
     public static void InitialiserAcheteursParDefaut(){
         Acheteur[] acheteurParDefaut = new Acheteur[10];
@@ -1540,7 +1973,17 @@ public class Controleur {
         dodo(4000);
 
     }
-
+/**
+ * Initialise la base de données avec des revendeurs par défaut.
+ * Cette méthode crée un ensemble de comptes revendeurs par défaut et les ajoute à la base de données des utilisateurs.
+ * Chaque revendeur est créé avec des informations prédéfinies telles que le nom de l'entreprise, le nom du représentant,
+ * l'email, le mot de passe et le numéro de téléphone. Ces comptes par défaut sont utiles pour peupler la base de données
+ * lors du démarrage initial de l'application ou pour des fins de test. Après avoir ajouté les revendeurs, la méthode met
+ * à jour le fichier CSV correspondant et affiche un message indiquant la disponibilité des comptes par défaut.
+ *
+ * @see Revendeur
+ * @see GestionnaireCSV
+ */
     public static void InitialiserRevendeursParDefaut() {
 
         Revendeur[] revendeurParDefaut = new Revendeur[5];
@@ -1562,6 +2005,17 @@ public class Controleur {
         System.out.println("\n\n\n");
         dodo(2000);
     }
+
+    /**
+ * Initialise une collection de noms et descriptions de produits par défaut.
+ * Cette méthode crée et remplit une HashMap avec des noms et descriptions prédéfinis pour différents types de produits.
+ * Ces informations par défaut sont utiles pour peupler la base de données avec des exemples de produits, facilitant
+ * ainsi des démonstrations ou des tests initiaux de l'application. Chaque entrée dans la HashMap correspond à un type
+ * de produit spécifique, avec une description détaillée de ce produit.
+ *
+ * @see HashMap
+ */
+
     private static void initialiserNomsEtDescriptionsProduitsParDefaut() {
         nomsEtDescriptionsProduitsParDefaut = new HashMap<>();
         nomsEtDescriptionsProduitsParDefaut.put("Chaise de bureau ergonomique", "Confortable et ajustable, idéale pour de longues heures de travail.");
@@ -1585,6 +2039,21 @@ public class Controleur {
         nomsEtDescriptionsProduitsParDefaut.put("Bloc-notes adhésifs", "Blocs de notes adhésives colorés pour marquer des pages ou laisser des rappels.");
         nomsEtDescriptionsProduitsParDefaut.put("Coussin de chaise", "Coussin ergonomique pour un confort supplémentaire sur votre chaise de bureau.");
     }
+
+    /**
+ * Initialise la base de données avec des types de produits par défaut.
+ * Cette méthode commence par initialiser une collection de noms et descriptions de produits par défaut.
+ * Ensuite, elle parcourt les utilisateurs dans la base de données, et pour chaque revendeur, elle crée
+ * et ajoute un certain nombre de types de produits par défaut à la base de données des produits. Ces produits
+ * par défaut sont générés en utilisant les noms et descriptions prédéfinis, avec des catégories, prix et 
+ * quantités fictifs. Cette initialisation est particulièrement utile pour peupler la base de données pour 
+ * des démonstrations ou des tests initiaux. Après avoir ajouté les produits, un message est affiché pour
+ * indiquer le succès de l'opération.
+ *
+ * @see TypeDeProduit
+ * @see Revendeur
+ * @see GestionnaireDeProduit
+ */
     public static void initialiserTypeDeProduitParDefaut() {
 
         initialiserNomsEtDescriptionsProduitsParDefaut();
@@ -1616,6 +2085,12 @@ public class Controleur {
         dodo(2000);
     }
 
+/**
+ * Initialise les commandes en lisant les données à partir d'un fichier CSV et les ajoute à la base de données des commandes.
+ * Cette méthode parcourt le fichier CSV contenant les informations des commandes, crée des objets de commande correspondants,
+ * et les associe aux acheteurs, revendeurs et produits appropriés. Elle gère également les cas où les données nécessaires
+ * ne sont pas disponibles dans la base de données.
+ */
     public static void initialiserCommandes() {
         int i = 0;
          try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvCommandes()))) {
