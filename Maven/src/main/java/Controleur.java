@@ -2140,7 +2140,151 @@ public class Controleur {
         System.out.println();
         dodo(1000);
 
-
+// Les Tests Unitaires
+        
+    public void testValiderEmail() {
+        Controleur controleur = new Controleur(new Vue());
+    
+        // Tester avec un email valide
+        assertTrue("Un email valide devrait retourner vrai", controleur.validerEmail("exemple@exemple.com"));
+    
+        // Tester avec un email invalide
+        assertFalse("Un email invalide devrait retourner faux", controleur.validerEmail("exemple@.com"));
+    
+        // Tester avec un autre email invalide
+        assertFalse("Un email invalide devrait retourner faux", controleur.validerEmail("exemple.com"));
+    }
+        }
+    
     }
 
+    public void testAjouterProduitSelectionneAupanier() {
+        // Supposer que le panier est initialement vide
+        assertEquals("Le panier initial doit être vide", 0, acheteur.getPanier().size());
+    
+        controleur.ajouterProduitSelectionneAupanier(acheteur, typeDeProduit);
+    
+        // Vérifier si le produit est ajouté
+        assertEquals("Le panier doit contenir 1 produit après ajout", 1, acheteur.getPanier().size());
+    
+        // Essayer d'ajouter le même produit à nouveau
+        controleur.ajouterProduitSelectionneAupanier(acheteur, typeDeProduit);
+    
+        // Assurer que le produit n'est pas ajouté à nouveau s'il est déjà là
+        assertEquals("Le panier ne doit pas ajouter le même produit deux fois", 1, acheteur.getPanier().size());
+    }
+
+    public void testInscrireUtilisateur() {
+    Controleur controleur = new Controleur(new Vue());
+
+    // Simuler l'entrée de l'utilisateur pour un nouveau acheteur
+    System.setIn(new ByteArrayInputStream("1\nFranz\nGirardin\nfranzgirardin@example.com\nmotdepasse\n4389234776\nPawgologist\n".getBytes()));
+
+    // Exécuter la méthode pour inscrire un utilisateur
+    controleur.inscrireUtilisateur();
+
+    // Vérifier que l'utilisateur est bien ajouté à la base de données
+    Utilisateur nouvelUtilisateur = controleur.getBaseDeDonneesUtilisateurs().get(controleur.getBaseDeDonneesUtilisateurs().size() - 1);
+    assertEquals("L'utilisateur doit être ajouté avec le prénom Franz", "Franz", nouvelUtilisateur.getPrenom());
+    // Assurez-vous d'adapter la méthode d'accès à l'attribut prénom selon votre classe Utilisateur
+}
+
+    public void testConnecterUtilisateur() {
+        Controleur controleur = new Controleur(new Vue());
+    
+        // Supposer qu'un utilisateur nommé 'Franz' avec le mot de passe 'motdepasse' existe dans la base de données
+        // Simuler l'entrée de l'utilisateur pour la connexion
+        System.setIn(new ByteArrayInputStream("Franz\nmotdepasse\n".getBytes()));
+    
+        // Exécuter la méthode de connexion
+        controleur.connecterUtilisateur();
+    
+        // Vérifier que l'utilisateur est connecté
+        assertTrue("L'utilisateur doit être connecté", controleur.isUtilisateurConnecte());
+        // La méthode 'isUtilisateurConnecte()' est hypothétique, vous devrez la gérer selon la logique de votre application
+    }
+
+    public void testOffrirMenuPrincipal() {
+        // Préparer le système pour simuler l'entrée de l'utilisateur dans le menu principal
+        // Supposons que l'option 1 est pour s'inscrire, l'option 2 pour se connecter, etc., et 4 pour quitter
+        String simulatedUserInput = "4\n"; // L'utilisateur choisit de quitter l'application
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+    
+        Controleur controleur = new Controleur(new Vue());
+    
+        // Exécuter la méthode qui offre le menu principal
+        controleur.offrirMenuPrincipal();
+    
+        // Vérifier le comportement attendu, par exemple, vérifier si l'application se prépare à fermer
+        assertTrue("L'application doit se préparer à fermer après le choix de quitter", controleur.isApplicationClosing());
+        // La méthode 'isApplicationClosing()' est hypothétique, représente un moyen de vérifier si l'application se ferme
+    }
+
+    public void testModifierProfilAcheteur() {
+    // Créer un utilisateur test (acheteur) et le contrôleur
+    Acheteur acheteur = new Acheteur(/* initial parameters */);
+    Controleur controleur = new Controleur(new Vue());
+
+    // Simuler l'entrée de l'utilisateur pour modifier le profil (par exemple, email et mot de passe)
+    String simulatedUserInput = "nouvelEmail@example.com\nnouveauMotDePasse\n";
+    System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+
+    // Exécuter la méthode de modification du profil
+    controleur.modifierProfilAcheteur(acheteur);
+
+    // Vérifier que les informations de l'acheteur ont été mises à jour
+    assertEquals("L'email de l'acheteur doit être mis à jour", "nouvelEmail@example.com", acheteur.getEmail());
+    assertEquals("Le mot de passe de l'acheteur doit être mis à jour", "nouveauMotDePasse", acheteur.getMotDePasse());
+}
+
+    public void testDemarrerApplication() {
+    // Préparer le système pour simuler une action de démarrage rapide puis de fermeture
+    String simulatedUserInput = "4\n"; // Supposons que '4' est pour quitter le menu principal
+    System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+
+    Controleur controleur = new Controleur(new Vue());
+
+    // Exécuter la méthode de démarrage de l'application
+    controleur.demarrerApplication();
+
+    // Vérifier que l'application a démarré et s'est préparée à offrir le menu principal
+    assertTrue("Le menu principal a été offert à l'utilisateur", controleur.isMenuPrincipalShown());
+    // 'isMenuPrincipalShown()' est une méthode hypothétique indiquant si le menu principal a été présenté
+}
+
+public void testValiderTelephone() {
+    Controleur controleur = new Controleur(new Vue());
+
+    // Tester avec un numéro de téléphone valide
+    assertTrue("Un numéro de téléphone valide devrait retourner vrai", controleur.validerTelephone("0123456789"));
+
+    // Tester avec un numéro de téléphone invalide (trop court)
+    assertFalse("Un numéro de téléphone invalide (trop court) devrait retourner faux", controleur.validerTelephone("012345"));
+
+    // Tester avec un numéro de téléphone invalide (contient des lettres)
+    assertFalse("Un numéro de téléphone invalide (contient des lettres) devrait retourner faux", controleur.validerTelephone("01234a6789"));
+}
+
+public class TestModifierProfilRevendeur {
+
+    public static void main(String[] args) {
+        // Create a mock instance of Controleur and Revendeur
+        Controleur controleur = new Controleur(new Vue());
+        Revendeur revendeur = new Revendeur("OldCompanyName", "OldCEOName", "oldemail@company.com", "oldpassword", "oldphone");
+
+        // Assume we want to update these fields
+        String newCompanyName = "NewCompanyName";
+        String newEmail = "newemail@company.com";
+        String newPassword = "NewSecurePassword123";
+        String newPhone = "1234567890";
+
+        // Call the method to test, passing in the new details
+        controleur.modifierProfilRevendeur(revendeur, newCompanyName, newEmail, newPassword, newPhone); // Adjust this line based on the actual method signature
+
+        // Print out the results to manually check if they are correct
+        System.out.println("New company name should be NewCompanyName: " + revendeur.getCompanyName());
+        System.out.println("New email should be newemail@company.com: " + revendeur.getEmail());
+        System.out.println("New password should be NewSecurePassword123: " + revendeur.getPassword());
+        System.out.println("New phone should be 1234567890: " + revendeur.getPhone());
+    }
 }
