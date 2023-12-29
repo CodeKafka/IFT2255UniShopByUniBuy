@@ -21,6 +21,15 @@ public class GestionnaireCSV {
     }
 
 
+    public static void updateCSVFileEvaluation(List<Evaluations> listEvaluations) {
+        try (PrintWriter writer = new PrintWriter(new File(CHEMIN_FICHIER_CSV_EVALUATIONS))) {
+            listEvaluations.forEach(evaluation -> writer.println(evaluation.toCSV()));
+        } catch (FileNotFoundException e) {
+            System.err.println("Erreur lors de la mise à jour du fichier CSV: " + e.getMessage());
+        }
+    }
+
+
     public static void ecrireUtilisateurCSV(Utilisateur utilisateur) {
         File fichierCSV = new File("utilisateurs.csv");
 
@@ -32,7 +41,6 @@ public class GestionnaireCSV {
 
                 Controleur.printWithTypewriterEffect("Création de la base de données d'utilisateurs pour la première fois", 40);
                 System.out.println();
-
                 Controleur.printWithTypewriterEffect("Veuillez patienter 5 secondes", 40);
                 System.out.println("\n\n\n");
                 Controleur.dodo(5000);
@@ -41,9 +49,9 @@ public class GestionnaireCSV {
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-                    out.print(utilisateur.toCSV());
+
                 } 
-                out.print(utilisateur.toCSV());
+                out.println(utilisateur.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -52,7 +60,6 @@ public class GestionnaireCSV {
     }
     public static void ecrireEvaluationCSV(Evaluations evaluations) {
         File fichierCSV = new File("evaluations.csv");
-
         try {
             boolean fichierExistaitDeja = fichierCSV.exists();
             // Créer le fichier s'il n'existe pas déjà
@@ -63,7 +70,7 @@ public class GestionnaireCSV {
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
                     out.println();
-                } 
+                }
                 out.print(evaluations.toCSV());
             }
         } catch (IOException e) {
@@ -516,12 +523,3 @@ public static boolean acheteurAdejaRealiserUneCommande(String pseudo) {
 }
 
 }
-
-
-
-
-
-
-
-
-

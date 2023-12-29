@@ -394,8 +394,11 @@ public class Controleur {
                     retournerProduit((Acheteur) acheteur );
                     System.out.println();
                     dodo(2000);
-                    break;         
+                    break;     
                 case "9":
+                    showAndRemoveEvaluation((Acheteur) acheteur);
+                    break;        
+                case "10":
                     naviguerCatalogueAsUser( (Acheteur) acheteur);
                     break;
                 default:
@@ -667,6 +670,9 @@ private void retournerProduit(Acheteur acheteur) {
                     offrirUnProduit(revendeur);
                     continuer = false;
                     break;
+                case "6":
+                   showAndRemoveEvaluationForRevendeur(revendeur);
+                   break;
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
@@ -1879,7 +1885,6 @@ private void retournerProduit(Acheteur acheteur) {
             } catch (FileNotFoundException e) {
             System.out.println("Fichier CSV eval non trouvé.");
         }
-
         printWithTypewriterEffect("La base de données d'évaluations a été initialité avec succès.", 40); 
         System.out.println();
         printWithTypewriterEffect("Elle contient maintenant " + baseDeDonnesEvaluations.size() + " évaluation(s)", 40);
@@ -2197,6 +2202,8 @@ private void retournerProduit(Acheteur acheteur) {
         System.out.println();
         dodo(1000);}
 
+
+
         
 /*
  * 
@@ -2349,5 +2356,108 @@ public void testValiderTelephone() {
         System.out.println("New password should be NewSecurePassword123: " + revendeur.getPassword());
         System.out.println("New phone should be 1234567890: " + revendeur.getPhone());
     } */
+
+    public void showAndRemoveEvaluation(Acheteur acheteur) {
+        List<Evaluations> acheteurEvaluations = getEvaluationsByAcheteur(acheteur);
+
+        if (acheteurEvaluations.isEmpty()) {
+            System.out.println("Aucune évaluation trouvée pour cet acheteur.");
+            return;
+        }
+
+        System.out.println("Évaluations de l'acheteur :");
+        int index = 1;
+        for (Evaluations evaluation : acheteurEvaluations) {
+            System.out.println(index++ + ". " + evaluation.toCSV());
+        }
+
+        System.out.println("\nOptions:");
+        System.out.println("1. Supprimer une évaluation");
+        System.out.println("2. Retourner au menu précédent");
+        System.out.print("Entrez votre choix : ");
+        int actionChoice = scanner.nextInt();
+
+        if (actionChoice == 1) {
+            System.out.print("Entrez le numéro de l'évaluation à supprimer : ");
+            int evaluationChoice = scanner.nextInt();
+
+            if (evaluationChoice > 0 && evaluationChoice <= acheteurEvaluations.size()) {
+                Evaluations evaluationToRemove = acheteurEvaluations.get(evaluationChoice - 1);
+                baseDeDonnesEvaluations.remove(evaluationToRemove);
+                GestionnaireCSV.updateCSVFileEvaluation(baseDeDonnesEvaluations);
+                System.out.println("Évaluation supprimée.");
+            } else {
+                System.out.println("Choix invalide.");
+            }
+        } else if (actionChoice == 2) {
+            // Simply return to the previous menu
+            return;
+        } else {
+            System.out.println("Choix invalide.");
+        }
+    }
+    public static List<Evaluations> getEvaluationsByAcheteur(Acheteur acheteur) {
+        List<Evaluations> evaluationsPourAcheteur = new ArrayList<>();
+        for (Evaluations evaluation : baseDeDonnesEvaluations) {
+            if (evaluation.getAcheteur().equals(acheteur)) {
+                evaluationsPourAcheteur.add(evaluation);
+            }
+        }
+        return evaluationsPourAcheteur;
+    }
+
+    public static List<Evaluations> getEvaluationsByRevendeur(Revendeur revendeur) {
+        List<Evaluations> evaluationsPourRevendeur = new ArrayList<>();
+        for (Evaluations evaluation : baseDeDonnesEvaluations) {
+            TypeDeProduit produit = evaluation.getProduit();
+            if (produit != null && revendeur.getListeTypesDeProduits().contains(produit)) {
+                evaluationsPourRevendeur.add(evaluation);
+            }
+        }
+        return evaluationsPourRevendeur;
+    }
+
+    public void showAndRemoveEvaluationForRevendeur(Revendeur revendeur) {
+        List<Evaluations> evaluationsPourRevendeur = getEvaluationsByRevendeur(revendeur);
+        Scanner scanner = new Scanner(System.in);
+
+        if (evaluationsPourRevendeur.isEmpty()) {
+            System.out.println("Aucune évaluation trouvée pour les produits de ce revendeur.");
+            return;
+        }
+
+        System.out.println("Évaluations pour les produits du revendeur :");
+        int index = 1;
+        for (Evaluations evaluation : evaluationsPourRevendeur) {
+            System.out.println(index++ + ". " + evaluation.toCSV());
+        }
+
+        System.out.println("\nOptions:");
+        System.out.println("1. Supprimer une évaluation");
+        System.out.println("2. Retourner au menu précédent");
+        System.out.print("Entrez votre choix : ");
+        int actionChoice = scanner.nextInt();
+
+        if (actionChoice == 1) {
+            System.out.print("Entrez le numéro de l'évaluation à supprimer : ");
+            int evaluationChoice = scanner.nextInt();
+
+            if (evaluationChoice > 0 && evaluationChoice <= evaluationsPourRevendeur.size()) {
+                Evaluations evaluationToRemove = evaluationsPourRevendeur.get(evaluationChoice - 1);
+                baseDeDonnesEvaluations.remove(evaluationToRemove);
+                GestionnaireCSV.updateCSVFileEvaluation(baseDeDonnesEvaluations); // Update the CSV file after removal
+                System.out.println("Évaluation supprimée.");
+            } else {
+                System.out.println("Choix invalide.");
+            }
+        } else if (actionChoice == 2) {
+            // Simply return to the previous menu
+            return;
+        } else {
+            System.out.println("Choix invalide.");
+        }
+    }
+
+
 
 }
