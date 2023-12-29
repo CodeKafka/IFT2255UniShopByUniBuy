@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -10,6 +12,7 @@ public class Commande {
     String numeroDeSuivi;
     String adresseCommande;
     String numeroTelephoneCommande;
+    LocalDateTime dateDeLaCommande;
 
     public Commande(){
     }
@@ -91,7 +94,11 @@ public class Commande {
         
         Produit produit = produitAcheter.get(0);
         double prixDeLaCommande =  produit.getPrixUnitaire()*produit.getQuantite();
-    return String.format("%d,%s,%d,%.2f,%d,%.2f,%s,%s,%s,%s,%s,%s", 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = dateDeLaCommande.format(formatter);
+
+    return String.format("%d,%s,%d,%.2f,%d,%.2f,%s,%s,%s,%s,%s,%s,%s", 
             idCommande, 
             produit.getTitre(),
             produit.getIdProduit(),
@@ -103,10 +110,25 @@ public class Commande {
             revendeurDuProduit.getEmail(),
             adresseCommande,
             numeroTelephoneCommande,
-            etatDeLaCommande);
+            etatDeLaCommande,
+            formattedDateTime);
     }
     public String getEtatDeLaCommande() {
         return etatDeLaCommande;
+    }
+    public void mettreDateDeLaLivraison() {
+        LocalDateTime now = LocalDateTime.now();
+        dateDeLaCommande = now;
+    }
+    public void setDateDeLaCommande(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime parsedDateTime = LocalDateTime.parse(dateString, formatter);
+        dateDeLaCommande = parsedDateTime;
+    }
+    public String getDateString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = dateDeLaCommande.format(formatter);
+        return formattedDateTime;
     }
 
 }

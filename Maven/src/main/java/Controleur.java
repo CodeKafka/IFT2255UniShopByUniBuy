@@ -2,6 +2,9 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 import java.lang.InterruptedException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 
 /**
@@ -386,8 +389,13 @@ public class Controleur {
                     signalerProblemeAvecUneCommande((Acheteur) acheteur );
                     System.out.println();
                     dodo(2000);
-                    break;     
+                    break;    
                 case "8":
+                    retournerProduit((Acheteur) acheteur );
+                    System.out.println();
+                    dodo(2000);
+                    break;         
+                case "9":
                     naviguerCatalogueAsUser( (Acheteur) acheteur);
                     break;
                 default:
@@ -396,6 +404,52 @@ public class Controleur {
             }
         }
     }
+
+private void retournerProduit(Acheteur acheteur) {
+    if(!GestionnaireCSV.acheteurAdejaRealiserUneCommande(acheteur.getPseudo())){
+        System.out.println("Vous n'avez pas encore réalisé de commande sur Unishop.");
+        System.out.println("Vous ne pouvez donc pas retournez de produit.");
+
+    }else{
+        int IdCommande = demanderIDdelacommande(acheteur);
+        Commande commande = trouverCommandeParID(acheteur,IdCommande);
+
+         if(commande != null){ 
+            Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(commande.getProduitAcheter().get(0).getTitre());
+            printWithTypewriterEffect("Voici la commande que vous avez sélectionné : \n", 40);
+            afficherCommande(commande);
+           
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime dateDelaCommande = LocalDateTime.parse(commande.getDateString(),formatter);
+            LocalDateTime now = LocalDateTime.now();
+            Duration duration = Duration.between(dateDelaCommande, now);
+            long nbJourEcouler = duration.toDays();
+
+            if(nbJourEcouler <= 30){
+                printWithTypewriterEffect("Vous avez effectuer cette commande il y a " + nbJourEcouler +" jours.\n", 40);
+                printWithTypewriterEffect("Souhaitez vous effectuer un retour du produit ?(oui/non)\n", 40);
+                String choix = scanner.nextLine();
+
+                    if (choix.equalsIgnoreCase("oui")) {
+                    commande.setEtatDeLaCommande("Retour en cours");
+                    GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande, revendeur);
+                    printWithTypewriterEffect("La demande de retour à été enclanchée.\n", 40);
+                    printWithTypewriterEffect("Vous disposez désormais de 30 jours pour faire parvenir le produit de la commande par la poste au revendeur.", 40);
+                    System.out.println("\ninformation du revendeur : ");
+                    System.out.println( "Nom de l'entreprise : "+revendeur.getIDEntreprise());
+                    System.out.println( "adresse élétronique de l'entreprise : "+revendeur.getAdresseCourriel());
+
+                    } else if (choix.equalsIgnoreCase("non")){
+                    printWithTypewriterEffect("La demande de retour à été annulé.\n", 40);
+                    }
+
+            }else{
+                printWithTypewriterEffect("Vous avez effectuer cette commande il y a " + nbJourEcouler +" jours.\n", 40);
+                printWithTypewriterEffect("Vous ne pouvez plus effectué de retour car vous avez dépassé le délai maximale (30 jours)", 40);
+            }
+    }
+    }
+}
 
 /**
  * Permet à l'acheteur de signaler un problème avec une de ses commandes.
@@ -524,7 +578,8 @@ public class Controleur {
                     "\nadresse de livraison : " + commande.getAdresseDeLivraison() +
                     "\nnuméro de téléphone : " + commande.getNumeroTelephoneCommande() + 
                     "\n    État de la commande : " +
-                    "\nétat de l'acheminement : " + commande.getEtatDeLaCommande() + "\n\n"
+                    "\nétat de l'acheminement : " + commande.getEtatDeLaCommande() +
+                    "\ndate de la commande : " + commande.getDateString() + "\n\n"
                     );
     }
 
@@ -570,7 +625,7 @@ public class Controleur {
     private int demanderIDdelacommande(Acheteur acheteur) {
         int intIdCommande = 0;
         System.out.println("\n");
-        printWithTypewriterEffect("Veuillez entrer l'ID de la commande que vous souhaité sélectionné : ", 40);
+        printWithTypewriterEffect("Veuillez entrer l'ID de la commande : ", 40);
         String Idcommande = scanner.nextLine();
         try {
             intIdCommande = Integer.parseInt(Idcommande);
@@ -1250,6 +1305,7 @@ public class Controleur {
  * @param typeDeProduitPourLaCommande Le type de produit concerné par la commande.
  */
     public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProduitPourLaCommande) {
+        commandeATraiter.mettreDateDeLaLivraison();
         miseAjourBasesDeDonneesSuivantCommande(commandeATraiter, typeDeProduitPourLaCommande);
 
         System.out.println("\n");
@@ -2099,7 +2155,7 @@ public class Controleur {
                 Commande commandeActuelle;
 
                 //format : idCommandes0, titreProduit1, idProduit2, prixUnitaire3, quantité4, prixTotale5, nomAcheteur6, nomEntreprise7, emailRevendeur8, adresseLivraison9, téléphoneLivraison10
-                if (informationsCommande.length == 12) {
+                if (informationsCommande.length == 13) {
                     //chercher le revendeur grace à l'email
                     Revendeur revendeurDuProduit = (Revendeur) trouverRevendeurParNomEntreprise(informationsCommande[7]);
                     Acheteur  acheteurDuProduit = trouverAcheteurParPseudo(informationsCommande[6]);
@@ -2123,6 +2179,7 @@ public class Controleur {
                     listeDeProduitDeLaCommande.add(produitAcheter);
                     commandeActuelle = new Commande(Integer.parseInt(informationsCommande[0]),listeDeProduitDeLaCommande,acheteurDuProduit,informationsCommande[9],informationsCommande[10]);
                     commandeActuelle.setEtatDeLaCommande(informationsCommande[11]);
+                    commandeActuelle.setDateDeLaCommande(informationsCommande[12]);
                         revendeurDuProduit.ajouterCommande(commandeActuelle); 
                         i++;
                     }

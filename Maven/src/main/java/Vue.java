@@ -73,7 +73,8 @@ public class Vue {
         System.out.println("(5) Voir les commandes réalisées");
         System.out.println("(6) Confirmé la réception d'une commande");
         System.out.println("(7) Signaler un problème avec le produit");
-        System.out.println("(8) Naviguer le catalogue de produit en tant qu'acheteur");
+        System.out.println("(8) Retourner un produit");
+        System.out.println("(9) Naviguer le catalogue de produit en tant qu'acheteur");
         System.out.print("\nChoisissez une option : ");
     }
 

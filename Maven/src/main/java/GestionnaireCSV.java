@@ -432,7 +432,8 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
                     "\nadresse de livraison : " + informationsCommande[9] +
                     "\nnuméro de téléphone : " + informationsCommande[10] +
                     "\n    État de la commande : " +
-                    "\nétat de l'acheminement : " + informationsCommande[11]
+                    "\nétat de l'acheminement : " + informationsCommande[11] +
+                    "\ndate de la commande : " + informationsCommande[12]
                     );
 
                     i++;      
@@ -491,6 +492,27 @@ private static boolean ligneContientCommande(String ligne, Commande commande) {
         
     }
    return false;
+   
+}
+private static boolean ligneContientAcheteurPourCetteCommande(String ligne, String nomDeLacheteur) {
+    String[] champs = ligne.split(",");
+    return champs[6].equalsIgnoreCase(nomDeLacheteur);
+}
+
+
+public static boolean acheteurAdejaRealiserUneCommande(String pseudo) {
+
+ try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_COMMANDES))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if(ligneContientAcheteurPourCetteCommande(line, pseudo)){
+                    return true;
+                };  
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
 }
 
 }
