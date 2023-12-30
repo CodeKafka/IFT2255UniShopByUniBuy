@@ -49,9 +49,9 @@ public class GestionnaireCSV {
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-
+                out.println();
                 } 
-                out.println(utilisateur.toCSV());
+                out.print(utilisateur.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -226,7 +226,7 @@ public class GestionnaireCSV {
 
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                if (!ligneContientUtilisateur(ligne, utilisateur)) {
+                if (ligne.length() > 10 && !ligneContientUtilisateur(ligne, utilisateur)) {
                     pw.println(ligne);
                     pw.flush();
                 }
@@ -352,9 +352,7 @@ public class GestionnaireCSV {
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                if (fichierExistaitDeja) {
-                    out.print(acheteur.getPseudo() +", "+ typeDeProduit.getTitreProduit());
-                } 
+                out.println();
                 out.print(acheteur.getPseudo() +", "+ typeDeProduit.getTitreProduit());
             }
         } catch (IOException e) {
@@ -373,10 +371,8 @@ public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDePr
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                if (fichierExistaitDeja) {
-                    out.print("");
-                } 
-                out.println(typeDeProduit.toCSV());
+                out.print("");
+                out.print(typeDeProduit.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -402,10 +398,35 @@ public static void ecrireCommandeCSV(Commande commande, Revendeur revendeur) {
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                if (fichierExistaitDeja) {
-                    out.print("");
-                } 
-                out.println(commande.toCSV(revendeur));
+                out.println();
+                out.print(commande.toCSV(revendeur));
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        } 
+}
+
+public static void ReecrireCommandeCSV(Commande commande, Revendeur revendeur) {
+    File fichierCSV = new File("commandes.csv");
+
+        try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierExistaitDeja) {
+                Controleur.printWithTypewriterEffect("Création d'une liste de commande pour la première fois", 40);
+                System.out.println();
+
+                Controleur.printWithTypewriterEffect("Veuillez patienter 5 secondes", 40);
+                System.out.println("\n\n\n");
+                Controleur.dodo(5000);
+                fichierCSV.createNewFile();
+                
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                out.print("");
+                out.print(commande.toCSV(revendeur));
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -432,6 +453,7 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
                     "\nPrix : " + informationsCommande[3] + "$ " +
                     "\nQantité : " + informationsCommande[4] +
                     "\nTotal de la commande : " + informationsCommande[5] + "$ " +
+                    "\nPoints accumulés : " + informationsCommande[5] + "$ " +
                     "\n    Information sur le revendeur : " +
                     "\nNom de l'entreprise : " + informationsCommande[7]+
                     "\nadresse courriel de l'entreprise : " + informationsCommande[8]+
@@ -460,7 +482,7 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
 
 public static void modifierEtatDeLaCommandeDansLeCSV(Commande commande, Revendeur revendeur) {
     supprimerCommandeDansLeCSV(commande);
-    ecrireCommandeCSV(commande, revendeur);
+    ReecrireCommandeCSV(commande, revendeur);
 }
 
 private static void supprimerCommandeDansLeCSV(Commande commande) {
@@ -522,4 +544,30 @@ public static boolean acheteurAdejaRealiserUneCommande(String pseudo) {
         return false;
 }
 
+public static void MettreAjourPointFideliteCSV(Acheteur acheteur) {
+    supprimerUtilisateurCSV(acheteur);
+    ReecrireUtilisateurCSV(acheteur);
 }
+
+private static void ReecrireUtilisateurCSV(Utilisateur utilisateur) {
+    File fichierCSV = new File("utilisateurs.csv");
+     try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierExistaitDeja) {
+                fichierCSV.createNewFile();
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                out.print("");
+                out.print(utilisateur.toCSV());
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        }
+    }
+}
+
+
+

@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import java.lang.InterruptedException;
@@ -167,7 +168,7 @@ public class Controleur {
                 }
             }
         } while (!valide);
-        Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo);
+        Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo,0);
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
         GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
         baseDeDonneesUtilisateurs.add(acheteur);
@@ -401,6 +402,9 @@ public class Controleur {
                 case "10":
                     naviguerCatalogueAsUser( (Acheteur) acheteur);
                     break;
+                case "11":
+                    voirPointDeFidelite( (Acheteur) acheteur);
+                    break;    
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
@@ -408,12 +412,22 @@ public class Controleur {
         }
     }
 
+private void voirPointDeFidelite(Acheteur acheteur) {
+    printWithTypewriterEffect("Vous disposé actuellement de "+ acheteur.getPointsFidelite()+" points dans le programme de fidélité.", 40);
+    printWithTypewriterEffect("Vous pouvez gagner des points en réalisant des commandes et en recevant des likes.", 40);
+    System.out.println();
+    printWithTypewriterEffect("Ils vous permetteront d'obtenir des réductions sur vos futurs achats !", 40);
+    dodo(2000);
+}
+
 private void retournerProduit(Acheteur acheteur) {
     if(!GestionnaireCSV.acheteurAdejaRealiserUneCommande(acheteur.getPseudo())){
         System.out.println("Vous n'avez pas encore réalisé de commande sur Unishop.");
         System.out.println("Vous ne pouvez donc pas retournez de produit.");
 
     }else{
+        printWithTypewriterEffect("Voici les commandes que vous avez réalisées : \n", 40);
+        GestionnaireCSV.afficherCommandesDeLAcheteur(acheteur);
         int IdCommande = demanderIDdelacommande(acheteur);
         Commande commande = trouverCommandeParID(acheteur,IdCommande);
 
@@ -464,6 +478,11 @@ private void retournerProduit(Acheteur acheteur) {
  * @param acheteur L'acheteur qui souhaite signaler un problème avec une commande.
  */
     private void signalerProblemeAvecUneCommande(Acheteur acheteur) {
+        if(!GestionnaireCSV.acheteurAdejaRealiserUneCommande(acheteur.getPseudo())){
+        System.out.println("Vous n'avez pas encore réalisé de commande sur Unishop.");
+        System.out.println("Vous ne pouvez donc pas retournez de produit.");
+
+    }else{
         printWithTypewriterEffect("Voici les commandes que vous avez réalisées : \n", 40);
         GestionnaireCSV.afficherCommandesDeLAcheteur(acheteur);
 
@@ -487,7 +506,7 @@ private void retournerProduit(Acheteur acheteur) {
             }
 
         }
-    }
+    }}
 
 
 /**
@@ -499,7 +518,14 @@ private void retournerProduit(Acheteur acheteur) {
  * @param acheteur L'acheteur qui souhaite confirmer la réception d'une commande.
  */
     private void demanderConfirmationDuneCommande(Acheteur acheteur) {
-      
+       if(!GestionnaireCSV.acheteurAdejaRealiserUneCommande(acheteur.getPseudo())){
+        System.out.println("Vous n'avez pas encore réalisé de commande sur Unishop.");
+        System.out.println("Vous ne pouvez donc pas retournez de produit.");
+
+    }else{
+        printWithTypewriterEffect("Voici les commandes que vous avez réalisées : \n", 40);
+        GestionnaireCSV.afficherCommandesDeLAcheteur(acheteur);
+        
         int IdCommande = demanderIDdelacommande(acheteur);
         Commande commande = trouverCommandeParID(acheteur,IdCommande);
 
@@ -522,7 +548,7 @@ private void retournerProduit(Acheteur acheteur) {
         
             
         }
-
+    }
     }
 
 /**
@@ -574,6 +600,7 @@ private void retournerProduit(Acheteur acheteur) {
                     "\nPrix : " + prix + "$ " +
                     "\nQantité : " + quantite +
                     "\nTotal de la commande : " + prix*quantite + "$ " +
+                    "\nPoints accumulés : " + Math.round(prix*quantite) + "$ " +
                     "\n    Information sur le revendeur : " +
                     "\nNom de l'entreprise : " +revendeur.getIDEntreprise() +
                     "\nadresse courriel de l'entreprise : " + revendeur.getAdresseCourriel() +
@@ -1312,12 +1339,21 @@ private void retournerProduit(Acheteur acheteur) {
  */
     public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProduitPourLaCommande) {
         commandeATraiter.mettreDateDeLaLivraison();
+        double prixUnitaire = commandeATraiter.produitAcheter.getFirst().getPrixUnitaire();
+        int quantiteProduit = commandeATraiter.produitAcheter.getFirst().getQuantite();
         miseAjourBasesDeDonneesSuivantCommande(commandeATraiter, typeDeProduitPourLaCommande);
 
         System.out.println("\n");
         printWithTypewriterEffect("Mise à jour de la base de données de produits", 40); 
         printWithTypewriterEffect("...", 300);
         System.out.println();
+
+        int pointAccumuler = (int) Math.round(prixUnitaire*quantiteProduit);
+        printWithTypewriterEffect("Vous venez d'accumuler "+ pointAccumuler +" points pour votre commande !", 40);
+        commandeATraiter.getAcheteur().ajouterPointsFideliteApartirDuPrix(pointAccumuler);
+        GestionnaireCSV.MettreAjourPointFideliteCSV(commandeATraiter.getAcheteur());
+        System.out.println();
+
         printWithTypewriterEffect("Soyez patient pour votre commande", 40);
         dodo(1000); 
         System.out.println();
@@ -1540,9 +1576,15 @@ private void retournerProduit(Acheteur acheteur) {
             while (scanner.hasNextLine()) {
                 String[] userData = scanner.nextLine().split(",");
                 Utilisateur utilisateur;
-                // Supposons que userData ait le format: nom, prenom, email, telephone, motDePasse, pseudo/typeEntreprise, typeUtilisateur
+                // Supposons que userData ait le format: nom, prenom, email, telephone, motDePasse, pseudo/typeEntreprise, typeUtilisateur, nbPointfidelité
                 if ("Acheteur".equals(userData[6])) {
-                    utilisateur = new Acheteur(userData[0], userData[1], userData[2], userData[4], userData[3], userData[5]);
+
+                    int parsedValue = 0;
+                    try {
+                     parsedValue = Integer.parseInt(userData[7]);
+                    } catch (NumberFormatException e) {}
+
+                    utilisateur = new Acheteur(userData[0], userData[1], userData[2], userData[4], userData[3], userData[5], parsedValue);
                 } else if ("Revendeur".equals(userData[6])) {
                     utilisateur = new Revendeur(userData[0], userData[1], userData[2], userData[3], userData[4]);
                 } else {
@@ -2011,16 +2053,16 @@ private void retournerProduit(Acheteur acheteur) {
     public static void InitialiserAcheteursParDefaut(){
         Acheteur[] acheteurParDefaut = new Acheteur[10];
 
-        acheteurParDefaut[0] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com","ProxyPaige", "4389234776", "Pawgologist");
-        acheteurParDefaut[1] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P");
-        acheteurParDefaut[2] = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates");
-        acheteurParDefaut[3] = new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "Walter4678", "4381234321", "Patates4");
-        acheteurParDefaut[4] = new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "Rick4678", "4389234778", "Patates5");
-        acheteurParDefaut[5] = new Acheteur("Eddy", "Len", "acheteur6@gmail.com", "34Eddy678", "4389234779", "Patates6");
-        acheteurParDefaut[6] = new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "Sarah4678", "4389237776", "Patates7");
-        acheteurParDefaut[7] = new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "Patrick354678", "4384454776", "Patates8");
-        acheteurParDefaut[8] = new Acheteur("Random1", "User1", "random1@gmail.com", "random1578", "4381111111", "Random1");
-        acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "random4677", "4382222222", "Random2");
+        acheteurParDefaut[0] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com","ProxyPaige", "4389234776", "Pawgologist",0);
+        acheteurParDefaut[1] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0);
+        acheteurParDefaut[2] = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates",0);
+        acheteurParDefaut[3] = new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "Walter4678", "4381234321", "Patates4",0);
+        acheteurParDefaut[4] = new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "Rick4678", "4389234778", "Patates5",0);
+        acheteurParDefaut[5] = new Acheteur("Eddy", "Len", "acheteur6@gmail.com", "34Eddy678", "4389234779", "Patates6",0);
+        acheteurParDefaut[6] = new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "Sarah4678", "4389237776", "Patates7",0);
+        acheteurParDefaut[7] = new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "Patrick354678", "4384454776", "Patates8",0);
+        acheteurParDefaut[8] = new Acheteur("Random1", "User1", "random1@gmail.com", "random1578", "4381111111", "Random1",0);
+        acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "random4677", "4382222222", "Random2",0);
         
 
         for(int i = 0; i < 10;i++){
@@ -2153,6 +2195,18 @@ private void retournerProduit(Acheteur acheteur) {
  * ne sont pas disponibles dans la base de données.
  */
     public static void initialiserCommandes() {
+        File fichierCSV = new File("commandes.csv");
+        try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+             if (!fichierExistaitDeja) {
+                fichierCSV.createNewFile();
+                System.out.println("Fichier des commandes créé avec succès !");
+            } 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         int i = 0;
          try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvCommandes()))) {
             while (scanner.hasNextLine()) {
@@ -2171,7 +2225,7 @@ private void retournerProduit(Acheteur acheteur) {
                                 "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
                     }
                     else if(acheteurDuProduit == null){
-                       System.out.println("L'acheteur ayant le pseudo"+ informationsCommande[6] + " n'existe pas, " +
+                       System.out.println("L'acheteur ayant le pseudo "+ informationsCommande[6] + " n'existe pas, " +
                                 "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
                     }
                     else if(typeDeProduitAcheter == null){

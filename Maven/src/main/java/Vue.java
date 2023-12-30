@@ -75,6 +75,7 @@ public class Vue {
         System.out.println("(8) Retourner un produit");
         System.out.println("(9) Voir mes evaluations");
         System.out.println("(10) Naviguer le catalogue de produit en tant qu'acheteur");
+        System.out.println("(11) Voir les points du programme de fidélité");
         System.out.print("\nChoisissez une option : ");
     }
 

@@ -11,10 +11,22 @@ public class Acheteur  extends Utilisateur{
 
 
     public Acheteur(String nom, String prenom, String addresseCourriel, String motDePasse, String telephone,
-                    String pseudo) {
+                    String pseudo, int pointsFidelite) {
         super(nom, prenom, addresseCourriel, motDePasse, telephone);
         this.pseudo = pseudo;
         this.panier = new Panier();
+        this.pointsFidelite = pointsFidelite;
+    }
+    public int getPointsFidelite(){
+        return pointsFidelite;
+    }
+
+    public void setPointsFidelite(int newPointsFidelite){
+        this.pointsFidelite = newPointsFidelite;
+    }
+
+    public void ajouterPointsFideliteApartirDuPrix(int prixDeLaCommande){
+        this.pointsFidelite += Math.round(prixDeLaCommande);
     }
 
     public String getPseudo(){
@@ -26,7 +38,7 @@ public class Acheteur  extends Utilisateur{
     @Override
     public String toCSV() {
         // Ajouter le pseudo pour l'acheteur
-        return super.toCSV() + "," + pseudo + ",Acheteur";
+        return super.toCSV() + "," + pseudo + ",Acheteur" + "," + pointsFidelite;
     }
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;

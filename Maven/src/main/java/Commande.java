@@ -72,6 +72,10 @@ public class Commande {
         return numeroTelephoneCommande;
     }
 
+    public Acheteur getAcheteur(){
+        return acheteur;
+    }
+
   //public void confirmerReception() ????
 
     public void SignalerProbleme(){ //annuler plutot
