@@ -90,6 +90,14 @@ public class Controleur {
                     naviguerCatalogueAsGuest();
                     break;
                 case "4":
+                    GestionnaireCSV.afficherListeDesAcheteurs();
+                    dodo(3800);
+                    break;         
+                case "5":
+                    GestionnaireCSV.afficherListeDesRevendeurs();
+                    dodo(3800);
+                    break;      
+                case "6":
                     System.exit(0);
                 default:
                     System.out.println("Option invalide. Veuillez réessayer.");
@@ -103,6 +111,183 @@ public class Controleur {
             }
         }
     }
+
+    private void rechercherUnProduit() {
+        boolean continuer = true; 
+
+        while (continuer) {
+            printWithTypewriterEffect("\nComment souhaiter vous effectuée votre recherche ?\n",40);
+            dodo(1000); 
+            
+            Vue.afficherOptionsGuestCatalogueProduitRechercheDeProduit();        
+            String choix = scanner.nextLine(); 
+
+            switch(choix) {
+                case "1":
+                    rechercherUnProduitParTitre();
+                    dodo(2000);
+                    continuer = false;
+                    break;
+                case "2":
+                    rechercherUnProduitParCategorie();
+                    continuer = false;
+                    dodo(2000);
+                    break;
+                case "3":
+                    rechercherUnProduitParTrancheDePrix();
+                    continuer = false;
+                    dodo(2000);
+                    break;
+                case "4":
+                    rechercherUnProduitParNomDentreprise();
+                    continuer = false;
+                    dodo(2000);
+                    break;        
+                default:
+                    Vue.avertissementEntreInvalide();
+                    break;
+            }
+        }
+    }
+
+    private void rechercherUnProduitParNomDentreprise() {
+
+        printWithTypewriterEffect("\n\nEntrer le nom de l'entreprise : ", 40);
+        String nomDuProduit = scanner.nextLine(); 
+        GestionnaireCSV.afficherProduitAvecCeNomEntreprise(nomDuProduit);
+    }
+
+    private void rechercherUnProduitParTrancheDePrix() {
+        printWithTypewriterEffect("\n\nEntrez le prix minimale des produits : \n", 40);
+        Vue.afficherTrancheDePrixMin();
+
+        int min = 0;
+
+        int choix1 = 0;
+        String choixUser1 = scanner.nextLine(); 
+
+        try{
+            choix1 = Integer.parseInt(choixUser1);
+        }
+        catch(NumberFormatException e){ 
+        }
+
+        
+
+        switch (choix1) {
+            case 1:
+                min = 0;
+                break;
+            case 2:
+                min = 10;
+                break;
+            case 3:
+                min = 20;
+                break;
+            case 4:
+                min = 30;
+                break;
+            case 5:
+                min = 40;
+                break;
+            case 6:
+                min = 50;
+                break;    
+            default:
+                min = 0;
+                System.out.println("Option invalide. la valeur du minimum est mis à 0 $.");
+                break;
+        }
+       
+
+        printWithTypewriterEffect("\n\nEntrez le prix maximale des produits : \n", 40);
+        Vue.afficherTrancheDePrixMax();
+        int max = 100;
+
+        int choix2 = 0;
+        String choixUser2 = scanner.nextLine(); 
+
+        try{
+            choix2= Integer.parseInt(choixUser2);
+        }
+        catch(NumberFormatException e){
+        }
+
+        switch (choix2) {
+            case 1:
+                max = 0;
+                break;
+            case 2:
+                max = 10;
+                break;
+            case 3:
+                max = 20;
+                break;
+            case 4:
+                max = 30;
+                break;
+            case 5:
+                max = 40;
+                break;
+            case 6:
+                max = 100;
+                break;    
+            default:
+                max = 100;
+                System.out.println("Option invalide. la valeur du minimum est mis à 100 $.");
+                break;
+        }
+ 
+        GestionnaireCSV.afficherProduitParTrancheDePrix(min,max);
+        
+    }
+
+    private void rechercherUnProduitParTitre() {
+
+        printWithTypewriterEffect("\n\nEntrer le titre du produit que vous recherché : ", 40);
+        String nomDuProduit = scanner.nextLine(); 
+        GestionnaireCSV.afficherProduitAvecCeNomDeProduit(nomDuProduit);
+
+    }
+
+    private void rechercherUnProduitParCategorie() {
+        System.out.println("\n");
+        Vue.afficherOptionsRechercheProduitPermises();
+        printWithTypewriterEffect("\n\nChoisissez une catégorie parmi les cinq mentionnées ci-haut : ", 40);
+        int choix= 0;
+        String choixUser = scanner.nextLine(); 
+
+        try{
+            choix = Integer.parseInt(choixUser);
+        }
+        catch(NumberFormatException e){
+        }
+
+        String categorie = "";
+        switch (choix) {
+            case 1:
+                categorie = "Livres et manuels";
+                break;
+            case 2:
+                categorie = "Ressources d'apprentissage";
+                break;
+            case 3:
+                categorie = "Articles de papeterie";
+                break;
+            case 4:
+                categorie = "Matériel informatique";
+                break;
+            case 5:
+                categorie = "Équipement de bureau";
+                break;
+            default:
+                System.out.println("Choix invalide. Veuillez réessayer.");
+                return;
+        }
+        categorie = options[choix -1];
+        GestionnaireCSV.afficherProduitDeCetteCategorie(categorie);
+    }
+
     // Autres méthodes de gestion des actions de l'utilisateur
     /**
      * Permet à un nouvel utilisateur de s'inscrire en tant qu'acheteur ou revendeur.
@@ -727,12 +912,16 @@ private void retournerProduit(Acheteur acheteur) {
             dodo(1000); 
             Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
             dodo(1000);
-            Vue.afficherOptionsGuestCatalogueProduit();        
-                String choix = scanner.nextLine(); 
+            System.out.println("");
+        
+            Vue.afficherOptionsGuestCatalogueProduit();  
+            System.out.println("");
+      
+            String choix = scanner.nextLine(); 
 
             switch(choix) {
                 case "1":
-                    System.out.println("Désolé, cette fonctionnalité n'est pas encore disponible");
+                    rechercherUnProduit();
                     break;
                 case "2":
                     continuer = false;

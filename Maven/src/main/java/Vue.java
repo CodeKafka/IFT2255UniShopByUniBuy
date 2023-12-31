@@ -13,7 +13,9 @@ public class Vue {
         System.out.println("\n\n\n(1) Inscription");
         System.out.println("(2) Connexion");
         System.out.println("(3) Navigation du catalogue de produit");
-        System.out.println("\n(4) Arrêter l'application");
+        System.out.println("(4) Récupérer la liste des acheteurs");
+        System.out.println("(5) Récupérer la liste des revendeurs");        
+        System.out.println("\n(6) Arrêter l'application");
     }
     /**
      * Affiche le menu de connexion pour tous les types d'utilisateurs prévus.
@@ -164,6 +166,13 @@ public class Vue {
         System.out.println("(2) Revenu au menu principal");
     }
 
+     public static void afficherOptionsGuestCatalogueProduitRechercheDeProduit() {
+        System.out.println("(1) Faire une recherche par titre");
+        System.out.println("(2) Faire une recherche par catégorie");
+        System.out.println("(3) Faire une recherche par tranche de prix");
+        System.out.println("(4) Faire une recherche par nom d'entreprise");        
+    }
+
     /**
      * Affiche les options du catalogue de produits pour les acheteurs.
      */ 
@@ -289,6 +298,22 @@ public class Vue {
             }
             Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes.", 40); 
             Controleur.dodo(5000);
+    }
+    public static void afficherTrancheDePrixMin() {
+        System.out.println("(1) 0 $");
+        System.out.println("(2) 10 $");
+        System.out.println("(3) 20 $");
+        System.out.println("(4) 30 $");
+        System.out.println("(5) 40 $");
+        System.out.println("(6) 50 $");
+    }
+      public static void afficherTrancheDePrixMax() {
+        System.out.println("(1) 0 $");
+        System.out.println("(2) 10 $");
+        System.out.println("(3) 20 $");
+        System.out.println("(4) 30 $");
+        System.out.println("(5) 40 $");
+        System.out.println("(6) 50 $ et plus ");
     }
 
 }

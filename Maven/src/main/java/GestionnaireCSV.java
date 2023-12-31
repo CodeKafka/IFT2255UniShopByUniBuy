@@ -567,6 +567,144 @@ private static void ReecrireUtilisateurCSV(Utilisateur utilisateur) {
             e.printStackTrace();
         }
     }
+
+public static void afficherListeDesAcheteurs() {
+    try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV))) {
+        int i = 1;
+             while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosAcheteurs = line.split(",");
+                if(infosAcheteurs[6].equalsIgnoreCase("Acheteur")){
+                System.out.println(i + ". Pseudo : " + infosAcheteurs[5] );
+                i++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+}
+
+public static void afficherListeDesRevendeurs() {
+    try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV))) {
+        int i = 1;
+             while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosRevendeurs = line.split(",");
+                if(infosRevendeurs[6].equalsIgnoreCase("Revendeur")){
+                System.out.println(i + ". Nom de l'entreprise : " + infosRevendeurs[0] );
+                i++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+}
+
+public static void afficherProduitDeCetteCategorie(String categorie) {
+    System.out.println("\nCategorie : "+ categorie + "\n");
+   try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+        int i = 1;
+             while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+                if(infosTypedeProduit[1].equalsIgnoreCase(categorie)){
+                System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                i++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+}
+
+public static void afficherProduitAvecCeNomDeProduit(String nomDuProduit) {
+     try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+        int i = 1;
+             while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+                if(infosTypedeProduit[0].equalsIgnoreCase(nomDuProduit)){
+                System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                i++;
+                }
+            }
+        if(i == 1 )   {
+            System.out.println("Aucun produit avec le nom "+ nomDuProduit + " n'a été trouvé.");
+        } 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\n\n");
+
+
+}
+
+public static void afficherProduitParTrancheDePrix(int min, int max) {
+
+if(min > max){
+    int correction = min;
+    min = max;
+    max = correction;
+}
+
+System.out.println("\nLes produits donc les prix sont compris entre " + min + " $ et " + max + " $ sont : \n");
+
+   try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+        int i = 1;
+             while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+
+                double prix = 0;
+                try {
+                    prix = Double.parseDouble(infosTypedeProduit[3]);
+                } catch (NumberFormatException e) {
+                }
+
+                if(prix>= min && prix<= max){
+                System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                i++;
+                }
+            }
+        if(i == 1 )   {
+            System.out.println("Aucun produit avec le critère donnée n'a été trouvé.");
+        } 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\n\n");
+
+
+}
+
+public static void afficherProduitAvecCeNomEntreprise(String nomDeLentreprise) {
+     try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+        int i = 1;
+             while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+                if(infosTypedeProduit[6].equalsIgnoreCase(nomDeLentreprise)){
+                System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                i++;
+                }
+            }
+        if(i == 1 )   {
+            System.out.println("Aucun produit vendu par l'entreprise "+ nomDeLentreprise + " n'a été trouvé.");
+        } 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\n\n");
+}
+
+
 }
 
 
