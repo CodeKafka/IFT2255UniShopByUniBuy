@@ -54,6 +54,10 @@ public class Revendeur extends Utilisateur {
         return this.listeDeCommandes;
     } 
 
+    public int getNombreDeCommandeRealiser() { 
+        return this.listeDeCommandes.size();
+    } 
+
 
     public void setListeDeCommandes(List<Commande> listeDeCommandes) {
         this.listeDeCommandes = listeDeCommandes;

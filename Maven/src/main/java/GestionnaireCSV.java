@@ -478,6 +478,28 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
         }
 }
 
+public static int getNombreDeCommandeRealiser(Acheteur acheteur){
+    File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
+
+        int i = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV))) {
+            
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                String[] informationsCommande = ligne.split(",");
+
+                if (ligne.length() > 10 && informationsCommande[6].equals(acheteur.getPseudo())) {
+                    i++;      
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return i;
+}
+
 
 
 public static void modifierEtatDeLaCommandeDansLeCSV(Commande commande, Revendeur revendeur) {

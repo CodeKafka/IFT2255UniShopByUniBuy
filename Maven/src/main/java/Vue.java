@@ -14,8 +14,12 @@ public class Vue {
         System.out.println("(2) Connexion");
         System.out.println("(3) Navigation du catalogue de produit");
         System.out.println("(4) Récupérer la liste des acheteurs");
-        System.out.println("(5) Récupérer la liste des revendeurs");        
-        System.out.println("\n(6) Arrêter l'application");
+        System.out.println("(5) Récupérer la liste des revendeurs");     
+        System.out.println("(6) Voir le profil d'un acheteur");   
+        System.out.println("(7) Voir le profil d'un revendeur"); 
+        System.out.println("(8) Rechercher un acheteur");    
+        System.out.println("(9) Rechercher un revendeur");        
+        System.out.println("\n(10) Arrêter l'application");
     }
     /**
      * Affiche le menu de connexion pour tous les types d'utilisateurs prévus.
@@ -315,5 +319,13 @@ public class Vue {
         System.out.println("(5) 40 $");
         System.out.println("(6) 50 $ et plus ");
     }
+    public static void afficherOptionsGuestRechercheAcheteur() {
+        System.out.println("(1) Faire une recherche par Pseudo");
+        System.out.println("(2) Faire une recherche avec la liste de suivie");
+    }
+    public static void afficherOptionsGuestRechercheRevendeur() {
+        System.out.println("(1) Faire une recherche par nom d'entreprise");
+        System.out.println("(2) Faire une recherche par Produit");
+        }
 
 }

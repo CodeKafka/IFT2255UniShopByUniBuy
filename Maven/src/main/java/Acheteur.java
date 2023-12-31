@@ -16,6 +16,7 @@ public class Acheteur  extends Utilisateur{
         this.pseudo = pseudo;
         this.panier = new Panier();
         this.pointsFidelite = pointsFidelite;
+        this.nombreCommandePassees = GestionnaireCSV.getNombreDeCommandeRealiser(this);
     }
     public int getPointsFidelite(){
         return pointsFidelite;
@@ -51,5 +52,10 @@ public class Acheteur  extends Utilisateur{
     @Override
     public String getAdresseCourriel() {
         return super.getAdresseCourriel();
+    }
+    
+    public int getNombreDeCommandeRealiser(){
+        return GestionnaireCSV.getNombreDeCommandeRealiser(this);
+
     }
 }

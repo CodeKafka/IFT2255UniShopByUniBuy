@@ -23,6 +23,12 @@
         public String getAdresseCourriel() {
             return this.addresseCourriel;
         }
+        public String getNom() {
+            return nom;
+        }
+        public String getPrenom() {
+            return prenom;
+        }
 
         public void setNom(String nom) {
             this.nom = nom;
