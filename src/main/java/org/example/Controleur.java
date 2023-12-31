@@ -1,8 +1,12 @@
 package org.example;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import java.lang.InterruptedException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 
 /**
@@ -703,7 +707,7 @@ public class Controleur {
                     dodo(2000);
                     break;     
                 case "8":
-                    naviguerCatalogueAsUser( (Acheteur) acheteur);
+                    retournerProduit((Acheteur) acheteur );
                     break;
                 case "9":
                     showAndRemoveEvaluation((Acheteur) acheteur);
@@ -733,6 +737,55 @@ public class Controleur {
  *
  *
  */
+
+
+private void retournerProduit(Acheteur acheteur) {
+    if(!GestionnaireCSV.acheteurAdejaRealiserUneCommande(acheteur.getPseudo())){
+        System.out.println("Vous n'avez pas encore réalisé de commande sur Unishop.");
+        System.out.println("Vous ne pouvez donc pas retournez de produit.");
+
+    }else{
+        printWithTypewriterEffect("Voici les commandes que vous avez réalisées : \n", 40);
+        GestionnaireCSV.afficherCommandesDeLAcheteur(acheteur);
+        int IdCommande = demanderIDdelacommande(acheteur);
+        Commande commande = trouverCommandeParID(acheteur,IdCommande);
+
+        if(commande != null){
+            Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(commande.getProduitAcheter().get(0).getTitre());
+            printWithTypewriterEffect("Voici la commande que vous avez sélectionné : \n", 40);
+            afficherCommande(commande);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime dateDelaCommande = LocalDateTime.parse(commande.getDateString(),formatter);
+            LocalDateTime now = LocalDateTime.now();
+            Duration duration = Duration.between(dateDelaCommande, now);
+            long nbJourEcouler = duration.toDays();
+
+            if(nbJourEcouler <= 30){
+                printWithTypewriterEffect("Vous avez effectuer cette commande il y a " + nbJourEcouler +" jours.\n", 40);
+                printWithTypewriterEffect("Souhaitez vous effectuer un retour du produit ?(oui/non)\n", 40);
+                String choix = scanner.nextLine();
+
+                if (choix.equalsIgnoreCase("oui")) {
+                    commande.setEtatDeLaCommande("Retour en cours");
+                    GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande, revendeur);
+                    printWithTypewriterEffect("La demande de retour à été enclanchée.\n", 40);
+                    printWithTypewriterEffect("Vous disposez désormais de 30 jours pour faire parvenir le produit de la commande par la poste au revendeur.", 40);
+                    System.out.println("\ninformation du revendeur : ");
+                    System.out.println( "Nom de l'entreprise : "+revendeur.getIDEntreprise());
+                    System.out.println( "adresse élétronique de l'entreprise : "+revendeur.getAdresseCourriel());
+
+                } else if (choix.equalsIgnoreCase("non")){
+                    printWithTypewriterEffect("La demande de retour à été annulé.\n", 40);
+                }
+
+            }else{
+                printWithTypewriterEffect("Vous avez effectuer cette commande il y a " + nbJourEcouler +" jours.\n", 40);
+                printWithTypewriterEffect("Vous ne pouvez plus effectué de retour car vous avez dépassé le délai maximale (30 jours)", 40);
+            }
+        }
+    }
+}
     private void voirPointDeFidelite(Acheteur acheteur) {
     printWithTypewriterEffect("Vous disposé actuellement de "+ acheteur.getPointsFidelite()+" points dans le programme de fidélité.", 40);
     printWithTypewriterEffect("Vous pouvez gagner des points en réalisant des commandes et en recevant des likes.", 40);
