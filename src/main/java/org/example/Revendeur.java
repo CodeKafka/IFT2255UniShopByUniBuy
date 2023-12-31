@@ -66,5 +66,7 @@ public class Revendeur extends Utilisateur {
         }
     }
 
-
+    public void setTypesDeProduits(List<TypeDeProduit> typesDeProduits) {
+        this.typesDeProduits = typesDeProduits;
+    }
 }

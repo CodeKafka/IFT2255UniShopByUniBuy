@@ -18,7 +18,7 @@ public class GestionnaireDeProduit {
                 fichierCSV.createNewFile();
             }
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                out.println(typeDeProduit.toCSV() + "," + nomCompagnie);
+                out.println(typeDeProduit.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Erreur lors de l'enregistrement du type de produit.");

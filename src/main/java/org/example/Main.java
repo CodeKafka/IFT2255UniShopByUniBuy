@@ -18,6 +18,7 @@ public class Main {
             Controleur.InitialiserAcheteursParDefaut();
             Controleur.InitialiserRevendeursParDefaut();
             Controleur.initialiserTypeDeProduitParDefaut();
+            Controleur.InitialiserEvaluationsParDefaut();
         }
         controleur.demarrerApplication();
     }

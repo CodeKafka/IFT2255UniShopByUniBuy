@@ -10,7 +10,7 @@ public class Evaluations {
     private String commentaire;
     private Set<String> listeLikeur;
 
-    public Evaluations(TypeDeProduit produit, Acheteur acheteur, int note, String commentaire) {
+        public Evaluations(TypeDeProduit produit, Acheteur acheteur, int note, String commentaire) {
         this.produit = produit;
         this.acheteur = acheteur;
         this.note = note;

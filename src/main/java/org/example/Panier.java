@@ -25,6 +25,10 @@ public class Panier {
         this.typeDeProduits.clear();
     }
 
+    public int tailleDuPanier() {
+        return typeDeProduits.size();
+    }
+
 
 
 }

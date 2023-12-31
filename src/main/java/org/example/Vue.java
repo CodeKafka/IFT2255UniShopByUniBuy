@@ -63,18 +63,20 @@ public class Vue {
      */
     public static void afficherOptionsMenuAcheteur() {
         System.out.println("\n\n\n");
-        Controleur.printWithTypewriterEffect("Bienvenue sur le menu pour les acheteurs.", 40); 
+        Controleur.printWithTypewriterEffect("Bienvenue sur le menu pour les acheteurs.", 40);
         Controleur.dodo(1000);
         System.out.println("\n\n");
         System.out.println("(1) Arrêter l'application");
-        System.out.println("(2) Revenir au menu principal");   
+        System.out.println("(2) Revenir au menu principal");
         System.out.println("(3) Supprimer mon compte");
         System.out.println("(4) Modifier son profil");
         System.out.println("(5) Voir les commandes réalisées");
         System.out.println("(6) Confirmé la réception d'une commande");
         System.out.println("(7) Signaler un problème avec le produit");
-        System.out.println("(8) Naviguer le catalogue de produit en tant qu'acheteur");
+        System.out.println("(8) Retourner un produit");
         System.out.println("(9) Voir mes evaluations");
+        System.out.println("(10) Naviguer le catalogue de produit en tant qu'acheteur");
+        System.out.println("(11) Voir les points du programme de fidélité");
         System.out.print("\nChoisissez une option : ");
     }
 

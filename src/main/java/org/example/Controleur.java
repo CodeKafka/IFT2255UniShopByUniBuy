@@ -18,7 +18,7 @@ public class Controleur {
             , "Équipement de bureau"};
 
     private Scanner scanner;
-    private static List<Utilisateur> baseDeDonneesUtilisateurs;
+    static List<Utilisateur> baseDeDonneesUtilisateurs;
     private static List<TypeDeProduit> baseDeDonnesTypesDeProduit;
     public static List<Evaluations> baseDeDonnesEvaluations;
     private static Map<String, String> nomsEtDescriptionsProduitsParDefaut;
@@ -68,9 +68,7 @@ public class Controleur {
      */
     public void offrirMenuPrincipal() {
         boolean continuer = true;
-
         while (continuer) {
-
             clearScreen();
             vue.afficherMenuPrincipal();
             System.out.print("\nChoisissez une option: ");
@@ -165,7 +163,7 @@ public class Controleur {
                 }
             }
         } while (!valide);
-        Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo);
+        Acheteur acheteur = new Acheteur(nom, prenom, email, motDePasse, telephone, pseudo,0);
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
         GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
         baseDeDonneesUtilisateurs.add(acheteur);
@@ -220,7 +218,7 @@ public class Controleur {
      * @return true si l'adresse email est valide, sinon false.
      * @throws IllegalArgumentException Si l'adresse email ne correspond pas à l'expression régulière.
      */
-    private boolean validerEmail(String email) {
+    public static boolean validerEmail(String email) {
         String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         if (!email.matches(regexEmail)) {
             System.out.println("Email invalide.");
@@ -234,7 +232,7 @@ public class Controleur {
      * @return true si le mot de passe est valide, sinon false.
      * @throws IllegalArgumentException Si la longueur du mot de passe est inférieure à 8 caractères.
      */
-    private boolean validerMotDePasse(String motDePasse) {
+    public static boolean validerMotDePasse(String motDePasse) {
         if (motDePasse.length() < 8) {
             System.out.println("Le mot de passe doit contenir au moins 8 caractères.");
             return false;
@@ -249,7 +247,7 @@ public class Controleur {
      * @return true si le numéro de téléphone est valide, sinon false.
      * @throws IllegalArgumentException Si le numéro de téléphone ne correspond pas à l'expression régulière.
      */
-    private boolean validerTelephone(String telephone) {
+    public static boolean validerTelephone(String telephone) {
         // Exemple de validation basique de numéro de téléphone
         String regexTelephone = "\\d{10}";
         if (!telephone.matches(regexTelephone)) {
@@ -394,6 +392,13 @@ public class Controleur {
                 case "9":
                     showAndRemoveEvaluation((Acheteur) acheteur);
                     break;
+                case "10":
+                    naviguerCatalogueAsUser( (Acheteur) acheteur);
+                    break;
+                case "11":
+                    voirPointDeFidelite( (Acheteur) acheteur);
+                    break;
+
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
@@ -409,7 +414,16 @@ public class Controleur {
  * En cas de confirmation, l'état de la commande est mis à jour pour refléter le problème signalé.
  *
  * @param acheteur L'acheteur qui souhaite signaler un problème avec une commande.
+ *
+ *
  */
+    private void voirPointDeFidelite(Acheteur acheteur) {
+    printWithTypewriterEffect("Vous disposé actuellement de "+ acheteur.getPointsFidelite()+" points dans le programme de fidélité.", 40);
+    printWithTypewriterEffect("Vous pouvez gagner des points en réalisant des commandes et en recevant des likes.", 40);
+    System.out.println();
+    printWithTypewriterEffect("Ils vous permetteront d'obtenir des réductions sur vos futurs achats !", 40);
+    dodo(2000);
+}
     private void signalerProblemeAvecUneCommande(Acheteur acheteur) {
         printWithTypewriterEffect("Voici les commandes que vous avez réalisées : \n", 40);
         GestionnaireCSV.afficherCommandesDeLAcheteur(acheteur);
@@ -842,8 +856,8 @@ public class Controleur {
  * @param acheteurVoulantInteragir L'acheteur qui souhaite ajouter un produit à son panier.
  * @param produitPourInteraction Le produit que l'acheteur souhaite ajouter à son panier.
  */
-    private void ajouterProduitSelectionneAupanier(Acheteur acheteurVoulantInteragir,
-                TypeDeProduit produitPourInteraction) {
+    public static void ajouterProduitSelectionneAupanier(Acheteur acheteurVoulantInteragir,
+                                                          TypeDeProduit produitPourInteraction) {
                    if(acheteurVoulantInteragir.getPanier().contientLeTypeDeProduit(produitPourInteraction)){
                     System.out.println("Vous avez déja ajouté ce produit à votre panier");
                 }else{
@@ -1478,34 +1492,40 @@ public class Controleur {
  * d'utilisateurs (par exemple, plus de 15), elle affiche simplement un message indiquant le nombre d'utilisateurs.
  * En cas d'erreur, comme un fichier introuvable, un message d'erreur est affiché.
  */
-    public static void initialiserBaseDeDonneesUtilisateurs() {
-        
-        
-        try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCSV()))) {
-            while (scanner.hasNextLine()) {
-                String[] userData = scanner.nextLine().split(",");
-                Utilisateur utilisateur;
-                // Supposons que userData ait le format: nom, prenom, email, telephone, motDePasse, pseudo/typeEntreprise, typeUtilisateur
-                if ("Acheteur".equals(userData[6])) {
-                    utilisateur = new Acheteur(userData[0], userData[1], userData[2], userData[4], userData[3], userData[5]);
-                } else if ("Revendeur".equals(userData[6])) {
-                    utilisateur = new Revendeur(userData[0], userData[1], userData[2], userData[3], userData[4]);
-                } else {
-                    continue;
-                }
+public static void initialiserBaseDeDonneesUtilisateurs() {
 
-                baseDeDonneesUtilisateurs.add(utilisateur);
+
+    try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCSV()))) {
+        while (scanner.hasNextLine()) {
+            String[] userData = scanner.nextLine().split(",");
+            Utilisateur utilisateur;
+            // Supposons que userData ait le format: nom, prenom, email, telephone, motDePasse, pseudo/typeEntreprise, typeUtilisateur, nbPointfidelité
+            if ("Acheteur".equals(userData[6])) {
+
+                int parsedValue = 0;
+                try {
+                    parsedValue = Integer.parseInt(userData[7]);
+                } catch (NumberFormatException e) {}
+
+                utilisateur = new Acheteur(userData[0], userData[1], userData[2], userData[4], userData[3], userData[5], parsedValue);
+            } else if ("Revendeur".equals(userData[6])) {
+                utilisateur = new Revendeur(userData[0], userData[1], userData[2], userData[3], userData[4]);
+            } else {
+                continue;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichier CSV non trouvé.");
+
+            baseDeDonneesUtilisateurs.add(utilisateur);
         }
-        
+    } catch (FileNotFoundException e) {
+        System.out.println("Fichier CSV non trouvé.");
+    }
 
-        //S'il y a moins de 15 utilisateurs on ajoute les utilisateurs par défaut et crée des TypeDeProduit par 
-        // défaut :
-    
 
-        if (baseDeDonneesUtilisateurs.size() >= 15) {
+    //S'il y a moins de 15 utilisateurs on ajoute les utilisateurs par défaut et crée des TypeDeProduit par
+    // défaut :
+
+
+    if (baseDeDonneesUtilisateurs.size() >= 15) {
         String taille = baseDeDonneesUtilisateurs.size() + "";
         printWithTypewriterEffect("\n\nLes pofils ont été initialisé avec succès.", 40);
         System.out.println();
@@ -1516,10 +1536,11 @@ public class Controleur {
         dodo(1000);
 
 
-        }
     }
+}
 
-/**
+
+    /**
  * Vérifie l'existence du fichier CSV des utilisateurs.
  * Utilise le chemin fourni par le GestionnaireCSV pour vérifier si le fichier existe sur le système de fichiers.
  *
@@ -1635,11 +1656,11 @@ public class Controleur {
  * @param titre     Le titre du produit à vérifier pour l'unicité.
  * @return vrai (true) si le titre du produit est unique, faux (false) sinon.
  */
-    public boolean verifierUniqueProduit(Revendeur revendeur, String titre) {
+    public static boolean verifierUniqueProduit(Revendeur revendeur, String titre) {
         List<TypeDeProduit> produits = revendeur.getListeTypesDeProduits();
         boolean ok = true;
         for (TypeDeProduit produit : produits) {
-            if (produit.getTitreProduit() == titre) {
+            if (Objects.equals(produit.getTitreProduit(), titre)) {
                 ok = false;
                 System.out.println("Titre de produit existe deja pour ce revendeur");
             }
@@ -1772,7 +1793,7 @@ public class Controleur {
  * @param pseudoRecherche Le pseudo de l'acheteur recherché.
  * @return L'acheteur correspondant au pseudo recherché, ou null s'il n'est pas trouvé.
  */
-    private static Acheteur trouverAcheteurParPseudo(String pseudoRecherche) {
+    public static Acheteur trouverAcheteurParPseudo(String pseudoRecherche) {
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
             if (utilisateur instanceof Acheteur) {
                 Acheteur acheteur = (Acheteur) utilisateur;
@@ -1798,6 +1819,9 @@ public class Controleur {
             }
         }
         return null;
+    }
+    public static void setBaseDeDonnesTypesDeProduit(List<TypeDeProduit> list) {
+        baseDeDonnesTypesDeProduit = list;
     }
 
 /**
@@ -1837,6 +1861,27 @@ public class Controleur {
         dodo(1000);
         printWithTypewriterEffect("Vous serez redirigé vers le menu principal", 80);
         dodo(1000);
+    }
+
+    public static void InitialiserEvaluationsParDefaut() {
+        List<Evaluations> listEvaluations = new ArrayList<>();
+
+        // Create a single Acheteur instance
+        Acheteur acheteur = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates",0);
+
+        // Ensure there are at least 20 products or adjust the loop to the actual size
+        for (int i = 0; i < Math.min(20, baseDeDonnesTypesDeProduit.size()); i++) {
+            TypeDeProduit produit = baseDeDonnesTypesDeProduit.get(i);
+
+            // Create an evaluation with a predefined note and comment
+            Evaluations evaluation = new Evaluations(produit, acheteur, 5, "Excellent produit");
+            listEvaluations.add(evaluation);
+        }
+
+        // Save the evaluations to a CSV file or handle them as needed
+        GestionnaireCSV.updateCSVFileEvaluation(listEvaluations);
+
+        System.out.println("Les évaluations ont été initialisées avec succès.");
     }
 
 
@@ -1953,33 +1998,33 @@ public class Controleur {
  * @see GestionnaireCSV
  */
 
-    public static void InitialiserAcheteursParDefaut(){
-        Acheteur[] acheteurParDefaut = new Acheteur[10];
+public static void InitialiserAcheteursParDefaut(){
+    Acheteur[] acheteurParDefaut = new Acheteur[10];
 
-        acheteurParDefaut[0] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com","ProxyPaige", "4389234776", "Pawgologist");
-        acheteurParDefaut[1] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P");
-        acheteurParDefaut[2] = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates");
-        acheteurParDefaut[3] = new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "Walter4678", "4381234321", "Patates4");
-        acheteurParDefaut[4] = new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "Rick4678", "4389234778", "Patates5");
-        acheteurParDefaut[5] = new Acheteur("Eddy", "Len", "acheteur6@gmail.com", "34Eddy678", "4389234779", "Patates6");
-        acheteurParDefaut[6] = new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "Sarah4678", "4389237776", "Patates7");
-        acheteurParDefaut[7] = new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "Patrick354678", "4384454776", "Patates8");
-        acheteurParDefaut[8] = new Acheteur("Random1", "User1", "random1@gmail.com", "random1578", "4381111111", "Random1");
-        acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "random4677", "4382222222", "Random2");
-        
+    acheteurParDefaut[0] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com","ProxyPaige", "4389234776", "Pawgologist",0);
+    acheteurParDefaut[1] = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0);
+    acheteurParDefaut[2] = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates",0);
+    acheteurParDefaut[3] = new Acheteur("Walter", "Jack", "acheteur4@gmail.com", "Walter4678", "4381234321", "Patates4",0);
+    acheteurParDefaut[4] = new Acheteur("Rick", "Pierre", "acheteur5@gmail.com", "Rick4678", "4389234778", "Patates5",0);
+    acheteurParDefaut[5] = new Acheteur("Eddy", "Len", "acheteur6@gmail.com", "34Eddy678", "4389234779", "Patates6",0);
+    acheteurParDefaut[6] = new Acheteur("Nice", "Sarah", "acheteur7@gmail.com", "Sarah4678", "4389237776", "Patates7",0);
+    acheteurParDefaut[7] = new Acheteur("Patrick", "Julien", "acheteur8@gmail.com", "Patrick354678", "4384454776", "Patates8",0);
+    acheteurParDefaut[8] = new Acheteur("Random1", "User1", "random1@gmail.com", "random1578", "4381111111", "Random1",0);
+    acheteurParDefaut[9] = new Acheteur("Random2", "User2", "random2@gmail.com", "random4677", "4382222222", "Random2",0);
 
-        for(int i = 0; i < 10;i++){
-            baseDeDonneesUtilisateurs.add(acheteurParDefaut[i]);
-            GestionnaireCSV.ecrireUtilisateurCSV(acheteurParDefaut[i]);;
-            GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
-        }
 
-        printWithTypewriterEffect("Des acheteurs par défaut sont maintenant disponibles", 40);
-        System.out.println();
-        dodo(4000);
-
+    for(int i = 0; i < 10;i++){
+        baseDeDonneesUtilisateurs.add(acheteurParDefaut[i]);
+        GestionnaireCSV.ecrireUtilisateurCSV(acheteurParDefaut[i]);;
+        GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
     }
-/**
+
+    printWithTypewriterEffect("Des acheteurs par défaut sont maintenant disponibles", 40);
+    System.out.println();
+    dodo(4000);
+
+}
+    /**
  * Initialise la base de données avec des revendeurs par défaut.
  * Cette méthode crée un ensemble de comptes revendeurs par défaut et les ajoute à la base de données des utilisateurs.
  * Chaque revendeur est créé avec des informations prédéfinies telles que le nom de l'entreprise, le nom du représentant,
@@ -2401,6 +2446,8 @@ public void testValiderTelephone() {
             System.out.println("Choix invalide.");
         }
     }
+
+
 
 
 

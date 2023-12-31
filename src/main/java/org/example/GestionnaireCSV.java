@@ -500,6 +500,48 @@ private static boolean ligneContientCommande(String ligne, Commande commande) {
     }
    return false;
 }
+    public static boolean acheteurAdejaRealiserUneCommande(String pseudo) {
+
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_COMMANDES))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if(ligneContientAcheteurPourCetteCommande(line, pseudo)){
+                    return true;
+                };
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void MettreAjourPointFideliteCSV(Acheteur acheteur) {
+        supprimerUtilisateurCSV(acheteur);
+        ReecrireUtilisateurCSV(acheteur);
+    }
+
+    private static void ReecrireUtilisateurCSV(Utilisateur utilisateur) {
+        File fichierCSV = new File("utilisateurs.csv");
+        try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierExistaitDeja) {
+                fichierCSV.createNewFile();
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                out.print("");
+                out.print(utilisateur.toCSV());
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        }
+    }
+    private static boolean ligneContientAcheteurPourCetteCommande(String ligne, String nomDeLacheteur) {
+        String[] champs = ligne.split(",");
+        return champs[6].equalsIgnoreCase(nomDeLacheteur);
+    }
 
 }
 
