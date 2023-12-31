@@ -23,12 +23,12 @@ public class TestsUnitaires {
                 "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 5, revendeurTest));
         baseDeDonnesTypesDeProduit.add(new TypeDeProduit("Tapis de souris ergonomique", "Articles de papeterie",
                 "Tapis avec support de poignet pour un confort accru lors de l'utilisation de la souris.", 12.00, 7, revendeurTest));
-        // Set the static list in Controleur to this list
         Controleur.setBaseDeDonnesTypesDeProduit(baseDeDonnesTypesDeProduit);
 
         List<Utilisateur> testUsers = new ArrayList<>();
-        testUsers.add(new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P"));
-        testUsers.add(new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates"));
+        testUsers.add(revendeurTest);
+        testUsers.add(new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0));
+        testUsers.add(new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates",0));
         Controleur.baseDeDonneesUtilisateurs = testUsers;
         revendeurTest.setTypesDeProduits(baseDeDonnesTypesDeProduit);
 
@@ -38,9 +38,7 @@ public class TestsUnitaires {
     @BeforeEach
     public void setUpObject() {
         produitTest = new TypeDeProduit("Agrafeuse", "Livres et manuels", "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 5, revendeurTest);
-        acheteurTest = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P");
-
-        // Clear the panier before each test
+        acheteurTest = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0);
         acheteurTest.getPanier().viderPanier();
     }
 
@@ -56,26 +54,22 @@ public class TestsUnitaires {
         assertNull(result);
     }
 
-
     @Test
     public void testTrouverAcheteurParPseudo_ExistingPseudo() {
         Acheteur result = Controleur.trouverAcheteurParPseudo("Patates");
         assertNotNull(result);
         assertEquals("Patates", result.getPseudo());
     }
-
     @Test
     public void testTrouverAcheteurParPseudo_NonExistingPseudo() {
         Acheteur result = Controleur.trouverAcheteurParPseudo("NonExistingPseudo");
         assertNull(result);
     }
-
     @Test
     public void verifierUniqueProduit_UniqueTitle() {
         boolean result = Controleur.verifierUniqueProduit(revendeurTest, "UniqueTitle");
         assertTrue(result, "The title is unique and should return true.");
     }
-
     @Test
     public void verifierUniqueProduit_NonUniqueTitle() {
         boolean result = Controleur.verifierUniqueProduit(revendeurTest, "Agrafeuse");
@@ -158,6 +152,20 @@ public class TestsUnitaires {
 
         // Assurer que le produit n'est pas ajouté à nouveau s'il est déjà là
         assertEquals(1, acheteurTest.getPanier().tailleDuPanier(), "Le panier ne doit pas ajouter le même produit deux fois");
+    }
+
+    @Test
+    public void testTrouverRevendeurParNomEntreprise_ExistingCompany() {
+        Utilisateur result = Controleur.trouverRevendeurParNomEntreprise("PharmaC13");
+        assertNotNull(result);
+        assertTrue(result instanceof Revendeur);
+        assertEquals("PharmaC13", ((Revendeur) result).getIDEntreprise());
+    }
+
+    @Test
+    public void testTrouverRevendeurParNomEntreprise_NonExistingCompany() {
+        Utilisateur result = Controleur.trouverRevendeurParNomEntreprise("NonExistingCompany");
+        assertNull(result);
     }
 
 }

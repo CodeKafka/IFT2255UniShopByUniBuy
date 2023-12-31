@@ -14,7 +14,13 @@ public class Vue {
         System.out.println("\n\n\n(1) Inscription");
         System.out.println("(2) Connexion");
         System.out.println("(3) Navigation du catalogue de produit");
-        System.out.println("\n(4) Arrêter l'application");
+        System.out.println("(4) Récupérer la liste des acheteurs");
+        System.out.println("(5) Récupérer la liste des revendeurs");
+        System.out.println("(6) Voir le profil d'un acheteur");
+        System.out.println("(7) Voir le profil d'un revendeur");
+        System.out.println("(8) Rechercher un acheteur");
+        System.out.println("(9) Rechercher un revendeur");
+        System.out.println("\n(10) Arrêter l'application");
     }
     /**
      * Affiche le menu de connexion pour tous les types d'utilisateurs prévus.
@@ -235,14 +241,14 @@ public class Vue {
    * Cette méthode affiche les différentes catégories de produits que l'utilisateur peut
    * sélectionner lorsqu'il effectue une recherche de produits.
    */
-    public static  void afficherOptionsRechercheProduitPermises() {
-        System.out.println("(1) Livres et manuels");
-        System.out.println("(2) Ressources d'apprentissage");
-        System.out.println("(3) Articles de papeterie");
-        System.out.println("(4) Matériel informatique");
-        System.out.println("(5) Équipement de bureau");
-    }
-     /**
+   public static  void afficherOptionsRechercheProduitPermises() {
+       System.out.println("(1) Livres et manuels");
+       System.out.println("(2) Ressources d'apprentissage");
+       System.out.println("(3) Articles de papeterie");
+       System.out.println("(4) Matériel informatique");
+       System.out.println("(5) Équipement de bureau");
+   }
+    /**
      * Affiche les produits par catégorie.
      *
      * @param categorie La catégorie des produits à afficher.
@@ -262,36 +268,67 @@ public class Vue {
 
     }
 
-     /**
+    /**
      * Affiche le contenue du panier pour un acheteur.
      *
      * @param panier Le panier à afficher.
      */
 
     public static void afficherPanier(Panier panier){
-            if (panier.getTypeDeProduits().size() == 0) {
-                System.out.println("Votre panier est vide.");
+        if (panier.getTypeDeProduits().size() == 0) {
+            System.out.println("Votre panier est vide.");
+        }
+        else {
+            StringBuilder sb = new StringBuilder();
+            for (TypeDeProduit typeDeProduit: panier.getTypeDeProduits()) {
+                sb.append("Nom du produit: ").append(typeDeProduit.getTitreProduit())
+                        .append(", Prix: ").append(typeDeProduit.getPrixProduit())
+                        .append("\n");
             }
-            else { 
-                StringBuilder sb = new StringBuilder();
-                for (TypeDeProduit typeDeProduit: panier.getTypeDeProduits()) {
-                    sb.append("Nom du produit: ").append(typeDeProduit.getTitreProduit())
-                            .append(", Prix: ").append(typeDeProduit.getPrixProduit())
-                            .append("\n");
-                }
-                System.out.println(sb.toString());
+            System.out.println(sb.toString());
 
-                double totalPanier = 0;
-                for (TypeDeProduit objetTypeDeProduit : panier.getTypeDeProduits()){
-                    totalPanier += objetTypeDeProduit.getPrixProduit();
-                }
-                System.out.println("Total : " + totalPanier + "$");
-                System.out.println("Points Cumulables : " + totalPanier + " points");
+            double totalPanier = 0;
+            for (TypeDeProduit objetTypeDeProduit : panier.getTypeDeProduits()){
+                totalPanier += objetTypeDeProduit.getPrixProduit();
             }
-            Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes.", 40); 
-            Controleur.dodo(5000);
+            System.out.println("Total : " + totalPanier + "$");
+            System.out.println("Points Cumulables : " + totalPanier + " points");
+        }
+        Controleur.printWithTypewriterEffect("Vous serez redirigé dans 5 secondes.", 40);
+        Controleur.dodo(5000);
+    }
+    public static void afficherTrancheDePrixMin() {
+        System.out.println("(1) 0 $");
+        System.out.println("(2) 10 $");
+        System.out.println("(3) 20 $");
+        System.out.println("(4) 30 $");
+        System.out.println("(5) 40 $");
+        System.out.println("(6) 50 $");
+    }
+    public static void afficherTrancheDePrixMax() {
+        System.out.println("(1) 0 $");
+        System.out.println("(2) 10 $");
+        System.out.println("(3) 20 $");
+        System.out.println("(4) 30 $");
+        System.out.println("(5) 40 $");
+        System.out.println("(6) 50 $ et plus ");
+    }
+    public static void afficherOptionsGuestRechercheAcheteur() {
+        System.out.println("(1) Faire une recherche par Pseudo");
+        System.out.println("(2) Faire une recherche avec la liste de suivie");
+    }
+    public static void afficherOptionsGuestRechercheRevendeur() {
+        System.out.println("(1) Faire une recherche par nom d'entreprise");
+        System.out.println("(2) Faire une recherche par Produit");
     }
 
+
+    public static void afficherOptionsGuestCatalogueProduitRechercheDeProduit() {
+        System.out.println("(1) Faire une recherche par titre");
+        System.out.println("(2) Faire une recherche par catégorie");
+        System.out.println("(3) Faire une recherche par tranche de prix");
+        System.out.println("(4) Faire une recherche par nom d'entreprise");
+    }
 }
 
 

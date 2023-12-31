@@ -1,4 +1,5 @@
 package org.example;
+
 import java.io.*;
 import java.util.*;
 
@@ -10,11 +11,11 @@ public class GestionnaireCSV {
     private static final String CHEMIN_FICHIER_CSV_PANIER_DES_ACHETEURS = "panierdesachteurs.csv";
     private static final String CHEMIN_FICHIER_CSV_COMMANDES = "commandes.csv";
 
-    private static int quantiteUtilisateursFichierCSV; 
+    private static int quantiteUtilisateursFichierCSV;
 
 
-    public static int getQuantiteUtilisateursFichierCSV() { 
-        return quantiteUtilisateursFichierCSV; 
+    public static int getQuantiteUtilisateursFichierCSV() {
+        return quantiteUtilisateursFichierCSV;
     }
 
     public static void incrementeQuantiteUtilisateursFichierCSV() {
@@ -50,9 +51,9 @@ public class GestionnaireCSV {
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
                 if (fichierExistaitDeja) {
-
-                } 
-                out.println(utilisateur.toCSV());
+                    out.println();
+                }
+                out.print(utilisateur.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -227,7 +228,7 @@ public class GestionnaireCSV {
 
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                if (!ligneContientUtilisateur(ligne, utilisateur)) {
+                if (ligne.length() > 10 && !ligneContientUtilisateur(ligne, utilisateur)) {
                     pw.println(ligne);
                     pw.flush();
                 }
@@ -273,14 +274,14 @@ public class GestionnaireCSV {
     }
 
     private static boolean ligneContientUtilisateur(String ligne, Utilisateur utilisateur) {
-            String[] champs = ligne.split(",");
-            // Supposons que l'email est le troisième champ pour tous les types d'utilisateurs
-            return champs[2].equals(utilisateur.getAdresseCourriel());
-        }
+        String[] champs = ligne.split(",");
+        // Supposons que l'email est le troisième champ pour tous les types d'utilisateurs
+        return champs[2].equals(utilisateur.getAdresseCourriel());
+    }
     private static boolean ligneContientTypeDeProduit(String ligne, TypeDeProduit typeDeProduit) {
-            String[] champs = ligne.split(",");
-            return champs[0].equals(typeDeProduit.getTitreProduit());
-        }
+        String[] champs = ligne.split(",");
+        return champs[0].equals(typeDeProduit.getTitreProduit());
+    }
 
     public static void archiverUtilisateur(Utilisateur utilisateur) {
         try (PrintWriter out = new PrintWriter(new FileOutputStream(CHEMIN_FICHIER_ARCHIVE, true))) {
@@ -301,7 +302,7 @@ public class GestionnaireCSV {
         return CHEMIN_FICHIER_CSV_EVALUATIONS;
     }
 
-     public static String getCheminFichierCsvPanierDesAcheteurs() {
+    public static String getCheminFichierCsvPanierDesAcheteurs() {
         return CHEMIN_FICHIER_CSV_PANIER_DES_ACHETEURS;
     }
     public static String getCheminFichierCsvCommandes() {
@@ -334,8 +335,8 @@ public class GestionnaireCSV {
         }
     }
 
-    
-   public static void ecrireTypeDeProduitPanierCSV(Acheteur acheteur, TypeDeProduit typeDeProduit) {
+
+    public static void ecrireTypeDeProduitPanierCSV(Acheteur acheteur, TypeDeProduit typeDeProduit) {
         File fichierCSV = new File("panierdesachteurs.csv");
 
         try {
@@ -353,9 +354,7 @@ public class GestionnaireCSV {
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                if (fichierExistaitDeja) {
-                    out.print(acheteur.getPseudo() +", "+ typeDeProduit.getTitreProduit());
-                } 
+                out.println();
                 out.print(acheteur.getPseudo() +", "+ typeDeProduit.getTitreProduit());
             }
         } catch (IOException e) {
@@ -363,7 +362,7 @@ public class GestionnaireCSV {
             e.printStackTrace();
         }
     }
-public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) {
+    public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) {
         File fichierCSV = new File("typeDeProduits.csv");
 
         try {
@@ -374,10 +373,8 @@ public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDePr
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                if (fichierExistaitDeja) {
-                    out.print("");
-                } 
-                out.println(typeDeProduit.toCSV());
+                out.print("");
+                out.print(typeDeProduit.toCSV());
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
@@ -385,8 +382,8 @@ public static void ecrireTypeDeProduitNouvelleQuantiteCSV(TypeDeProduit typeDePr
         }
     }
 
-public static void ecrireCommandeCSV(Commande commande, Revendeur revendeur) {
-    File fichierCSV = new File("commandes.csv");
+    public static void ecrireCommandeCSV(Commande commande, Revendeur revendeur) {
+        File fichierCSV = new File("commandes.csv");
 
         try {
             boolean fichierExistaitDeja = fichierCSV.exists();
@@ -399,51 +396,78 @@ public static void ecrireCommandeCSV(Commande commande, Revendeur revendeur) {
                 System.out.println("\n\n\n");
                 Controleur.dodo(5000);
                 fichierCSV.createNewFile();
-                
+
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
-                if (fichierExistaitDeja) {
-                    out.print("");
-                } 
-                out.println(commande.toCSV(revendeur));
+                out.println();
+                out.print(commande.toCSV(revendeur));
             }
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
             e.printStackTrace();
-        } 
-}
+        }
+    }
 
-public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
+    public static void ReecrireCommandeCSV(Commande commande, Revendeur revendeur) {
+        File fichierCSV = new File("commandes.csv");
 
-    File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
+        try {
+            boolean fichierExistaitDeja = fichierCSV.exists();
+            // Créer le fichier s'il n'existe pas déjà
+            if (!fichierExistaitDeja) {
+                Controleur.printWithTypewriterEffect("Création d'une liste de commande pour la première fois", 40);
+                System.out.println();
 
-    System.out.println("Utilisateur : " + acheteur.getPseudo());
+                Controleur.printWithTypewriterEffect("Veuillez patienter 5 secondes", 40);
+                System.out.println("\n\n\n");
+                Controleur.dodo(5000);
+                fichierCSV.createNewFile();
+
+            }
+            // Écrire dans le fichier CSV
+            try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
+                out.print("");
+                out.print(commande.toCSV(revendeur));
+            }
+        } catch (IOException e) {
+            System.out.println("Une erreur est survenue lors de l'écriture dans le fichier CSV.");
+            e.printStackTrace();
+        }
+    }
+
+    public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
+
+        File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
+
+        System.out.println("Utilisateur : " + acheteur.getPseudo());
         int i = 1;
         try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV))) {
-            
+
             String ligne;
             while ((ligne = br.readLine()) != null) {
                 String[] informationsCommande = ligne.split(",");
 
                 if (ligne.length() > 10 && informationsCommande[6].equals(acheteur.getPseudo())) {
                     System.out.println("\n"+ i + "-" + "\nID commande : " + informationsCommande[0] +
-                    "\n    Information sur le produit : " +
-                    "\nProduit acheté : " + informationsCommande[1] +
-                    "\nPrix : " + informationsCommande[3] + "$ " +
-                    "\nQantité : " + informationsCommande[4] +
-                    "\nTotal de la commande : " + informationsCommande[5] + "$ " +
-                    "\n    Information sur le revendeur : " +
-                    "\nNom de l'entreprise : " + informationsCommande[7]+
-                    "\nadresse courriel de l'entreprise : " + informationsCommande[8]+
-                    "\n    Information utilisée pour réaliser la commande : " +
-                    "\nadresse de livraison : " + informationsCommande[9] +
-                    "\nnuméro de téléphone : " + informationsCommande[10] +
-                    "\n    État de la commande : " +
-                    "\nétat de l'acheminement : " + informationsCommande[11]
+                            "\n    Information sur le produit : " +
+                            "\nProduit acheté : " + informationsCommande[1] +
+                            "\nPrix : " + informationsCommande[3] + "$ " +
+                            "\nQantité : " + informationsCommande[4] +
+                            "\nTotal de la commande : " + informationsCommande[5] + "$ " +
+                            "\nPoints accumulés : " + informationsCommande[5] + "$ " +
+                            "\n    Information sur le revendeur : " +
+                            "\nNom de l'entreprise : " + informationsCommande[7]+
+                            "\nadresse courriel de l'entreprise : " + informationsCommande[8]+
+                            "\n    Information utilisée pour réaliser la commande : " +
+                            "\nadresse de livraison : " + informationsCommande[9] +
+                            "\nnuméro de téléphone : " + informationsCommande[10] +
+                            "\n    État de la commande : " +
+                            "\nétat de l'acheminement : " + informationsCommande[11] +
+                            "\ndate de la commande : " + informationsCommande[12]
                     );
 
-                    i++;      
+                    i++;
                 }
             }
         } catch (FileNotFoundException e) {
@@ -454,17 +478,39 @@ public static void afficherCommandesDeLAcheteur(Acheteur acheteur){
         if(i == 1){
             System.out.println("Vous n'avez pas encore réalisé de commande.");
         }
-}
+    }
+
+    public static int getNombreDeCommandeRealiser(Acheteur acheteur){
+        File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
+
+        int i = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV))) {
+
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                String[] informationsCommande = ligne.split(",");
+
+                if (ligne.length() > 10 && informationsCommande[6].equals(acheteur.getPseudo())) {
+                    i++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
 
 
 
-public static void modifierEtatDeLaCommandeDansLeCSV(Commande commande, Revendeur revendeur) {
-    supprimerCommandeDansLeCSV(commande);
-    ecrireCommandeCSV(commande, revendeur);
-}
+    public static void modifierEtatDeLaCommandeDansLeCSV(Commande commande, Revendeur revendeur) {
+        supprimerCommandeDansLeCSV(commande);
+        ReecrireCommandeCSV(commande, revendeur);
+    }
 
-private static void supprimerCommandeDansLeCSV(Commande commande) {
-    File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
+    private static void supprimerCommandeDansLeCSV(Commande commande) {
+        File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
         File tempFile = new File(fichierCSV.getAbsolutePath() + ".tmp");
 
         try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV));
@@ -488,18 +534,25 @@ private static void supprimerCommandeDansLeCSV(Commande commande) {
         if (!tempFile.renameTo(fichierCSV)) {
             System.out.println("Impossible de renommer le fichier temporaire (Commande).");
         }
-}
-
-private static boolean ligneContientCommande(String ligne, Commande commande) {
-    String[] champs = ligne.split(",");
-    try {
-        int idCommandeCSV = Integer.parseInt(champs[0]);
-        return idCommandeCSV == commande.getidCommande();
-    } catch (NumberFormatException e) {
-        
     }
-   return false;
-}
+
+    private static boolean ligneContientCommande(String ligne, Commande commande) {
+        String[] champs = ligne.split(",");
+        try {
+            int idCommandeCSV = Integer.parseInt(champs[0]);
+            return idCommandeCSV == commande.getidCommande();
+        } catch (NumberFormatException e) {
+
+        }
+        return false;
+
+    }
+    private static boolean ligneContientAcheteurPourCetteCommande(String ligne, String nomDeLacheteur) {
+        String[] champs = ligne.split(",");
+        return champs[6].equalsIgnoreCase(nomDeLacheteur);
+    }
+
+
     public static boolean acheteurAdejaRealiserUneCommande(String pseudo) {
 
         try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_COMMANDES))) {
@@ -538,13 +591,145 @@ private static boolean ligneContientCommande(String ligne, Commande commande) {
             e.printStackTrace();
         }
     }
-    private static boolean ligneContientAcheteurPourCetteCommande(String ligne, String nomDeLacheteur) {
-        String[] champs = ligne.split(",");
-        return champs[6].equalsIgnoreCase(nomDeLacheteur);
+
+    public static void afficherListeDesAcheteurs() {
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV))) {
+            int i = 1;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosAcheteurs = line.split(",");
+                if(infosAcheteurs[6].equalsIgnoreCase("Acheteur")){
+                    System.out.println(i + ". Pseudo : " + infosAcheteurs[5] );
+                    i++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
-}
+    public static void afficherListeDesRevendeurs() {
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV))) {
+            int i = 1;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosRevendeurs = line.split(",");
+                if(infosRevendeurs[6].equalsIgnoreCase("Revendeur")){
+                    System.out.println(i + ". Nom de l'entreprise : " + infosRevendeurs[0] );
+                    i++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void afficherProduitDeCetteCategorie(String categorie) {
+        System.out.println("\nCategorie : "+ categorie + "\n");
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+            int i = 1;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+                if(infosTypedeProduit[1].equalsIgnoreCase(categorie)){
+                    System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                            ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                    i++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static void afficherProduitAvecCeNomDeProduit(String nomDuProduit) {
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+            int i = 1;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+                if(infosTypedeProduit[0].equalsIgnoreCase(nomDuProduit)){
+                    System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                            ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                    i++;
+                }
+            }
+            if(i == 1 )   {
+                System.out.println("Aucun produit avec le nom "+ nomDuProduit + " n'a été trouvé.");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\n\n");
+
+
+    }
+
+    public static void afficherProduitParTrancheDePrix(int min, int max) {
+
+        if(min > max){
+            int correction = min;
+            min = max;
+            max = correction;
+        }
+
+        System.out.println("\nLes produits donc les prix sont compris entre " + min + " $ et " + max + " $ sont : \n");
+
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+            int i = 1;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+
+                double prix = 0;
+                try {
+                    prix = Double.parseDouble(infosTypedeProduit[3]);
+                } catch (NumberFormatException e) {
+                }
+
+                if(prix>= min && prix<= max){
+                    System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                            ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                    i++;
+                }
+            }
+            if(i == 1 )   {
+                System.out.println("Aucun produit avec le critère donnée n'a été trouvé.");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\n\n");
+
+
+    }
+
+    public static void afficherProduitAvecCeNomEntreprise(String nomDeLentreprise) {
+        try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_TYPEDEPRODUIT))) {
+            int i = 1;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] infosTypedeProduit = line.split(",");
+                if(infosTypedeProduit[6].equalsIgnoreCase(nomDeLentreprise)){
+                    System.out.println(i + ". Nom du produit : " + infosTypedeProduit[0] + ", Prix unitaire : " + infosTypedeProduit[3] +
+                            ", Nom de l'entreprise : " + infosTypedeProduit[6]);
+                    i++;
+                }
+            }
+            if(i == 1 )   {
+                System.out.println("Aucun produit vendu par l'entreprise "+ nomDeLentreprise + " n'a été trouvé.");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\n\n");
+    }
+
+
+}
 
 
 

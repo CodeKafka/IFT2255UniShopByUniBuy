@@ -68,7 +68,9 @@ public class Controleur {
      */
     public void offrirMenuPrincipal() {
         boolean continuer = true;
+
         while (continuer) {
+
             clearScreen();
             vue.afficherMenuPrincipal();
             System.out.print("\nChoisissez une option: ");
@@ -85,18 +87,332 @@ public class Controleur {
                     naviguerCatalogueAsGuest();
                     break;
                 case "4":
+                    GestionnaireCSV.afficherListeDesAcheteurs();
+                    dodo(3800);
+                    break;
+                case "5":
+                    GestionnaireCSV.afficherListeDesRevendeurs();
+                    dodo(3800);
+                    break;
+                case "6":
+                    voirProfilDelacheteur();
+                    dodo(3800);
+                    break;
+                case "7":
+                    voirProfilDuRevendeur();
+                    dodo(3800);
+                    break;
+                case "8":
+                    RechercherUnAcheteur();
+                    dodo(3800);
+                    break;
+                case "9":
+                    RechercherUnRevendeur();
+                    dodo(3800);
+                    break;
+                case "10":
                     System.exit(0);
                 default:
                     System.out.println("Option invalide. Veuillez réessayer.");
                     break;
             }
-            clearScreen();
             System.out.print("Continuer à utiliser l'Application? (oui/non): ");
             String reponse = scanner.nextLine();
             if (reponse.equalsIgnoreCase("non")) {
                 continuer = false;
             }
         }
+    }
+
+    private void RechercherUnRevendeur() {
+        boolean continuer = true;
+
+        while (continuer) {
+            printWithTypewriterEffect("\nComment souhaiter vous effectuée votre recherche ?\n",40);
+            dodo(1000);
+
+            Vue.afficherOptionsGuestRechercheRevendeur();
+            String choix = scanner.nextLine();
+
+            switch(choix) {
+                case "1":
+                    voirProfilDuRevendeur();
+                    dodo(2000);
+                    continuer = false;
+                    break;
+                case "2":
+                    rechercherRevendeurParTypeDeProduit();
+                    continuer = false;
+                    dodo(2000);
+                    break;
+                default:
+                    Vue.avertissementEntreInvalide();
+
+            }
+        }
+    }
+
+    private void rechercherRevendeurParTypeDeProduit() {
+        printWithTypewriterEffect("\n\nEntrer le nom du produit : ", 40);
+        String nomDuProduit = scanner.nextLine();
+        Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(nomDuProduit);
+        afficherProfilRevendeur(revendeur);
+    }
+
+    private void RechercherUnAcheteur() {
+        boolean continuer = true;
+
+        while (continuer) {
+            printWithTypewriterEffect("\nComment souhaiter vous effectuée votre recherche ?\n",40);
+            dodo(1000);
+
+            Vue.afficherOptionsGuestRechercheAcheteur();
+            String choix = scanner.nextLine();
+
+            switch(choix) {
+                case "1":
+                    voirProfilDelacheteur();
+                    dodo(2000);
+                    continuer = false;
+                    break;
+                case "2":
+                    System.out.println("Cette fonctionnalité n'est pas encore disponible, nous y travaillons ardemment");
+                    continuer = false;
+                    dodo(2000);
+                    break;
+                default:
+                    Vue.avertissementEntreInvalide();
+
+            }
+        }
+    }
+
+    private void afficherProfilRevendeur(Revendeur revendeurTrouve){
+        if(revendeurTrouve != null){
+            System.out.println("\n");
+            System.out.printf("Nom: %s\n", revendeurTrouve.getNom());
+            System.out.printf("Prénom: %s\n", revendeurTrouve.getNom());
+            System.out.printf("Email: %s\n", revendeurTrouve.getAdresseCourriel());
+            System.out.printf("Nom d'entreprise: %s\n", revendeurTrouve.getIDEntreprise());
+            System.out.printf("Nombre de commnandes réalisées: %d\n", revendeurTrouve.getNombreDeCommandeRealiser());
+        }
+    }
+
+    private void afficherProfilAcheteur(Acheteur acheteur){
+        if(acheteur != null){
+            System.out.println("\n");
+            System.out.printf("Nom: %s\n", acheteur.getNom());
+            System.out.printf("Prénom: %s\n", acheteur.getPrenom());
+            System.out.printf("Email: %s\n",acheteur.getAdresseCourriel());
+            System.out.printf("Pseudo: %s\n", acheteur.getPseudo());
+            System.out.printf("Points Accumulés: %d\n", acheteur.getPointsFidelite());
+            System.out.printf("Nombre de commnandes réalisées: %d\n", acheteur.getNombreDeCommandeRealiser());
+        }
+
+    }
+
+
+
+    private void voirProfilDuRevendeur() {
+        printWithTypewriterEffect("\n\nEntrer le nom de l'entreprise du revendeur : \n", 40);
+        String pseudoRevendeur= scanner.nextLine();
+        Utilisateur revendeur = trouverRevendeurParNomEntreprise(pseudoRevendeur);
+        if(revendeur == null){
+            printWithTypewriterEffect("\n\nAucun revendeur avec le nom d'entreprise " + pseudoRevendeur + " n'as été trouvé.\n", 40);
+            return;
+        }
+        Revendeur revendeurTrouve = (Revendeur) revendeur;
+        afficherProfilRevendeur(revendeurTrouve);
+    }
+
+    private void voirProfilDelacheteur() {
+        printWithTypewriterEffect("\n\nEntrer le pseudo de l'acheteur : \n", 40);
+        String pseudoAcheteur = scanner.nextLine();
+        Acheteur acheteur = trouverAcheteurParPseudo(pseudoAcheteur);
+        if(acheteur == null){
+            printWithTypewriterEffect("\n\nAucun acheteur avec le  pseudo " + pseudoAcheteur + " n'as été trouvé", 40);
+        }else{
+            afficherProfilAcheteur(acheteur);
+        }
+
+    }
+
+
+
+    private void rechercherUnProduit() {
+        boolean continuer = true;
+
+        while (continuer) {
+            printWithTypewriterEffect("\nComment souhaiter vous effectuée votre recherche ?\n",40);
+            dodo(1000);
+
+            Vue.afficherOptionsGuestCatalogueProduitRechercheDeProduit();
+            String choix = scanner.nextLine();
+
+            switch(choix) {
+                case "1":
+                    rechercherUnProduitParTitre();
+                    dodo(2000);
+                    continuer = false;
+                    break;
+                case "2":
+                    rechercherUnProduitParCategorie();
+                    continuer = false;
+                    dodo(2000);
+                    break;
+                case "3":
+                    rechercherUnProduitParTrancheDePrix();
+                    continuer = false;
+                    dodo(2000);
+                    break;
+                case "4":
+                    rechercherUnProduitParNomDentreprise();
+                    continuer = false;
+                    dodo(2000);
+                    break;
+                default:
+                    Vue.avertissementEntreInvalide();
+                    break;
+            }
+        }
+    }
+
+    private void rechercherUnProduitParNomDentreprise() {
+
+        printWithTypewriterEffect("\n\nEntrer le nom de l'entreprise : ", 40);
+        String nomDuProduit = scanner.nextLine();
+        GestionnaireCSV.afficherProduitAvecCeNomEntreprise(nomDuProduit);
+    }
+
+    private void rechercherUnProduitParTrancheDePrix() {
+        printWithTypewriterEffect("\n\nEntrez le prix minimale des produits : \n", 40);
+        Vue.afficherTrancheDePrixMin();
+
+        int min = 0;
+
+        int choix1 = 0;
+        String choixUser1 = scanner.nextLine();
+
+        try{
+            choix1 = Integer.parseInt(choixUser1);
+        }
+        catch(NumberFormatException e){
+        }
+
+
+
+        switch (choix1) {
+            case 1:
+                min = 0;
+                break;
+            case 2:
+                min = 10;
+                break;
+            case 3:
+                min = 20;
+                break;
+            case 4:
+                min = 30;
+                break;
+            case 5:
+                min = 40;
+                break;
+            case 6:
+                min = 50;
+                break;
+            default:
+                min = 0;
+                System.out.println("Option invalide. la valeur du minimum est mis à 0 $.");
+                break;
+        }
+
+
+        printWithTypewriterEffect("\n\nEntrez le prix maximale des produits : \n", 40);
+        Vue.afficherTrancheDePrixMax();
+        int max = 100;
+
+        int choix2 = 0;
+        String choixUser2 = scanner.nextLine();
+
+        try{
+            choix2= Integer.parseInt(choixUser2);
+        }
+        catch(NumberFormatException e){
+        }
+
+        switch (choix2) {
+            case 1:
+                max = 0;
+                break;
+            case 2:
+                max = 10;
+                break;
+            case 3:
+                max = 20;
+                break;
+            case 4:
+                max = 30;
+                break;
+            case 5:
+                max = 40;
+                break;
+            case 6:
+                max = 100;
+                break;
+            default:
+                max = 100;
+                System.out.println("Option invalide. la valeur du minimum est mis à 100 $.");
+                break;
+        }
+
+        GestionnaireCSV.afficherProduitParTrancheDePrix(min,max);
+
+    }
+
+    private void rechercherUnProduitParTitre() {
+
+        printWithTypewriterEffect("\n\nEntrer le titre du produit que vous recherché : ", 40);
+        String nomDuProduit = scanner.nextLine();
+        GestionnaireCSV.afficherProduitAvecCeNomDeProduit(nomDuProduit);
+
+    }
+
+    private void rechercherUnProduitParCategorie() {
+        System.out.println("\n");
+        Vue.afficherOptionsRechercheProduitPermises();
+        printWithTypewriterEffect("\n\nChoisissez une catégorie parmi les cinq mentionnées ci-haut : ", 40);
+        int choix= 0;
+        String choixUser = scanner.nextLine();
+
+        try{
+            choix = Integer.parseInt(choixUser);
+        }
+        catch(NumberFormatException e){
+        }
+
+        String categorie = "";
+        switch (choix) {
+            case 1:
+                categorie = "Livres et manuels";
+                break;
+            case 2:
+                categorie = "Ressources d'apprentissage";
+                break;
+            case 3:
+                categorie = "Articles de papeterie";
+                break;
+            case 4:
+                categorie = "Matériel informatique";
+                break;
+            case 5:
+                categorie = "Équipement de bureau";
+                break;
+            default:
+                System.out.println("Choix invalide. Veuillez réessayer.");
+                return;
+        }
+        categorie = options[choix -1];
+        GestionnaireCSV.afficherProduitDeCetteCategorie(categorie);
     }
     // Autres méthodes de gestion des actions de l'utilisateur
     /**
@@ -1892,7 +2208,7 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
  * @param nomEntreprise Le nom de l'entreprise du revendeur recherché.
  * @return L'utilisateur correspondant au nom de l'entreprise, ou null s'il n'est pas trouvé ou n'est pas un revendeur.
  */
-    private static Utilisateur trouverRevendeurParNomEntreprise(String nomEntreprise) {
+    public static Utilisateur trouverRevendeurParNomEntreprise(String nomEntreprise) {
         //retourne un utilisateur et non un revendeur
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
             try{

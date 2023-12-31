@@ -8,26 +8,26 @@ public class Revendeur extends Utilisateur {
     private List<Commande> listeDeCommandes = new ArrayList<>();
 
     public Revendeur(String nomEntreprise, String nomCEO, String adresseCourriel, String motDePasse, String telephone) {
-        super(nomEntreprise, nomCEO, adresseCourriel, motDePasse, telephone); 
-        this.nomEntreprise = nomEntreprise; 
+        super(nomEntreprise, nomCEO, adresseCourriel, motDePasse, telephone);
+        this.nomEntreprise = nomEntreprise;
         this.typesDeProduits = new ArrayList<TypeDeProduit>();
         this.nomCEO = nomCEO;
-        this.email = adresseCourriel; 
+        this.email = adresseCourriel;
         this.motDePass = motDePasse;
         this.telephone = telephone;
     }
     @Override
     public String toCSV() {
         // Pas de pseudo pour le revendeur
-        return nomEntreprise + "," + nomCEO+ "," + email + "," + this.getMotDePasse() + "," + telephone 
-        + ",DummyEntry"+ ",Revendeur";
+        return nomEntreprise + "," + nomCEO+ "," + email + "," + this.getMotDePasse() + "," + telephone
+                + ",DummyEntry"+ ",Revendeur";
     }
 
     public void ajouterTypeDeProduit(TypeDeProduit typeDeProduit) {
         typesDeProduits.add(typeDeProduit);
     }
     public List<TypeDeProduit> getListeTypesDeProduits() {
-        return this.typesDeProduits; 
+        return this.typesDeProduits;
     }
     public String getIDEntreprise() {
         return this.nomEntreprise;
@@ -51,9 +51,13 @@ public class Revendeur extends Utilisateur {
         return this.nomEntreprise.equals(nomEntreprise);
     }
 
-    public List<Commande> getListeDeCommande() { 
+    public List<Commande> getListeDeCommande() {
         return this.listeDeCommandes;
-    } 
+    }
+
+    public int getNombreDeCommandeRealiser() {
+        return this.listeDeCommandes.size();
+    }
 
 
     public void setListeDeCommandes(List<Commande> listeDeCommandes) {
