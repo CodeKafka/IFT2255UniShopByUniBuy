@@ -132,7 +132,7 @@ public class Controleur {
         boolean continuer = true;
 
         while (continuer) {
-            printWithTypewriterEffect("\nComment souhaitez vous effectuer votre recherche ?\n",40);
+            printWithTypewriterEffect("\nComment souhaiter vous effectuée votre recherche ?\n",40);
             dodo(1000);
 
             Vue.afficherOptionsGuestRechercheRevendeur();
@@ -157,7 +157,7 @@ public class Controleur {
     }
 
     private void rechercherRevendeurParTypeDeProduit() {
-        printWithTypewriterEffect("\n\nEntrez le nom du produit : ", 40);
+        printWithTypewriterEffect("\n\nEntrer le nom du produit : ", 40);
         String nomDuProduit = scanner.nextLine();
         Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(nomDuProduit);
         afficherProfilRevendeur(revendeur);
@@ -167,7 +167,7 @@ public class Controleur {
         boolean continuer = true;
 
         while (continuer) {
-            printWithTypewriterEffect("\nComment souhaitez vous effectuée votre recherche ?\n",40);
+            printWithTypewriterEffect("\nComment souhaiter vous effectuée votre recherche ?\n",40);
             dodo(1000);
 
             Vue.afficherOptionsGuestRechercheAcheteur();
@@ -217,9 +217,8 @@ public class Controleur {
 
 
 
-    private void voirProfilDuRevendeur() { 
-        System.out.println("Exemple : PharmaC \n");
-        printWithTypewriterEffect("\n\nEntrez le nom de l'entreprise du revendeur : \n", 40);
+    private void voirProfilDuRevendeur() {
+        printWithTypewriterEffect("\n\nEntrer le nom de l'entreprise du revendeur : \n", 40);
         String pseudoRevendeur= scanner.nextLine();
         Utilisateur revendeur = trouverRevendeurParNomEntreprise(pseudoRevendeur);
         if(revendeur == null){
@@ -231,7 +230,7 @@ public class Controleur {
     }
 
     private void voirProfilDelacheteur() {
-        printWithTypewriterEffect("\n\nEntrez le pseudo de l'acheteur : \n", 40);
+        printWithTypewriterEffect("\n\nEntrer le pseudo de l'acheteur : \n", 40);
         String pseudoAcheteur = scanner.nextLine();
         Acheteur acheteur = trouverAcheteurParPseudo(pseudoAcheteur);
         if(acheteur == null){
@@ -248,7 +247,7 @@ public class Controleur {
         boolean continuer = true;
 
         while (continuer) {
-            printWithTypewriterEffect("\nComment souhaitez vous effectuer votre recherche ?\n",40);
+            printWithTypewriterEffect("\nComment souhaiter vous effectuée votre recherche ?\n",40);
             dodo(1000);
 
             Vue.afficherOptionsGuestCatalogueProduitRechercheDeProduit();
@@ -284,7 +283,7 @@ public class Controleur {
 
     private void rechercherUnProduitParNomDentreprise() {
 
-        printWithTypewriterEffect("\n\nEntrez le nom de l'entreprise : ", 40);
+        printWithTypewriterEffect("\n\nEntrer le nom de l'entreprise : ", 40);
         String nomDuProduit = scanner.nextLine();
         GestionnaireCSV.afficherProduitAvecCeNomEntreprise(nomDuProduit);
     }
@@ -327,12 +326,12 @@ public class Controleur {
                 break;
             default:
                 min = 0;
-                System.out.println("Option invalide. la valeur du minimum est mise à 0 $.");
+                System.out.println("Option invalide. la valeur du minimum est mis à 0 $.");
                 break;
         }
 
 
-        printWithTypewriterEffect("\n\nEntrez le prix maximal des produits : \n", 40);
+        printWithTypewriterEffect("\n\nEntrez le prix maximale des produits : \n", 40);
         Vue.afficherTrancheDePrixMax();
         int max = 100;
 
@@ -366,7 +365,7 @@ public class Controleur {
                 break;
             default:
                 max = 100;
-                System.out.println("Option invalide. la valeur du minimum est mise à 100 $.");
+                System.out.println("Option invalide. la valeur du minimum est mis à 100 $.");
                 break;
         }
 
@@ -376,7 +375,7 @@ public class Controleur {
 
     private void rechercherUnProduitParTitre() {
 
-        printWithTypewriterEffect("\n\nEntrez le titre du produit que vous recherchez : ", 40);
+        printWithTypewriterEffect("\n\nEntrer le titre du produit que vous recherché : ", 40);
         String nomDuProduit = scanner.nextLine();
         GestionnaireCSV.afficherProduitAvecCeNomDeProduit(nomDuProduit);
 
@@ -473,7 +472,7 @@ public class Controleur {
             motDePasse = scanner.nextLine();
             System.out.print("Téléphone: ");
             telephone = scanner.nextLine();
-            System.out.print("Pseudo: "); 
+            System.out.print("Pseudo: ");
             pseudo = scanner.nextLine();
             valide = validerEmail(email) && validerMotDePasse(motDePasse) && validerTelephone(telephone) &&
                     GestionnaireCSV.verifierUniqueAdresseCourriel(email) && GestionnaireCSV.verifierUniquePseudo(pseudo);
@@ -615,7 +614,7 @@ public class Controleur {
      * @throws InputMismatchException Si une exception d'entrée/sortie se produit pendant la saisie utilisateur.
      * @see GestionnaireCSV#verifierIdentifiantsAcheteur(String, String)
      * @see #afficherMenuAcheteur(Acheteur)
-     */   
+     */
   private void connecterAcheteur() {
         System.out.print("\n\n\nPseudo: ");
         String pseudo = scanner.nextLine();
@@ -693,20 +692,20 @@ public class Controleur {
                     modifierProfilAcheteur(acheteur);
                     break;
                 case "5":
-                    GestionnaireCSV.afficherCommandesDeLAcheteur( (Acheteur) acheteur ) ; 
+                    GestionnaireCSV.afficherCommandesDeLAcheteur( (Acheteur) acheteur ) ;
                     System.out.println();
                     dodo(2000);
-                    break; 
+                    break;
                 case "6":
-                    demanderConfirmationDuneCommande((Acheteur) acheteur ) ; 
+                    demanderConfirmationDuneCommande((Acheteur) acheteur ) ;
                     System.out.println();
                     dodo(2000);
-                    break;      
+                    break;
                 case "7":
                     signalerProblemeAvecUneCommande((Acheteur) acheteur );
                     System.out.println();
                     dodo(2000);
-                    break;     
+                    break;
                 case "8":
                     retournerProduit((Acheteur) acheteur );
                     break;
@@ -801,7 +800,7 @@ private void retournerProduit(Acheteur acheteur) {
         int IdCommande = demanderIDdelacommande(acheteur);
         Commande commande = trouverCommandeParID(acheteur,IdCommande);
 
-        if(commande != null){ 
+        if(commande != null){
             Revendeur revendeur = trouverRevendeurParTitreTypeDeProduit(commande.getProduitAcheter().get(0).getTitre());
             printWithTypewriterEffect("Voici la commande que vous avez sélectionné : \n", 40);
             afficherCommande(commande);
@@ -830,7 +829,7 @@ private void retournerProduit(Acheteur acheteur) {
  * @param acheteur L'acheteur qui souhaite confirmer la réception d'une commande.
  */
     private void demanderConfirmationDuneCommande(Acheteur acheteur) {
-      
+
         int IdCommande = demanderIDdelacommande(acheteur);
         Commande commande = trouverCommandeParID(acheteur,IdCommande);
 
@@ -846,12 +845,12 @@ private void retournerProduit(Acheteur acheteur) {
             commande.setEtatDeLaCommande("Livrée");
             GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande, revendeur);
             printWithTypewriterEffect("L'état de la commande "+ IdCommande +" à été mis à livrée  \n", 40);
-   
+
             } else if (choix.equalsIgnoreCase("non")){
             printWithTypewriterEffect("L'état de la commande "+ IdCommande +" n'as pas été changé \n", 40);
             }
-        
-            
+
+
         }
 
     }
@@ -865,8 +864,8 @@ private void retournerProduit(Acheteur acheteur) {
  * @param titreTypeDeProduit Le titre du type de produit pour lequel on cherche un revendeur.
  * @return Revendeur qui vend le type de produit spécifié, ou null si aucun revendeur correspondant n'est trouvé.
  */
-    
-    public Revendeur trouverRevendeurParTitreTypeDeProduit(String titreTypeDeProduit){
+
+    public static Revendeur trouverRevendeurParTitreTypeDeProduit(String titreTypeDeProduit){
 
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
             try{
@@ -875,14 +874,14 @@ private void retournerProduit(Acheteur acheteur) {
                   if( titreTypeDeProduit.equals(typeDeProduit.getTitreProduit())){
                    return revendeur;
                   }
-                }   
+                }
                 }
             catch(ClassCastException e){}
           }
           return null;
 
     }
-    
+
 /**
  * Affiche les détails d'une commande donnée, y compris les informations sur le produit acheté,
  * le prix et la quantité, ainsi que des informations sur le revendeur et l'état actuel de la commande.
@@ -891,9 +890,9 @@ private void retournerProduit(Acheteur acheteur) {
  *
  * @param commande La commande dont les détails doivent être affichés.
  */
-    
+
     private void afficherCommande(Commande commande) {
-        
+
         String nomDuProduit = commande.getProduitAcheter().get(0).getTitre();
         int quantite = commande.getProduitAcheter().get(0).getQuantite();
         double prix = commande.getProduitAcheter().get(0).getPrixUnitaire();
@@ -910,7 +909,7 @@ private void retournerProduit(Acheteur acheteur) {
                     "\nadresse courriel de l'entreprise : " + revendeur.getAdresseCourriel() +
                     "\n    Information utilisée pour réaliser la commande : " +
                     "\nadresse de livraison : " + commande.getAdresseDeLivraison() +
-                    "\nnuméro de téléphone : " + commande.getNumeroTelephoneCommande() + 
+                    "\nnuméro de téléphone : " + commande.getNumeroTelephoneCommande() +
                     "\n    État de la commande : " +
                     "\nétat de l'acheminement : " + commande.getEtatDeLaCommande() + "\n\n"
                     );
@@ -928,7 +927,7 @@ private void retournerProduit(Acheteur acheteur) {
  * @return La commande correspondant à l'ID et à l'acheteur donnés, ou null si aucune commande correspondante n'est trouvée.
  */
     private Commande trouverCommandeParID(Acheteur acheteur, int IdCommande) {
-        
+
           for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
             try{
                 Revendeur revendeur = (Revendeur) utilisateur;
@@ -937,7 +936,7 @@ private void retournerProduit(Acheteur acheteur) {
                   if((commandeDuRevendeur.getidCommande() == (IdCommande)) && commandeDuRevendeur.getPseudoDeLacheteur() == acheteur.getPseudo()){
                    return commandeDuRevendeur;
                   }
-                }   
+                }
                 }
             catch(ClassCastException e){}
           }
@@ -1013,7 +1012,7 @@ private void retournerProduit(Acheteur acheteur) {
 
 /**
  * Permet à un utilisateur invité de naviguer dans le catalogue de produits.
- * Affiche le catalogue de produits et offre une interaction simple à l'utilisateur 
+ * Affiche le catalogue de produits et offre une interaction simple à l'utilisateur
  * pour parcourir les produits disponibles ou quitter le navigateur de catalogue.
  * La navigation continue jusqu'à ce que l'utilisateur choisisse de quitter.
  *
@@ -1022,16 +1021,16 @@ private void retournerProduit(Acheteur acheteur) {
  * un message d'erreur est affiché. L'utilisateur peut quitter la navigation à tout moment.
  */
     public void naviguerCatalogueAsGuest() {
-        boolean continuer = true; 
+        boolean continuer = true;
 
         while (continuer) {
             System.out.println("Bienvenue sur le catalogue de produit !\n\n");
 
-            dodo(1000); 
+            dodo(1000);
             Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
             dodo(1000);
-            Vue.afficherOptionsGuestCatalogueProduit();        
-                String choix = scanner.nextLine(); 
+            Vue.afficherOptionsGuestCatalogueProduit();
+                String choix = scanner.nextLine();
 
             switch(choix) {
                 case "1":
@@ -1058,34 +1057,34 @@ private void retournerProduit(Acheteur acheteur) {
  */
     public void naviguerCatalogueAsUser(Utilisateur acheteurVoulantNaviguerListeDeProduit) {
         clearScreen();
-        boolean continuer = true; 
+        boolean continuer = true;
 
         while (continuer) {
             System.out.println("\n\n\n");
             printWithTypewriterEffect("Bienvenue sur le catalogue de produit !", 40);
-            dodo(1000); 
+            dodo(1000);
             Vue.afficherCatalogueProduits(baseDeDonnesTypesDeProduit);
             System.out.println("\n\n");
             printWithTypewriterEffect("Voici les options disponibles. ", 50);
             System.out.println("\n\n\n");
             Vue.afficherOptionsAcheteurCatalogueProduit();
             dodo(1000);
-            
-                String choix = scanner.nextLine(); 
+
+                String choix = scanner.nextLine();
 
             switch(choix) {
                 case "1":
                     rechercherUnProduitParCategorie(acheteurVoulantNaviguerListeDeProduit);
                     break;
                 case "2":
-                    selectionnerUnProduitParNom( (Acheteur) acheteurVoulantNaviguerListeDeProduit); 
-                    break; 
+                    selectionnerUnProduitParNom( (Acheteur) acheteurVoulantNaviguerListeDeProduit);
+                    break;
                 case "3":
                     Acheteur utilisateurToAcheteur = (Acheteur) acheteurVoulantNaviguerListeDeProduit;
                     Vue.afficherPanier(utilisateurToAcheteur.getPanier());
                     break;
-                case "4": 
-                    passerUneCommande((Acheteur) acheteurVoulantNaviguerListeDeProduit); 
+                case "4":
+                    passerUneCommande((Acheteur) acheteurVoulantNaviguerListeDeProduit);
                     break;
                 case "5":
                     offrirMenuPrincipal();
@@ -1141,7 +1140,7 @@ private void retournerProduit(Acheteur acheteur) {
  * @param temps La durée de la pause en millisecondes.
  */
     public static void dodo(int temps) {
-        try{ 
+        try{
             Thread.sleep(temps);
         }
         catch (InterruptedException e) {
@@ -1177,7 +1176,7 @@ private void retournerProduit(Acheteur acheteur) {
  */
         public void offrirOptionInteractionsAvecLeProduit(TypeDeProduit produitPourInteraction, Acheteur acheteurVoulantInteragir) {
             System.out.println("\n\n\nChoisissez une option pour le produit " + produitPourInteraction.getTitreProduit() + ".\n\n");
-            Vue.afficherOptionsAcheteurInteractionAvecLeProduit();           
+            Vue.afficherOptionsAcheteurInteractionAvecLeProduit();
 
             String choix = scanner.nextLine();
             switch (choix) {
@@ -1192,7 +1191,7 @@ private void retournerProduit(Acheteur acheteur) {
                     dodo(2000);
                     break;
                 case "3":
-                    evaluerProduit(produitPourInteraction, acheteurVoulantInteragir); 
+                    evaluerProduit(produitPourInteraction, acheteurVoulantInteragir);
                     System.out.println("Indisponible");
                     dodo(2000);
                     break;
@@ -1201,16 +1200,16 @@ private void retournerProduit(Acheteur acheteur) {
                     System.out.println("Voici le contenue de votre panier : ");
                     Vue.afficherPanier(acheteurVoulantInteragir.getPanier());
                     dodo(2000);
-                    break;    
+                    break;
                 case "5":
                     Vue.afficherEvaluationsDuProduit(produitPourInteraction);
-                    dodo(2000); 
+                    dodo(2000);
                 case "6":
                     Vue.afficherPanier(acheteurVoulantInteragir.getPanier());
                     break;
-                case "7": 
+                case "7":
                     passerUneCommande(acheteurVoulantInteragir);
-                    break; 
+                    break;
                 default:
                     System.out.println("Choix invalide. Veuillez réessayer.");
                     offrirOptionInteractionsAvecLeProduit(produitPourInteraction, acheteurVoulantInteragir);
@@ -1219,8 +1218,8 @@ private void retournerProduit(Acheteur acheteur) {
         }
 
 /**
- * Ajoute un produit sélectionné au panier de l'acheteur. Vérifie d'abord si le produit est déjà 
- * dans le panier pour éviter les doublons. Si le produit n'est pas déjà présent, il est ajouté au panier 
+ * Ajoute un produit sélectionné au panier de l'acheteur. Vérifie d'abord si le produit est déjà
+ * dans le panier pour éviter les doublons. Si le produit n'est pas déjà présent, il est ajouté au panier
  * de l'acheteur et les détails sont enregistrés via le système de gestion CSV.
  *
  * @param acheteurVoulantInteragir L'acheteur qui souhaite ajouter un produit à son panier.
@@ -1239,7 +1238,7 @@ private void retournerProduit(Acheteur acheteur) {
 /**
  * Permet à un utilisateur (acheteur) de rechercher des produits selon différentes catégories.
  * L'utilisateur choisit parmi une liste prédéfinie de catégories et, en fonction de sa sélection,
- * les produits correspondants à la catégorie sont affichés. Après l'affichage, l'utilisateur a 
+ * les produits correspondants à la catégorie sont affichés. Après l'affichage, l'utilisateur a
  * la possibilité de revenir au menu précédent ou de quitter l'application.
  *
  * @param acheteurVoulantRechercherUnproduit L'utilisateur qui souhaite effectuer la recherche de produit par catégorie.
@@ -1285,7 +1284,7 @@ private void retournerProduit(Acheteur acheteur) {
                     break;
                 case 2:
                     System.exit(0);
-                    break; 
+                    break;
                 default:
                     Vue.avertissementEntreInvalide();
                     break;
@@ -1305,7 +1304,7 @@ private void retournerProduit(Acheteur acheteur) {
 
     public void passerUneCommande(Acheteur acheteur) {
         if (acheteur.getPanier().getTypeDeProduits().isEmpty()) {
-            printWithTypewriterEffect("Votre panier est vide. Vous ne pouvez pas passer de commande.", 40); 
+            printWithTypewriterEffect("Votre panier est vide. Vous ne pouvez pas passer de commande.", 40);
             return;
         }
 
@@ -1335,7 +1334,7 @@ private void retournerProduit(Acheteur acheteur) {
     }
 
 /**
- * Utilise les informations par défaut de l'acheteur pour finaliser une commande. 
+ * Utilise les informations par défaut de l'acheteur pour finaliser une commande.
  * Les informations par défaut comprennent l'adresse de livraison actuelle de l'acheteur et son numéro de téléphone.
  * Ce processus inclut l'affichage d'un message indiquant que les informations par défaut sont utilisées,
  * une pause pour simuler le traitement, puis la finalisation de la commande avec ces informations.
@@ -1349,7 +1348,7 @@ private void retournerProduit(Acheteur acheteur) {
         String adresse = demanderAdresseLivraison();
         String numeroTelephone = acheteur.getTelephone();
         finaliserCommande(acheteur, adresse, numeroTelephone);
-        
+
     }
 
 /**
@@ -1363,10 +1362,10 @@ private void retournerProduit(Acheteur acheteur) {
  */
     public void entrerNouvellesInformations(Acheteur acheteur) {
         System.out.println("\n");
-        printWithTypewriterEffect("Utilisation de nouvelles informations...", 40); 
+        printWithTypewriterEffect("Utilisation de nouvelles informations...", 40);
         dodo(1500);
-        String adresse = demanderAdresseLivraison(); 
-        String numeroTelephone = demanderTelephone(); 
+        String adresse = demanderAdresseLivraison();
+        String numeroTelephone = demanderTelephone();
         finaliserCommande(acheteur, adresse, numeroTelephone);
     }
 
@@ -1379,14 +1378,14 @@ private void retournerProduit(Acheteur acheteur) {
  *
  * @return Le numéro de téléphone validé saisi par l'utilisateur.
  */
-    public String demanderTelephone() { 
+    public String demanderTelephone() {
         System.out.println("\n");
         printWithTypewriterEffect("Veuillez entrer le numéro de téléphone auquel nous pouvons vous contacter pour cette commande : ", 40);
-        String telephone = scanner.nextLine(); 
+        String telephone = scanner.nextLine();
 
         if (validerTelephone(telephone)) {
             printWithTypewriterEffect("Numéro de téléphone enregistré : " + telephone, 40);
-            dodo(1500); 
+            dodo(1500);
         }
         else {
             demanderTelephone();
@@ -1406,7 +1405,7 @@ private void retournerProduit(Acheteur acheteur) {
             System.out.println("\n");
             printWithTypewriterEffect("Veuillez entrer l'adresse de livraison pour cette commande : ", 40);
             String adresse = scanner.nextLine();
-             
+
             // Valider et enregistrer l'adresse - pour l'instant, simplement affichée
             printWithTypewriterEffect("Adresse de livraison enregistrée : " + adresse, 40);
             dodo(1500);
@@ -1422,20 +1421,20 @@ private void retournerProduit(Acheteur acheteur) {
  * @return Une chaîne représentant le mode de paiement sélectionné ("compte Paypal", "carte de débit", ou "carte de crédit").
  *         Retourne null si aucun choix valide n'est effectué (bien que la méthode réessaye jusqu'à ce qu'un choix valide soit fait).
  */
-    public String demanderModePaiement() { 
-        String mode; 
+    public String demanderModePaiement() {
+        String mode;
         System.out.println("\n\n");
         System.out.println("(1) PayPal");
         System.out.println("(2) Débit");
         System.out.println("(3) Crédit");
 
-        printWithTypewriterEffect("\nChoisissez votre mode de paiement : ", 40); 
+        printWithTypewriterEffect("\nChoisissez votre mode de paiement : ", 40);
 
 
-        int choixPaiement = scanner.nextInt(); 
-        scanner.hasNextLine(); 
+        int choixPaiement = scanner.nextInt();
+        scanner.hasNextLine();
 
-        if (choixPaiement < 1 || choixPaiement > 3) { 
+        if (choixPaiement < 1 || choixPaiement > 3) {
             printWithTypewriterEffect("Choix invalide. Veuillez réessayer.", 40);
             demanderModePaiement();
         }
@@ -1443,13 +1442,13 @@ private void retournerProduit(Acheteur acheteur) {
         switch (choixPaiement) {
             case 1:
                 return "compte Paypal";
-            case 2: 
+            case 2:
                 return "carte de dédit";
             case 3:
                 return "carte de crédit";
-            default: 
-                return null; 
-        } 
+            default:
+                return null;
+        }
     }
 
 /**
@@ -1484,7 +1483,7 @@ private void retournerProduit(Acheteur acheteur) {
  */
     public void finaliserCommande(Acheteur acheteur, String adresse, String telephone) {
         if (acheteur.getPanier().getTypeDeProduits().isEmpty()) {
-            printWithTypewriterEffect("Votre panier est vide. Vous ne pouvez pas passer de commande.", 40); 
+            printWithTypewriterEffect("Votre panier est vide. Vous ne pouvez pas passer de commande.", 40);
             return;
         }
 
@@ -1511,7 +1510,7 @@ private void retournerProduit(Acheteur acheteur) {
                 printWithTypewriterEffect("Votre commande a été divisée en " + acheteur.getPanier().getTypeDeProduits().size() + " commandes, en raison des différents revendeurs impliqués", 40);
                 System.out.println();
                 dodo(1000);
-                printWithTypewriterEffect("vous recevrez une notification pour chacune d'elles si vous compléter la commande", 40); 
+                printWithTypewriterEffect("vous recevrez une notification pour chacune d'elles si vous compléter la commande", 40);
 
                 if (demanderValidationCommande()) {
                     traiterCommande(commande, typeDeProduit);
@@ -1523,19 +1522,19 @@ private void retournerProduit(Acheteur acheteur) {
                 traiterCommande(commande, typeDeProduit);
             }
         }
-        acheteur.getPanier().viderPanier(); 
+        acheteur.getPanier().viderPanier();
         System.out.println("\n\n");
-        printWithTypewriterEffect("Votre panier est maintenant vide", 40); 
-        printWithTypewriterEffect("...", 400); 
+        printWithTypewriterEffect("Votre panier est maintenant vide", 40);
+        printWithTypewriterEffect("...", 400);
         System.out.println();
-        printWithTypewriterEffect("Toutes vos commandes ont été enregistrée", 40); 
-        dodo(1000); 
+        printWithTypewriterEffect("Toutes vos commandes ont été enregistrée", 40);
+        dodo(1000);
         System.out.println();
-        printWithTypewriterEffect("Les revendeur concernés ont été avisé et leur inventaires ont été mis à jour", 40); 
+        printWithTypewriterEffect("Les revendeur concernés ont été avisé et leur inventaires ont été mis à jour", 40);
         System.out.println();
-        printWithTypewriterEffect("Vous serez redirigié vers le catalogue de produits dans 5 secondes", 40); 
-        printWithTypewriterEffect("...", 400); 
-        dodo(3500); 
+        printWithTypewriterEffect("Vous serez redirigié vers le catalogue de produits dans 5 secondes", 40);
+        printWithTypewriterEffect("...", 400);
+        dodo(3500);
     }
 
 
@@ -1553,7 +1552,7 @@ private void retournerProduit(Acheteur acheteur) {
         int quantite = 0;
         boolean quantiteValide = false;
         while (!quantiteValide) {
-            printWithTypewriterEffect("\n\nEntrez la quantité pour le produit " + typeDeProduit.getTitreProduit() + ".", 40); 
+            printWithTypewriterEffect("\n\nEntrez la quantité pour le produit " + typeDeProduit.getTitreProduit() + ".", 40);
             System.out.println();
             printWithTypewriterEffect("Notez qu'il y a présentement " + typeDeProduit.getQuantiteDisponible() + " " + typeDeProduit.getTitreProduit() + " disponible(s)  dans l'inventaire.", 40);
             dodo(1000);
@@ -1601,7 +1600,7 @@ private void retournerProduit(Acheteur acheteur) {
     public boolean demanderValidationCommande() {
         printWithTypewriterEffect("\nToutes les informations ont été enregistrées.\n", 40);
         System.out.println();
-        printWithTypewriterEffect("Connexion aux serveurs et confirmation", 40); 
+        printWithTypewriterEffect("Connexion aux serveurs et confirmation", 40);
         printWithTypewriterEffect("...", 250);
         System.out.println();
         System.out.println("(1) Confirmer et passer la commande");
@@ -1716,10 +1715,10 @@ public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProdu
  * @param typeDeProduit Le produit dont la quantité a été mise à jour.
  * @param quantiteAchetee La quantité du produit qui a été achetée.
  */
-    public void mettreAJourFichierCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) { 
+    public void mettreAJourFichierCSV(TypeDeProduit typeDeProduit, int quantiteAchetee) {
         GestionnaireCSV.supprimerTypeDeProduitCSV(typeDeProduit);
         GestionnaireCSV.ecrireTypeDeProduitNouvelleQuantiteCSV(typeDeProduit, quantiteAchetee);
-        return; 
+        return;
     }
 /**
  * Met à jour la liste des commandes d'un revendeur pour y inclure une nouvelle commande.
@@ -1743,7 +1742,7 @@ public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProdu
 
 
 
-    
+
 
     private void likerProduit(TypeDeProduit produit, Acheteur acheteur) {
         // Implémentez la logique pour "liker" le produit
@@ -1939,10 +1938,10 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
  * Utilise les séquences d'échappement ANSI pour effacer l'écran en déplaçant le curseur
  * en haut de l'écran et en supprimant tout le contenu affiché.
  */
-    public static void clearScreen() {  
-        System.out.print("\033[H\033[2J");  
-        System.out.flush();  
-    } 
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
 /**
  * Permet à l'utilisateur de supprimer son compte après confirmation et vérification de son mot de passe.
@@ -2109,7 +2108,7 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
         GestionnaireCSV.modifierCSV("typeDeProduits.csv",ancienCourriel, email, nouveauNom, nomEntreprise);
     }
 
-    
+
 /**
  * Permet à un utilisateur identifié comme acheteur de modifier les informations de son profil.
  * Les modifications possibles incluent le pseudo, l'adresse email, et le mot de passe.
@@ -2185,7 +2184,7 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
         }
         return null;
     }
-    
+
 /**
  * Recherche un type de produit par son titre dans la base de données des types de produits.
  * Cette méthode parcourt la liste des types de produits à la recherche d'un type ayant le titre spécifié.
@@ -2203,6 +2202,9 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
     }
     public static void setBaseDeDonnesTypesDeProduit(List<TypeDeProduit> list) {
         baseDeDonnesTypesDeProduit = list;
+    }
+    public static void setBaseDeDonnesEvaluations(List<Evaluations> evaluations) {
+        baseDeDonnesEvaluations = evaluations;
     }
 
 /**
@@ -2235,7 +2237,7 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
             } catch (FileNotFoundException e) {
             System.out.println("Fichier CSV eval non trouvé.");
         }
-        printWithTypewriterEffect("La base de données d'évaluations a été initialité avec succès.", 40); 
+        printWithTypewriterEffect("La base de données d'évaluations a été initialité avec succès.", 40);
         System.out.println();
         printWithTypewriterEffect("Elle contient maintenant " + baseDeDonnesEvaluations.size() + " évaluation(s)", 40);
         System.out.println("\n\n\n");
@@ -2247,19 +2249,15 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
     public static void InitialiserEvaluationsParDefaut() {
         List<Evaluations> listEvaluations = new ArrayList<>();
 
-        // Create a single Acheteur instance
         Acheteur acheteur = new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates",0);
 
-        // Ensure there are at least 20 products or adjust the loop to the actual size
         for (int i = 0; i < Math.min(20, baseDeDonnesTypesDeProduit.size()); i++) {
             TypeDeProduit produit = baseDeDonnesTypesDeProduit.get(i);
 
-            // Create an evaluation with a predefined note and comment
             Evaluations evaluation = new Evaluations(produit, acheteur, 5, "Excellent produit");
             listEvaluations.add(evaluation);
         }
 
-        // Save the evaluations to a CSV file or handle them as needed
         GestionnaireCSV.updateCSVFileEvaluation(listEvaluations);
 
         System.out.println("Les évaluations ont été initialisées avec succès.");
@@ -2432,7 +2430,7 @@ public static void InitialiserAcheteursParDefaut(){
             GestionnaireCSV.ecrireUtilisateurCSV(revendeurParDefaut[i]);;
             GestionnaireCSV.incrementeQuantiteUtilisateursFichierCSV();
         }
-        
+
         printWithTypewriterEffect("Des revendeurs par défaut ont également été ajouté", 40);
         System.out.println("\n\n\n");
         dodo(2000);
@@ -2477,8 +2475,8 @@ public static void InitialiserAcheteursParDefaut(){
  * Cette méthode commence par initialiser une collection de noms et descriptions de produits par défaut.
  * Ensuite, elle parcourt les utilisateurs dans la base de données, et pour chaque revendeur, elle crée
  * et ajoute un certain nombre de types de produits par défaut à la base de données des produits. Ces produits
- * par défaut sont générés en utilisant les noms et descriptions prédéfinis, avec des catégories, prix et 
- * quantités fictifs. Cette initialisation est particulièrement utile pour peupler la base de données pour 
+ * par défaut sont générés en utilisant les noms et descriptions prédéfinis, avec des catégories, prix et
+ * quantités fictifs. Cette initialisation est particulièrement utile pour peupler la base de données pour
  * des démonstrations ou des tests initiaux. Après avoir ajouté les produits, un message est affiché pour
  * indiquer le succès de l'opération.
  *
@@ -2512,7 +2510,7 @@ public static void InitialiserAcheteursParDefaut(){
                 }
             }
         }
-        printWithTypewriterEffect("Les produits de la plateforme ont été initialisé avec succès.", 40); 
+        printWithTypewriterEffect("Les produits de la plateforme ont été initialisé avec succès.", 40);
         System.out.println("\n\n\n");
         dodo(2000);
     }
@@ -2523,209 +2521,76 @@ public static void InitialiserAcheteursParDefaut(){
  * et les associe aux acheteurs, revendeurs et produits appropriés. Elle gère également les cas où les données nécessaires
  * ne sont pas disponibles dans la base de données.
  */
-    public static void initialiserCommandes() {
-        int i = 0;
-         try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvCommandes()))) {
-            while (scanner.hasNextLine()) {
-                String[] informationsCommande = scanner.nextLine().split(",");
-                Commande commandeActuelle;
+public static void initialiserCommandes() {
+    File fichierCSV = new File("commandes.csv");
+    try {
+        boolean fichierExistaitDeja = fichierCSV.exists();
+        // Créer le fichier s'il n'existe pas déjà
+        if (!fichierExistaitDeja) {
+            fichierCSV.createNewFile();
+            System.out.println("Fichier des commandes créé avec succès !");
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 
-                //format : idCommandes0, titreProduit1, idProduit2, prixUnitaire3, quantité4, prixTotale5, nomAcheteur6, nomEntreprise7, emailRevendeur8, adresseLivraison9, téléphoneLivraison10
-                if (informationsCommande.length == 12) {
-                    //chercher le revendeur grace à l'email
-                    Revendeur revendeurDuProduit = (Revendeur) trouverRevendeurParNomEntreprise(informationsCommande[7]);
-                    Acheteur  acheteurDuProduit = trouverAcheteurParPseudo(informationsCommande[6]);
-                    TypeDeProduit typeDeProduitAcheter = trouverTypeDeProduitParTitre(informationsCommande[1]);
-                  
-                    if(revendeurDuProduit == null){
-                        System.out.println("Le Revendeur ayant le nom d'entreprise "+ informationsCommande[7] + " n'existe pas, " +
-                                "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
-                    }
-                    else if(acheteurDuProduit == null){
-                       System.out.println("L'acheteur ayant le pseudo"+ informationsCommande[6] + " n'existe pas, " +
-                                "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
-                    }
-                    else if(typeDeProduitAcheter == null){
-                       System.out.println("Le produit "+ informationsCommande[1] + " n'existe pas, " +
-                                "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
-                    }
-                    else {
+    int i = 0;
+    try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCsvCommandes()))) {
+        while (scanner.hasNextLine()) {
+            String[] informationsCommande = scanner.nextLine().split(",");
+            Commande commandeActuelle;
+
+            //format : idCommandes0, titreProduit1, idProduit2, prixUnitaire3, quantité4, prixTotale5, nomAcheteur6, nomEntreprise7, emailRevendeur8, adresseLivraison9, téléphoneLivraison10
+            if (informationsCommande.length == 13) {
+                //chercher le revendeur grace à l'email
+                Revendeur revendeurDuProduit = (Revendeur) trouverRevendeurParNomEntreprise(informationsCommande[7]);
+                Acheteur  acheteurDuProduit = trouverAcheteurParPseudo(informationsCommande[6]);
+                TypeDeProduit typeDeProduitAcheter = trouverTypeDeProduitParTitre(informationsCommande[1]);
+
+                if(revendeurDuProduit == null){
+                    System.out.println("Le Revendeur ayant le nom d'entreprise "+ informationsCommande[7] + " n'existe pas, " +
+                            "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
+                }
+                else if(acheteurDuProduit == null){
+                    System.out.println("L'acheteur ayant le pseudo "+ informationsCommande[6] + " n'existe pas, " +
+                            "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
+                }
+                else if(typeDeProduitAcheter == null){
+                    System.out.println("Le produit "+ informationsCommande[1] + " n'existe pas, " +
+                            "la commande avec l'ID "+ informationsCommande[0] + " ne peut donc pas être initialisé.");
+                }
+                else {
                     Produit produitAcheter = new Produit(Integer.parseInt(informationsCommande[2]), typeDeProduitAcheter.getTitreProduit(),typeDeProduitAcheter.getCategorieProduit(),typeDeProduitAcheter.getDescriptionProduit(),Integer.parseInt(informationsCommande[4]),typeDeProduitAcheter.getPrixProduit());
                     LinkedList<Produit> listeDeProduitDeLaCommande = new LinkedList<>();
                     listeDeProduitDeLaCommande.add(produitAcheter);
                     commandeActuelle = new Commande(Integer.parseInt(informationsCommande[0]),listeDeProduitDeLaCommande,acheteurDuProduit,informationsCommande[9],informationsCommande[10]);
                     commandeActuelle.setEtatDeLaCommande(informationsCommande[11]);
-                        revendeurDuProduit.ajouterCommande(commandeActuelle); 
-                        i++;
-                    }
+                    commandeActuelle.setDateDeLaCommande(informationsCommande[12]);
+                    revendeurDuProduit.ajouterCommande(commandeActuelle);
+                    i++;
                 }
-
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichier CSV non trouvé.");
+
         }
-       
-        printWithTypewriterEffect("Les commandes ont également été initialisé avec succès !", 40);
-        System.out.println();
-        dodo(1000);
-        printWithTypewriterEffect("Un total de "+ i +" commandes ont déja été faites sur Unishop !", 40);
-        System.out.println();
-        dodo(1000);}
-
-
-
-        
-/*
- * 
-// Les Tests Unitaires
-        
-    public void testValiderEmail() {
-        Controleur controleur = new Controleur(new Vue());
-    
-        // Tester avec un email valide
-        assertTrue("Un email valide devrait retourner vrai", controleur.validerEmail("exemple@exemple.com"));
-    
-        // Tester avec un email invalide
-        assertFalse("Un email invalide devrait retourner faux", controleur.validerEmail("exemple@.com"));
-    
-        // Tester avec un autre email invalide
-        assertFalse("Un email invalide devrait retourner faux", controleur.validerEmail("exemple.com"));
+    } catch (FileNotFoundException e) {
+        System.out.println("Fichier CSV non trouvé.");
     }
-        }
-    
+    if(i < 3){
+        initialiserCommandesParDefaut();
+        i += 3;
     }
 
-    public void testAjouterProduitSelectionneAupanier() {
-        // Supposer que le panier est initialement vide
-        assertEquals("Le panier initial doit être vide", 0, acheteur.getPanier().size());
-    
-        controleur.ajouterProduitSelectionneAupanier(acheteur, typeDeProduit);
-    
-        // Vérifier si le produit est ajouté
-        assertEquals("Le panier doit contenir 1 produit après ajout", 1, acheteur.getPanier().size());
-    
-        // Essayer d'ajouter le même produit à nouveau
-        controleur.ajouterProduitSelectionneAupanier(acheteur, typeDeProduit);
-    
-        // Assurer que le produit n'est pas ajouté à nouveau s'il est déjà là
-        assertEquals("Le panier ne doit pas ajouter le même produit deux fois", 1, acheteur.getPanier().size());
-    }
+    printWithTypewriterEffect("Les commandes ont également été initialisé avec succès !", 40);
+    System.out.println();
+    dodo(1000);
+    printWithTypewriterEffect("Un total de "+ i +" commandes ont déja été faites sur Unishop !", 40);
+    System.out.println();
+    dodo(1000);}
 
-    public void testInscrireUtilisateur() {
-    Controleur controleur = new Controleur(new Vue());
 
-    // Simuler l'entrée de l'utilisateur pour un nouveau acheteur
-    System.setIn(new ByteArrayInputStream("1\nFranz\nGirardin\nfranzgirardin@example.com\nmotdepasse\n4389234776\nPawgologist\n".getBytes()));
 
-    // Exécuter la méthode pour inscrire un utilisateur
-    controleur.inscrireUtilisateur();
 
-    // Vérifier que l'utilisateur est bien ajouté à la base de données
-    Utilisateur nouvelUtilisateur = controleur.getBaseDeDonneesUtilisateurs().get(controleur.getBaseDeDonneesUtilisateurs().size() - 1);
-    assertEquals("L'utilisateur doit être ajouté avec le prénom Franz", "Franz", nouvelUtilisateur.getPrenom());
-    // Assurez-vous d'adapter la méthode d'accès à l'attribut prénom selon votre classe Utilisateur
-}
 
-    public void testConnecterUtilisateur() {
-        Controleur controleur = new Controleur(new Vue());
-    
-        // Supposer qu'un utilisateur nommé 'Franz' avec le mot de passe 'motdepasse' existe dans la base de données
-        // Simuler l'entrée de l'utilisateur pour la connexion
-        System.setIn(new ByteArrayInputStream("Franz\nmotdepasse\n".getBytes()));
-    
-        // Exécuter la méthode de connexion
-        controleur.connecterUtilisateur();
-    
-        // Vérifier que l'utilisateur est connecté
-        assertTrue("L'utilisateur doit être connecté", controleur.isUtilisateurConnecte());
-        // La méthode 'isUtilisateurConnecte()' est hypothétique, vous devrez la gérer selon la logique de votre application
-    }
-
-    public void testOffrirMenuPrincipal() {
-        // Préparer le système pour simuler l'entrée de l'utilisateur dans le menu principal
-        // Supposons que l'option 1 est pour s'inscrire, l'option 2 pour se connecter, etc., et 4 pour quitter
-        String simulatedUserInput = "4\n"; // L'utilisateur choisit de quitter l'application
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-    
-        Controleur controleur = new Controleur(new Vue());
-    
-        // Exécuter la méthode qui offre le menu principal
-        controleur.offrirMenuPrincipal();
-    
-        // Vérifier le comportement attendu, par exemple, vérifier si l'application se prépare à fermer
-        assertTrue("L'application doit se préparer à fermer après le choix de quitter", controleur.isApplicationClosing());
-        // La méthode 'isApplicationClosing()' est hypothétique, représente un moyen de vérifier si l'application se ferme
-    }
-
-    public void testModifierProfilAcheteur() {
-    // Créer un utilisateur test (acheteur) et le contrôleur
-    Acheteur acheteur = new Acheteur(//initial parameters );
-    Controleur controleur = new Controleur(new Vue());
-
-    // Simuler l'entrée de l'utilisateur pour modifier le profil (par exemple, email et mot de passe)
-    String simulatedUserInput = "nouvelEmail@example.com\nnouveauMotDePasse\n";
-    System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-
-    // Exécuter la méthode de modification du profil
-    controleur.modifierProfilAcheteur(acheteur);
-
-    // Vérifier que les informations de l'acheteur ont été mises à jour
-    assertEquals("L'email de l'acheteur doit être mis à jour", "nouvelEmail@example.com", acheteur.getEmail());
-    assertEquals("Le mot de passe de l'acheteur doit être mis à jour", "nouveauMotDePasse", acheteur.getMotDePasse());
-}
-
-    public void testDemarrerApplication() {
-    // Préparer le système pour simuler une action de démarrage rapide puis de fermeture
-    String simulatedUserInput = "4\n"; // Supposons que '4' est pour quitter le menu principal
-    System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-
-    Controleur controleur = new Controleur(new Vue());
-
-    // Exécuter la méthode de démarrage de l'application
-    controleur.demarrerApplication();
-
-    // Vérifier que l'application a démarré et s'est préparée à offrir le menu principal
-    assertTrue("Le menu principal a été offert à l'utilisateur", controleur.isMenuPrincipalShown());
-    // 'isMenuPrincipalShown()' est une méthode hypothétique indiquant si le menu principal a été présenté
-}
-
-public void testValiderTelephone() {
-    Controleur controleur = new Controleur(new Vue());
-
-    // Tester avec un numéro de téléphone valide
-    assertTrue("Un numéro de téléphone valide devrait retourner vrai", controleur.validerTelephone("0123456789"));
-
-    // Tester avec un numéro de téléphone invalide (trop court)
-    assertFalse("Un numéro de téléphone invalide (trop court) devrait retourner faux", controleur.validerTelephone("012345"));
-
-    // Tester avec un numéro de téléphone invalide (contient des lettres)
-    assertFalse("Un numéro de téléphone invalide (contient des lettres) devrait retourner faux", controleur.validerTelephone("01234a6789"));
-}
-
- */
-
-/*public class TestModifierProfilRevendeur {
-
-    public static void main(String[] args) {
-        // Create a mock instance of Controleur and Revendeur
-        Controleur controleur = new Controleur(new Vue());
-        Revendeur revendeur = new Revendeur("OldCompanyName", "OldCEOName", "oldemail@company.com", "oldpassword", "oldphone");
-
-        // Assume we want to update these fields
-        String newCompanyName = "NewCompanyName";
-        String newEmail = "newemail@company.com";
-        String newPassword = "NewSecurePassword123";
-        String newPhone = "1234567890";
-
-        // Call the method to test, passing in the new details
-        controleur.modifierProfilRevendeur(revendeur, newCompanyName, newEmail, newPassword, newPhone); // Adjust this line based on the actual method signature
-
-        // Print out the results to manually check if they are correct
-        System.out.println("New company name should be NewCompanyName: " + revendeur.getCompanyName());
-        System.out.println("New email should be newemail@company.com: " + revendeur.getEmail());
-        System.out.println("New password should be NewSecurePassword123: " + revendeur.getPassword());
-        System.out.println("New phone should be 1234567890: " + revendeur.getPhone());
-    } */
 
     public void showAndRemoveEvaluation(Acheteur acheteur) {
         List<Evaluations> acheteurEvaluations = getEvaluationsByAcheteur(acheteur);
@@ -2826,6 +2691,48 @@ public void testValiderTelephone() {
         } else {
             System.out.println("Choix invalide.");
         }
+    }
+
+    public static void initialiserCommandesParDefaut() {
+        TypeDeProduit typeDeProduit1 = trouverTypeDeProduitParTitre("Agrafeuse");
+        TypeDeProduit typeDeProduit2 = trouverTypeDeProduitParTitre("Moniteur LED 24 pouces");
+        TypeDeProduit typeDeProduit3 = trouverTypeDeProduitParTitre("Perforateur");
+        Revendeur revendeur1 = trouverRevendeurParTitreTypeDeProduit("Agrafeuse");
+        Revendeur revendeur2 = trouverRevendeurParTitreTypeDeProduit("Moniteur LED 24 pouces");
+        Revendeur revendeur3 = trouverRevendeurParTitreTypeDeProduit("Perforateur");
+        Acheteur acheteur1 = trouverAcheteurParPseudo("Patates5");
+        Acheteur acheteur2 = trouverAcheteurParPseudo("Patates4");
+        Acheteur acheteur3 = trouverAcheteurParPseudo("Patates7");
+
+        Produit produit1 = new Produit(1236495864, typeDeProduit1.getTitreProduit(), typeDeProduit1.getCategorieProduit(),typeDeProduit1.getDescriptionProduit() , 1, typeDeProduit1.getPrixProduit());
+        Produit produit2 = new Produit(1989195864, typeDeProduit2.getTitreProduit(), typeDeProduit2.getCategorieProduit(),typeDeProduit2.getDescriptionProduit() , 2, typeDeProduit2.getPrixProduit());
+        Produit produit3 = new Produit(236495864, typeDeProduit3.getTitreProduit(), typeDeProduit3.getCategorieProduit(),typeDeProduit3.getDescriptionProduit() , 3, typeDeProduit3.getPrixProduit());
+        LinkedList<Produit> produitdelacommande1 = new LinkedList<>();
+        LinkedList<Produit> produitdelacommande2 = new LinkedList<>();
+        LinkedList<Produit> produitdelacommande3 = new LinkedList<>();
+        produitdelacommande1.add(produit1);
+        produitdelacommande2.add(produit2);
+        produitdelacommande3.add(produit3);
+
+
+        Commande commande1 = new Commande(546793899, produitdelacommande1 , acheteur1, "3200 rue jean brillant", acheteur1.getTelephone());
+        Commande commande2 = new Commande(544485959, produitdelacommande2 , acheteur2, "3443 Roger gaudry", acheteur2.getTelephone());
+        Commande commande3 = new Commande(986793899, produitdelacommande3 , acheteur3, "3240 rue jean Collins", acheteur3.getTelephone());
+
+        commande1.setEtatDeLaCommande("Signalé");
+        commande2.setEtatDeLaCommande("Livrée");
+        commande3.setEtatDeLaCommande("En acheminement");
+        commande1.setDateDeLaCommande("2023-01-15 14:30:00");
+        commande2.setDateDeLaCommande("2023-07-22 18:45:30");
+        commande3.setDateDeLaCommande("2023-12-31 23:59:59");
+
+        revendeur1.ajouterCommande(commande1);
+        revendeur2.ajouterCommande(commande2);
+        revendeur3.ajouterCommande(commande3);
+        GestionnaireCSV.ecrireCommandeCSV(commande1, revendeur1);
+        GestionnaireCSV.ecrireCommandeCSV(commande2, revendeur2);
+        GestionnaireCSV.ecrireCommandeCSV(commande3, revendeur3);
+
     }
 
 
