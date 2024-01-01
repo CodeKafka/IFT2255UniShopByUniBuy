@@ -99,10 +99,8 @@ public class Commande {
 
         Produit produit = produitAcheter.get(0);
         double prixDeLaCommande =  produit.getPrixUnitaire()*produit.getQuantite();
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = dateDeLaCommande.format(formatter);
-
         return String.format("%d,%s,%d,%.2f,%d,%.2f,%s,%s,%s,%s,%s,%s,%s",
                 idCommande,
                 produit.getTitre(),

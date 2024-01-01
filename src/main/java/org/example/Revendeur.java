@@ -46,6 +46,9 @@ public class Revendeur extends Utilisateur {
         return this.email;
     }
 
+    public void setListeTypesDeProduits(List<TypeDeProduit> typesDeProduits) {
+        this.typesDeProduits = typesDeProduits;
+    }
 
     public boolean verifierNomEntreprise(String nomEntreprise) {
         return this.nomEntreprise.equals(nomEntreprise);

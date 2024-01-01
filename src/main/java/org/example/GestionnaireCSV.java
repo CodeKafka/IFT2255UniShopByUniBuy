@@ -396,7 +396,6 @@ public class GestionnaireCSV {
                 System.out.println("\n\n\n");
                 Controleur.dodo(5000);
                 fichierCSV.createNewFile();
-
             }
             // Écrire dans le fichier CSV
             try (PrintWriter out = new PrintWriter(new FileOutputStream(fichierCSV, true))) {
@@ -559,7 +558,6 @@ public class GestionnaireCSV {
 
 
     public static boolean acheteurAdejaRealiserUneCommande(String pseudo) {
-
         try (Scanner scanner = new Scanner(new File(CHEMIN_FICHIER_CSV_COMMANDES))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();

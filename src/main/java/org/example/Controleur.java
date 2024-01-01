@@ -1639,19 +1639,27 @@ private void retournerProduit(Acheteur acheteur) {
  * @param commandeATraiter La commande à traiter.
  * @param typeDeProduitPourLaCommande Le type de produit concerné par la commande.
  */
-    public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProduitPourLaCommande) {
-        miseAjourBasesDeDonneesSuivantCommande(commandeATraiter, typeDeProduitPourLaCommande);
+public void traiterCommande(Commande commandeATraiter, TypeDeProduit typeDeProduitPourLaCommande) {
+    commandeATraiter.mettreDateDeLaLivraison();
+    double prixUnitaire = commandeATraiter.produitAcheter.getFirst().getPrixUnitaire();
+    int quantiteProduit = commandeATraiter.produitAcheter.getFirst().getQuantite();
+    miseAjourBasesDeDonneesSuivantCommande(commandeATraiter, typeDeProduitPourLaCommande);
+    System.out.println("\n");
+    printWithTypewriterEffect("Mise à jour de la base de données de produits", 40);
+    printWithTypewriterEffect("...", 300);
+    System.out.println();
+    int pointAccumuler = (int) Math.round(prixUnitaire*quantiteProduit);
+    printWithTypewriterEffect("Vous venez d'accumuler "+ pointAccumuler +" points pour votre commande !", 40);
+    commandeATraiter.getAcheteur().ajouterPointsFideliteApartirDuPrix(pointAccumuler);
+    GestionnaireCSV.MettreAjourPointFideliteCSV(commandeATraiter.getAcheteur());
+    System.out.println();
 
-        System.out.println("\n");
-        printWithTypewriterEffect("Mise à jour de la base de données de produits", 40); 
-        printWithTypewriterEffect("...", 300);
-        System.out.println();
-        printWithTypewriterEffect("Soyez patient pour votre commande", 40);
-        dodo(1000); 
-        System.out.println();
-        printWithTypewriterEffect("Le revendeur " + typeDeProduitPourLaCommande.getRevendeurProduit().getIDEntreprise() + " traite présentement " + typeDeProduitPourLaCommande.getRevendeurProduit().getListeDeCommande().size() + " commandes.", 40);
-         
-    }
+    printWithTypewriterEffect("Soyez patient pour votre commande", 40);
+    dodo(1000);
+    System.out.println();
+    printWithTypewriterEffect("Le revendeur " + typeDeProduitPourLaCommande.getRevendeurProduit().getIDEntreprise() + " traite présentement " + typeDeProduitPourLaCommande.getRevendeurProduit().getListeDeCommande().size() + " commandes.", 40);
+
+}
 
 /**
  * Met à jour les bases de données pertinentes après l'exécution d'une commande.
@@ -1691,7 +1699,7 @@ private void retournerProduit(Acheteur acheteur) {
  * @param typeDeProduit Le produit dont la quantité doit être mise à jour chez le revendeur.
  * @param quantiteAchetee La quantité du produit qui a été achetée.
  */
-    public void mettreAJourQuantiteChezRevendeur(Revendeur revendeur, TypeDeProduit typeDeProduit, int quantiteAchetee) {
+    public static void mettreAJourQuantiteChezRevendeur(Revendeur revendeur, TypeDeProduit typeDeProduit, int quantiteAchetee) {
         for (TypeDeProduit produit : revendeur.getListeTypesDeProduits()) {
             if (produit.equals(typeDeProduit)) {
                 int nouvelleQuantite = produit.getQuantiteDisponible() - quantiteAchetee;
@@ -1866,7 +1874,12 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
 
     try (Scanner scanner = new Scanner(new File(GestionnaireCSV.getCheminFichierCSV()))) {
         while (scanner.hasNextLine()) {
+
             String[] userData = scanner.nextLine().split(",");
+            if(userData.length < 2){
+                continue;
+            }
+
             Utilisateur utilisateur;
             // Supposons que userData ait le format: nom, prenom, email, telephone, motDePasse, pseudo/typeEntreprise, typeUtilisateur, nbPointfidelité
             if ("Acheteur".equals(userData[6])) {
@@ -1944,7 +1957,6 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
                 String motDePasse = scanner.nextLine();
                 Utilisateur utilisateur = trouverUtilisateurParMotDePasse(motDePasse);
                 if (utilisateur != null) {
-                    System.out.println("On est ici");
                     dodo(5000);
                     utilisateur.supprimerCompte();
                     baseDeDonneesUtilisateurs.remove(utilisateur);
@@ -2142,7 +2154,6 @@ public static void initialiserBaseDeDonneesUtilisateurs() {
         System.out.println("Modifications enregistrées avec succès.");
         GestionnaireCSV.ecrireUtilisateurCSV(acheteur);
         baseDeDonneesUtilisateurs.add(acheteur);
-        System.out.println("Taille: " + baseDeDonneesUtilisateurs.toString());
 
     }
 /**

@@ -9,45 +9,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestsUnitaires {
-    List<Utilisateur> testUsers = new ArrayList<>();
+    private static List<Utilisateur> testUsers;
     private static List<Evaluations> baseDeDonnesEvaluations;
     private static Revendeur revendeurTest;
-    TypeDeProduit produitTest;
-    Acheteur acheteurTest;
-
+    private static Acheteur acheteurTest;
+    private TypeDeProduit produitTest;
 
     @BeforeAll
     public static void setUp() {
-        List<TypeDeProduit> baseDeDonnesTypesDeProduit = new ArrayList<>();
-        revendeurTest = new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "87gfoert787", "5149876543");
+        testUsers = new ArrayList<>();
+        baseDeDonnesEvaluations = new ArrayList<>();
 
-        TypeDeProduit produitRevendeur = new TypeDeProduit("Agrafeuse", "Livres et manuels", "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 5, revendeurTest);
+        revendeurTest = new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "87gfoert787", "5149876543");
+        acheteurTest = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0);
+
+        List<TypeDeProduit> baseDeDonnesTypesDeProduit = new ArrayList<>();
+        TypeDeProduit produitRevendeur = new TypeDeProduit("Agrafeuse", "Livres et manuels", "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 10, revendeurTest);
         TypeDeProduit produitRevendeur2 = new TypeDeProduit("Tapis de souris ergonomique", "Articles de papeterie", "Tapis avec support de poignet pour un confort accru lors de l'utilisation de la souris.", 12.00, 7, revendeurTest);
+
         baseDeDonnesTypesDeProduit.add(produitRevendeur);
         baseDeDonnesTypesDeProduit.add(produitRevendeur2);
 
-        Acheteur acheteurTest = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0);
-        baseDeDonnesEvaluations = new ArrayList<>();
         baseDeDonnesEvaluations.add(new Evaluations(produitRevendeur, acheteurTest, 5, "Excellent produit"));
         baseDeDonnesEvaluations.add(new Evaluations(produitRevendeur2, acheteurTest, 4, "Bon produit"));
 
-        Controleur.setBaseDeDonnesTypesDeProduit(baseDeDonnesTypesDeProduit);
-        Controleur.setBaseDeDonnesEvaluations(baseDeDonnesEvaluations);
-
-        List<Utilisateur> testUsers = new ArrayList<>();
         testUsers.add(revendeurTest);
         testUsers.add(acheteurTest);
-        testUsers.add(new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates",0));
+        testUsers.add(new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates", 0));
+
+        Controleur.setBaseDeDonnesTypesDeProduit(baseDeDonnesTypesDeProduit);
+        Controleur.setBaseDeDonnesEvaluations(baseDeDonnesEvaluations);
         Controleur.baseDeDonneesUtilisateurs = testUsers;
         revendeurTest.setTypesDeProduits(baseDeDonnesTypesDeProduit);
-
-
     }
 
     @BeforeEach
     public void setUpObject() {
-        produitTest = new TypeDeProduit("Agrafeuse", "Livres et manuels", "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 5, revendeurTest);
-        acheteurTest = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0);
+        produitTest = new TypeDeProduit("Agrafeuse", "Livres et manuels", "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 10, revendeurTest);
         acheteurTest.getPanier().viderPanier();
     }
 
@@ -197,6 +195,19 @@ public class TestsUnitaires {
         assertEquals(2, evaluations.size(), "Devrait retourner les évaluations des produits du revendeur");
         assertTrue(evaluations.stream().allMatch(e -> e.getProduit().getRevendeurProduit().equals(revendeurTest)), "Toutes les évaluations retournées devraient concerner les produits du revendeur");
     }
+
+    @Test
+    public void testGetEvaluationsByAcheteur() {
+        List<Evaluations> evaluationsPourAcheteur = Controleur.getEvaluationsByAcheteur(acheteurTest);
+
+        assertEquals(2, evaluationsPourAcheteur.size(), "Devrait retourner deux évaluations pour l'acheteur spécifié");
+        for (Evaluations eval : evaluationsPourAcheteur) {
+            assertEquals(acheteurTest, eval.getAcheteur(), "Toutes les évaluations devraient être pour l'acheteur spécifié");
+        }
+    }
+
+
+
 }
 
 
