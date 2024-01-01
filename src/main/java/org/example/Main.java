@@ -12,13 +12,13 @@ public class Main {
             Controleur.initialiserCommandes();
 
         }
-
         else if( (Controleur.getBaseDeDonneesUtilisateurs().size() < 15) &&
                 (GestionnaireCSV.getQuantiteUtilisateursFichierCSV() < 15) ) {
             Controleur.InitialiserAcheteursParDefaut();
             Controleur.InitialiserRevendeursParDefaut();
             Controleur.initialiserTypeDeProduitParDefaut();
             Controleur.InitialiserEvaluationsParDefaut();
+            Controleur.initialiserCommandesParDefaut();
         }
         controleur.demarrerApplication();
     }

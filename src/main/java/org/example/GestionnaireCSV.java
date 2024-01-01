@@ -509,6 +509,11 @@ public class GestionnaireCSV {
         ReecrireCommandeCSV(commande, revendeur);
     }
 
+    public static void EcrireCommandePardefaut(Commande commande, Revendeur revendeur){
+        ReecrireCommandeCSV(commande, revendeur);
+
+    }
+
     private static void supprimerCommandeDansLeCSV(Commande commande) {
         File fichierCSV = new File(CHEMIN_FICHIER_CSV_COMMANDES);
         File tempFile = new File(fichierCSV.getAbsolutePath() + ".tmp");
