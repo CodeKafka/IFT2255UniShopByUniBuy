@@ -10,6 +10,7 @@ import java.util.List;
 
 public class TestsUnitaires {
     List<Utilisateur> testUsers = new ArrayList<>();
+    private static List<Evaluations> baseDeDonnesEvaluations;
     private static Revendeur revendeurTest;
     TypeDeProduit produitTest;
     Acheteur acheteurTest;
@@ -19,15 +20,23 @@ public class TestsUnitaires {
     public static void setUp() {
         List<TypeDeProduit> baseDeDonnesTypesDeProduit = new ArrayList<>();
         revendeurTest = new Revendeur("PharmaC13", "Jae", "Jae@yahoo.ca", "87gfoert787", "5149876543");
-        baseDeDonnesTypesDeProduit.add(new TypeDeProduit("Agrafeuse", "Livres et manuels",
-                "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 5, revendeurTest));
-        baseDeDonnesTypesDeProduit.add(new TypeDeProduit("Tapis de souris ergonomique", "Articles de papeterie",
-                "Tapis avec support de poignet pour un confort accru lors de l'utilisation de la souris.", 12.00, 7, revendeurTest));
+
+        TypeDeProduit produitRevendeur = new TypeDeProduit("Agrafeuse", "Livres et manuels", "Agrafeuse robuste pour organiser vos documents importants.", 10.00, 5, revendeurTest);
+        TypeDeProduit produitRevendeur2 = new TypeDeProduit("Tapis de souris ergonomique", "Articles de papeterie", "Tapis avec support de poignet pour un confort accru lors de l'utilisation de la souris.", 12.00, 7, revendeurTest);
+        baseDeDonnesTypesDeProduit.add(produitRevendeur);
+        baseDeDonnesTypesDeProduit.add(produitRevendeur2);
+
+        Acheteur acheteurTest = new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0);
+        baseDeDonnesEvaluations = new ArrayList<>();
+        baseDeDonnesEvaluations.add(new Evaluations(produitRevendeur, acheteurTest, 5, "Excellent produit"));
+        baseDeDonnesEvaluations.add(new Evaluations(produitRevendeur2, acheteurTest, 4, "Bon produit"));
+
         Controleur.setBaseDeDonnesTypesDeProduit(baseDeDonnesTypesDeProduit);
+        Controleur.setBaseDeDonnesEvaluations(baseDeDonnesEvaluations);
 
         List<Utilisateur> testUsers = new ArrayList<>();
         testUsers.add(revendeurTest);
-        testUsers.add(new Acheteur("Girardin","Franz","franzgirardin@gmail.com", "P", "4389234776", "P",0));
+        testUsers.add(acheteurTest);
         testUsers.add(new Acheteur("Pololo", "Essai", "patates@gmail.com", "patates12354678", "4389234776", "Patates",0));
         Controleur.baseDeDonneesUtilisateurs = testUsers;
         revendeurTest.setTypesDeProduits(baseDeDonnesTypesDeProduit);
@@ -168,6 +177,29 @@ public class TestsUnitaires {
         assertNull(result);
     }
 
+    @Test
+    public void testValiderMotDePasse_ValidPassword() {
+        String validPassword = "ValidPass123";
+        boolean result = Controleur.validerMotDePasse(validPassword);
+        assertTrue(result, "Validation should pass for a password with 8 or more characters.");
+    }
+
+    @Test
+    public void testValiderMotDePasse_ShortPassword() {
+        String shortPassword = "short";
+        boolean result = Controleur.validerMotDePasse(shortPassword);
+        assertFalse(result, "Validation should fail for a password shorter than 8 characters.");
+    }
+    @Test
+    public void testObtenirEvaluationsParRevendeur() {
+        List<Evaluations> evaluations = Controleur.getEvaluationsByRevendeur(revendeurTest);
+
+        assertEquals(2, evaluations.size(), "Devrait retourner les évaluations des produits du revendeur");
+        assertTrue(evaluations.stream().allMatch(e -> e.getProduit().getRevendeurProduit().equals(revendeurTest)), "Toutes les évaluations retournées devraient concerner les produits du revendeur");
+    }
 }
+
+
+
 
 
