@@ -58,6 +58,60 @@ public class Controleur {
     public static List<Utilisateur> getBaseDeDonneesUtilisateurs() { 
         return baseDeDonneesUtilisateurs;
     }
+
+    /**
+     * Initialise les commandes par défaut dans le système.
+     * Cette méthode crée des objets de types de produits, revendeurs, acheteurs, produits
+     * et commandes par défaut, puis les associe et les stocke dans le système.
+     * Les commandes créées sont également écris dans le fichier CSV correspondant.
+     * Cette méthode est utilisée pour fournir des données initiales pour le système Unishop.
+     * @see TypeDeProduit
+     * @see Revendeur
+     * @see Acheteur
+     * @see Produit
+     * @see Commande
+     */
+    public static void initialiserCommandesParDefaut() {
+        TypeDeProduit typeDeProduit1 = trouverTypeDeProduitParTitre("Agrafeuse");
+        TypeDeProduit typeDeProduit2 = trouverTypeDeProduitParTitre("Moniteur LED 24 pouces");
+        TypeDeProduit typeDeProduit3 = trouverTypeDeProduitParTitre("Perforateur");
+        Revendeur revendeur1 = trouverRevendeurParTitreTypeDeProduit("Agrafeuse");
+        Revendeur revendeur2 = trouverRevendeurParTitreTypeDeProduit("Moniteur LED 24 pouces");
+        Revendeur revendeur3 = trouverRevendeurParTitreTypeDeProduit("Perforateur");
+        Acheteur acheteur1 = trouverAcheteurParPseudo("Patates5");
+        Acheteur acheteur2 = trouverAcheteurParPseudo("Patates4");
+        Acheteur acheteur3 = trouverAcheteurParPseudo("Patates7");
+
+        Produit produit1 = new Produit(1236495864, typeDeProduit1.getTitreProduit(), typeDeProduit1.getCategorieProduit(),typeDeProduit1.getDescriptionProduit() , 1, typeDeProduit1.getPrixProduit());
+        Produit produit2 = new Produit(1989195864, typeDeProduit2.getTitreProduit(), typeDeProduit2.getCategorieProduit(),typeDeProduit2.getDescriptionProduit() , 2, typeDeProduit2.getPrixProduit());
+        Produit produit3 = new Produit(236495864, typeDeProduit3.getTitreProduit(), typeDeProduit3.getCategorieProduit(),typeDeProduit3.getDescriptionProduit() , 3, typeDeProduit3.getPrixProduit());
+        LinkedList<Produit> produitdelacommande1 = new LinkedList<>();
+        LinkedList<Produit> produitdelacommande2 = new LinkedList<>();
+        LinkedList<Produit> produitdelacommande3 = new LinkedList<>();
+        produitdelacommande1.add(produit1);
+        produitdelacommande2.add(produit2);
+        produitdelacommande3.add(produit3);
+
+
+        Commande commande1 = new Commande(546793899, produitdelacommande1 , acheteur1, "3200 rue jean brillant", acheteur1.getTelephone());
+        Commande commande2 = new Commande(544485959, produitdelacommande2 , acheteur2, "3443 Roger gaudry", acheteur2.getTelephone());
+        Commande commande3 = new Commande(986793899, produitdelacommande3 , acheteur3, "3240 rue jean Collins", acheteur3.getTelephone());
+        commande1.setEtatDeLaCommande("Signalé");
+        commande2.setEtatDeLaCommande("Livrée");
+        commande3.setEtatDeLaCommande("En acheminement");
+        commande1.setDateDeLaCommande("2023-01-15 14:30:00");
+        commande2.setDateDeLaCommande("2023-07-22 18:45:30");
+        commande3.setDateDeLaCommande("2023-12-31 23:59:59");
+
+        revendeur1.ajouterCommande(commande1);
+        revendeur2.ajouterCommande(commande2);
+        revendeur3.ajouterCommande(commande3);
+        GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande1, revendeur1);
+        GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande2, revendeur2);
+        GestionnaireCSV.modifierEtatDeLaCommandeDansLeCSV(commande3, revendeur3);
+
+    }
+
     /**
      * Démarre l'application en présentant le menu principal à l'utilisateur.
      * @see #offrirMenuPrincipal()
@@ -876,7 +930,7 @@ private void retournerProduit(Acheteur acheteur) {
  * @return Revendeur qui vend le type de produit spécifié, ou null si aucun revendeur correspondant n'est trouvé.
  */
     
-    public Revendeur trouverRevendeurParTitreTypeDeProduit(String titreTypeDeProduit){
+    public static Revendeur trouverRevendeurParTitreTypeDeProduit(String titreTypeDeProduit){
 
         for (Utilisateur utilisateur : baseDeDonneesUtilisateurs) {
             try{
@@ -2567,6 +2621,10 @@ private void retournerProduit(Acheteur acheteur) {
         } catch (FileNotFoundException e) {
             System.out.println("Fichier CSV non trouvé.");
         }
+         if(i < 3){
+             initialiserCommandesParDefaut();
+             i += 3;
+         }
        
         printWithTypewriterEffect("Les commandes ont également été initialisé avec succès !", 40);
         System.out.println();

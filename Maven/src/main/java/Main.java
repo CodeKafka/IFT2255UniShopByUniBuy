@@ -10,7 +10,6 @@ public class Main {
             Controleur.initialiserListeTypeDeProduit();
            // Controleur.initialiserEvaluations();
            Controleur.initialiserCommandes();
-                
         }
 
         else if( (Controleur.getBaseDeDonneesUtilisateurs().size() < 15) && 

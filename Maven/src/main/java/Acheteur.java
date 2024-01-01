@@ -7,7 +7,8 @@ public class Acheteur  extends Utilisateur{
     private ArrayList<ListeDeSouhaits> collectionDeListesDeSouhaits;
     private GestionnaireDeProblemes gestionnaireDeProblemes; 
     private ArrayList<Suivi> listeDeSuivis; 
-    private int nombreProduitsAchetes, nombreCommandePassees, likeRecuReview, pointsFidelite;
+    private int nombreProduitsAchetes, likeRecuReview, pointsFidelite;
+    private int nombreCommandePassees = 0;
 
 
     public Acheteur(String nom, String prenom, String addresseCourriel, String motDePasse, String telephone,
@@ -16,7 +17,6 @@ public class Acheteur  extends Utilisateur{
         this.pseudo = pseudo;
         this.panier = new Panier();
         this.pointsFidelite = pointsFidelite;
-        this.nombreCommandePassees = GestionnaireCSV.getNombreDeCommandeRealiser(this);
     }
     public int getPointsFidelite(){
         return pointsFidelite;
